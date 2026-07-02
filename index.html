@@ -142,6 +142,35 @@
 <!--LINHAS-->
     </tbody>
   </table>
+
+  <h2 style="margin:48px 0 8px;font-size:20px;color:var(--verde);font-weight:500;">Acesso a Setores Subordinados &ndash; Chefes de Departamento/Divis&atilde;o</h2>
+  <p style="margin:0 0 24px;font-size:13px;color:#666;">Solicita&ccedil;&otilde;es adicionais para que chefes de Departamento e/ou Divis&atilde;o tenham acesso aos setores (Divis&otilde;es e/ou N&uacute;cleos) subordinados a eles, conforme o encadeamento da Portaria SEAGRI n&ordm; 187/2026. Apenas chefias com setores subordinados constam nesta se&ccedil;&atilde;o.</p>
+
+  <div class="tools">
+    <div class="progresso-container">
+      <div class="progresso-titulo">
+        <span>Progresso: <strong id="progresso-texto2">0/7</strong></span>
+        <span id="progresso-percentual2">0%</span>
+      </div>
+      <div class="progresso-barra">
+        <div class="progresso-fill" id="progresso-fill2"></div>
+      </div>
+    </div>
+    <input id="busca2" type="text" placeholder="Filtrar por nome, unidade ou n&uacute;mero da portaria...">
+    <button id="limparProgresso2" style="margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;">Limpar Progresso</button>
+  </div>
+
+  <table id="tabela2">
+    <thead>
+      <tr>
+        <th style="width:30%">Chefia</th>
+        <th style="width:70%">Texto da solicita&ccedil;&atilde;o</th>
+      </tr>
+    </thead>
+    <tbody>
+<!--LINHAS2-->
+    </tbody>
+  </table>
 </div>
 <script>
 const dados = [
@@ -266,6 +295,64 @@ function mostrarToast(){
   },3000);
 }
 
+function abrirModalCopiaManual(texto){
+  let backdrop = document.getElementById("modal-copia-manual");
+  if(!backdrop){
+    backdrop = document.createElement("div");
+    backdrop.id = "modal-copia-manual";
+    backdrop.className = "modal-backdrop";
+    backdrop.innerHTML =
+      "<div class='modal-conteudo' style='max-width:600px;text-align:left;'>"+
+        "<button class='modal-fechar' id='modal-copia-fechar'>&times;</button>"+
+        "<div class='modal-titulo' style='font-size:18px;margin-bottom:12px;'>Copie o texto manualmente</div>"+
+        "<p style='font-size:13px;color:#666;margin:0 0 12px;'>NÃ£o foi possÃ­vel copiar automaticamente (restriÃ§Ã£o do navegador). Toque no campo abaixo â€” o texto jÃ¡ vem selecionado â€” e use Ctrl+C (ou Cmd+C no Mac) para copiar.</p>"+
+        "<textarea id='modal-copia-texto' style='width:100%;min-height:160px;padding:12px;border:1px solid var(--linha);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical;' readonly></textarea>"+
+      "</div>";
+    document.body.appendChild(backdrop);
+    backdrop.addEventListener("click", function(e){
+      if(e.target === backdrop){ backdrop.classList.remove("ativo"); }
+    });
+    document.getElementById("modal-copia-fechar").addEventListener("click", function(){
+      backdrop.classList.remove("ativo");
+    });
+  }
+  const area = document.getElementById("modal-copia-texto");
+  area.value = texto;
+  backdrop.classList.add("ativo");
+  setTimeout(()=>{ area.focus(); area.select(); }, 50);
+}
+
+function copiarTexto(texto){
+  function viaExecCommand(){
+    try{
+      const textArea = document.createElement("textarea");
+      textArea.value = texto;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const ok = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      return ok;
+    }catch(e){
+      return false;
+    }
+  }
+
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(texto).then(()=>{
+      mostrarToast();
+    }).catch(()=>{
+      if(viaExecCommand()){ mostrarToast(); }
+      else{ abrirModalCopiaManual(texto); }
+    });
+  } else {
+    if(viaExecCommand()){ mostrarToast(); }
+    else{ abrirModalCopiaManual(texto); }
+  }
+}
+
 portarias.forEach((portaria, indice)=>{
   const d = dados[indice];
   
@@ -277,20 +364,6 @@ portarias.forEach((portaria, indice)=>{
     document.getElementById("progresso-fill").style.width = percentual + "%";
     document.getElementById("progresso-texto").textContent = concluidas + "/" + total;
     document.getElementById("progresso-percentual").textContent = percentual + "%";
-  }
-  
-  function copiarTexto(texto){
-    if(navigator.clipboard && window.isSecureContext){
-      navigator.clipboard.writeText(texto).catch(e=>console.log(e));
-    } else {
-      const textArea = document.createElement("textarea");
-      textArea.value = texto;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-    }
-    mostrarToast();
   }
   
   function marcarAnteriorComoConcluida(){
@@ -370,6 +443,151 @@ document.getElementById("limparProgresso").addEventListener("click",function(){
 document.getElementById("busca").addEventListener("input",function(){
   const q=this.value.toLowerCase();
   document.querySelectorAll("#tabela tbody tr").forEach(tr=>{
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
+  });
+});
+
+// ===================== SEÃ‡ÃƒO 2: Acesso a Setores Subordinados =====================
+const dadosDept = [
+ {n:"193", nome:"Heloneyda Marques de Oliveira", chefia:"Chefe do Departamento de OrÃ§amento e FinanÃ§as â€“ DEOF", setores:["DivisÃ£o de FinanÃ§as (DIF)","DivisÃ£o de Contabilidade (DIC)"]},
+ {n:"196", nome:"Igor Honorato Leduino da Silva", chefia:"Chefe do Departamento Socioprodutivo e SeguranÃ§a Alimentar â€“ DESAN", setores:["DivisÃ£o de InclusÃ£o Socioprodutiva (DIIS)","NÃºcleo de Apoio LogÃ­stico (NAP)","NÃºcleo de Cadastro da Agricultura Familiar (NCAF)","NÃºcleo de Polos Agroflorestais (NPOLO)","DivisÃ£o de SeguranÃ§a Alimentar (DISAN)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos (NPAA)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos IndÃ­gena (NPAAI)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos Extrativista (NPAAEX)"]},
+ {n:"197", nome:"Ariane Gadelha dos Santos", chefia:"Chefe da DivisÃ£o de InclusÃ£o Socioprodutiva â€“ DIIS", setores:["NÃºcleo de Apoio LogÃ­stico (NAP)","NÃºcleo de Cadastro da Agricultura Familiar (NCAF)","NÃºcleo de Polos Agroflorestais (NPOLO)"]},
+ {n:"201", nome:"Marcela Rocha da Silva", chefia:"Chefe da DivisÃ£o de SeguranÃ§a Alimentar â€“ DISAN", setores:["NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos (NPAA)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos IndÃ­gena (NPAAI)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos Extrativista (NPAAEX)"]},
+ {n:"207", nome:"Nilton CÃ©sar de Souza", chefia:"Chefe da DivisÃ£o de Agricultura â€“ DIA", setores:["NÃºcleo do CafÃ© (NUCAF)","NÃºcleo de Armazenamento e Silos (NUARS)"]},
+ {n:"208", nome:"Wallace Santos Batista", chefia:"Chefe da DivisÃ£o de PecuÃ¡ria/Aquicultura e Pesca â€“ DIPEC/DIAPES", setores:["NÃºcleo de Aquicultura e Pesca (NUAPES)","NÃºcleo de Avicultura (NUAV)"]},
+ {n:"216", nome:"Luan Sobral Dourado", chefia:"Chefe do Departamento de Tecnologia â€“ DET", setores:["DivisÃ£o de Agricultura de PrecisÃ£o (DIAP)","DivisÃ£o de Dados EstatÃ­sticos (DIDA)","DivisÃ£o de Geoprocessamento e Telemetria (DIGT)","DivisÃ£o de Sistema de InformaÃ§Ã£o (DISOFT)"]}
+];
+
+function gerarTituloDept(d){
+  return "<b>LotaÃ§Ã£o de UsuÃ¡rio - "+d.nome+"</b>";
+}
+function gerarTituloDeptPlano(d){
+  return "LotaÃ§Ã£o de UsuÃ¡rio - "+d.nome;
+}
+function gerarTextoDept(d){
+  const lista = d.setores.map(s=>"<span class='u'>"+s+"</span>").join("<br>");
+  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotaÃ§Ã£o:<br>"+lista+"<br>de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026.";
+}
+function gerarTextoDeptPlano(d){
+  const lista = d.setores.join("\n");
+  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotaÃ§Ã£o:\n"+lista+"\nde acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026.";
+}
+
+const tbody2 = document.querySelector("#tabela2 tbody");
+const estadoSalvo2 = JSON.parse(localStorage.getItem("portariasDeptCompletas") || "{}");
+const portariasDept = [];
+
+dadosDept.forEach(d=>{
+  const tr=document.createElement("tr");
+
+  tr.innerHTML =
+    "<td class='arq'><span class='num'>Portaria nÂº "+d.n+"</span><br>"+
+      "<span class='status-badge pendente'>Pendente</span><br>"+
+      "<span style='font-size:13px;color:#555;'>"+d.chefia+"</span></td>"+
+    "<td><div class='texto-container'>"+
+      "<div class='texto-titulo'>"+
+        "<div class='texto-titulo-text'>"+gerarTituloDept(d)+"</div>"+
+        "<button class='copy copy-titulo' style='flex-shrink:0;'>Copiar texto</button>"+
+      "</div>"+
+      "<div class='texto-corpo'>"+
+        "<div class='texto-corpo-text'>"+gerarTextoDept(d)+"</div>"+
+        "<button class='copy copy-corpo' style='flex-shrink:0;'>Copiar texto</button>"+
+      "</div>"+
+    "</div></td>";
+
+  const statusBadge = tr.querySelector(".status-badge");
+  const btnTitulo = tr.querySelector(".copy-titulo");
+  const btnCorpo = tr.querySelector(".copy-corpo");
+  const textoTitulo = tr.querySelector(".texto-titulo-text");
+  const textoCorpo = tr.querySelector(".texto-corpo-text");
+
+  if(estadoSalvo2[d.n]){
+    statusBadge.textContent = "ConcluÃ­do";
+    statusBadge.classList.remove("pendente");
+    statusBadge.classList.add("concluido");
+  }
+
+  const portaria = {
+    numero: d.n,
+    statusBadge: statusBadge,
+    btnTitulo: btnTitulo,
+    btnCorpo: btnCorpo,
+    textoTitulo: textoTitulo,
+    textoCorpo: textoCorpo,
+    clicouTitulo: false,
+    clicouCorpo: false
+  };
+
+  portariasDept.push(portaria);
+  tbody2.appendChild(tr);
+});
+
+function atualizarBarraProgresso2(){
+  const concluidas = Object.keys(estadoSalvo2).length;
+  const total = dadosDept.length;
+  const percentual = Math.round((concluidas / total) * 100);
+  document.getElementById("progresso-fill2").style.width = percentual + "%";
+  document.getElementById("progresso-texto2").textContent = concluidas + "/" + total;
+  document.getElementById("progresso-percentual2").textContent = percentual + "%";
+}
+
+function marcarConcluida2(portaria){
+  portaria.statusBadge.textContent = "ConcluÃ­do";
+  portaria.statusBadge.classList.remove("pendente");
+  portaria.statusBadge.classList.add("concluido");
+  estadoSalvo2[portaria.numero] = true;
+  localStorage.setItem("portariasDeptCompletas", JSON.stringify(estadoSalvo2));
+  atualizarBarraProgresso2();
+}
+
+portariasDept.forEach((portaria, indice)=>{
+  const d = dadosDept[indice];
+
+  portaria.btnTitulo.addEventListener("click",function(){
+    copiarTexto(gerarTituloDeptPlano(d));
+    portaria.clicouTitulo = true;
+    this.classList.add("copiado");
+    setTimeout(()=>this.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida2(portaria); }
+  });
+
+  portaria.btnCorpo.addEventListener("click",function(){
+    copiarTexto(gerarTextoDeptPlano(d));
+    portaria.clicouCorpo = true;
+    this.classList.add("copiado");
+    setTimeout(()=>this.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida2(portaria); }
+  });
+
+  portaria.textoTitulo.addEventListener("click",function(){
+    copiarTexto(gerarTituloDeptPlano(d));
+    portaria.clicouTitulo = true;
+    portaria.btnTitulo.classList.add("copiado");
+    setTimeout(()=>portaria.btnTitulo.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida2(portaria); }
+  });
+
+  portaria.textoCorpo.addEventListener("click",function(){
+    copiarTexto(gerarTextoDeptPlano(d));
+    portaria.clicouCorpo = true;
+    portaria.btnCorpo.classList.add("copiado");
+    setTimeout(()=>portaria.btnCorpo.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida2(portaria); }
+  });
+});
+
+atualizarBarraProgresso2();
+
+document.getElementById("limparProgresso2").addEventListener("click",function(){
+  if(confirm("Tem certeza que deseja limpar todo o progresso desta seÃ§Ã£o?")){
+    localStorage.removeItem("portariasDeptCompletas");
+    location.reload();
+  }
+});
+
+document.getElementById("busca2").addEventListener("input",function(){
+  const q=this.value.toLowerCase();
+  document.querySelectorAll("#tabela2 tbody tr").forEach(tr=>{
     tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
   });
 });
