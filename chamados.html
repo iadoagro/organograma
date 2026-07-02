@@ -220,6 +220,35 @@
 <!--LINHAS2-->
     </tbody>
   </table>
+
+  <h2 style="margin:48px 0 8px;font-size:20px;color:var(--verde);font-weight:500;">Lota&ccedil;&atilde;o de Usu&aacute;rio</h2>
+  <p style="margin:0 0 24px;font-size:13px;color:#666;">Solicita&ccedil;&otilde;es de adi&ccedil;&atilde;o de setor de lota&ccedil;&atilde;o para servidores, mantendo o setor de lota&ccedil;&atilde;o atual.</p>
+
+  <div class="tools">
+    <div class="progresso-container">
+      <div class="progresso-titulo">
+        <span>Progresso: <strong id="progresso-texto3">0/10</strong></span>
+        <span id="progresso-percentual3">0%</span>
+      </div>
+      <div class="progresso-barra">
+        <div class="progresso-fill" id="progresso-fill3"></div>
+      </div>
+    </div>
+    <input id="busca3" type="text" placeholder="Filtrar por nome ou setor...">
+    <button id="limparProgresso3" style="margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;">Limpar Progresso</button>
+  </div>
+
+  <table id="tabela3">
+    <thead>
+      <tr>
+        <th style="width:30%">Servidor</th>
+        <th style="width:70%">Texto da solicita&ccedil;&atilde;o</th>
+      </tr>
+    </thead>
+    <tbody>
+<!--LINHAS3-->
+    </tbody>
+  </table>
 </div>
 <script>
 const dados = [
@@ -629,6 +658,152 @@ document.getElementById("limparProgresso2").addEventListener("click",function(){
 document.getElementById("busca2").addEventListener("input",function(){
   const q=this.value.toLowerCase();
   document.querySelectorAll("#tabela2 tbody tr").forEach(tr=>{
+    tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
+  });
+});
+
+// ===================== SEÇÃO 3: Lotação de Usuário =====================
+const dadosLotacao = [
+ {nome:"Michelma Neves de Lima", genero:"a", novoSetor:"Divisão de Agricultura – DIA", setorAtual:"Núcleo do Café – NUCAF"},
+ {nome:"Hidelk Dinarte Farias de Albuquerque", genero:"o", novoSetor:"Divisão de Produção Indígena – DIVPI", setorAtual:"Núcleo Socioprodutivo Indígena – NUSPI"},
+ {nome:"Bruna da Silva Diogo", genero:"a", novoSetor:"Divisão de Central de Incubação – DICI", setorAtual:"Núcleo de Avicultura – NUAV"},
+ {nome:"Ariane Gadelha dos Santos", genero:"a", novoSetor:"Divisão de Apoio à Produção Familiar – DIAPF", setorAtual:"Divisão de Inclusão Socioprodutiva – DIIS"},
+ {nome:"Camila de Melo Pires Arruda Oliveira", genero:"a", novoSetor:"Divisão de Finanças – DIF", setorAtual:"Divisão de Contabilidade – DIC"},
+ {nome:"Carlos Antônio Pinheiro da Silva", genero:"o", novoSetor:"Divisão de Apoio à Produção Familiar – DIAPF", setorAtual:"Núcleo de Polos Agroflorestais – NPOLO"},
+ {nome:"Marcela Rocha da Silva", genero:"a", novoSetor:"Divisão de Apoio à Produção Familiar – DIAPF", setorAtual:"Divisão de Segurança Alimentar – DISAN"},
+ {nome:"Antônio José Pereira da Silva", genero:"o", novoSetor:"Divisão de Transporte – DIT", setorAtual:"Núcleo de Apoio Logístico – NAP"},
+ {nome:"Maria da Conceição Almeida", genero:"a", novoSetor:"Divisão de Apoio à Produção Familiar – DIAPF", setorAtual:"Núcleo de Cadastro da Agricultura Familiar – NCAF"},
+ {nome:"Claiton Roniere Oliveira", genero:"o", novoSetor:"Divisão de Apoio à Produção Familiar – DIAPF", setorAtual:"Núcleo do Programa de Aquisição de Alimentos – NPAA"}
+];
+
+function gerarTituloLotacao(d){
+  return "<b>Lotação de Usuário - "+d.nome+"</b>";
+}
+function gerarTituloLotacaoPlano(d){
+  return "Lotação de Usuário - "+d.nome;
+}
+function gerarTextoLotacao(d){
+  return "Solicito que <span class='u'>"+d.nome+"</span> seja adicionad"+d.genero+" ao seguinte setor de lotação: <span class='u'>"+d.novoSetor+"</span>, mantendo o setor de lotação atual: <span class='u'>"+d.setorAtual+"</span>.";
+}
+function gerarTextoLotacaoPlano(d){
+  return "Solicito que "+d.nome+" seja adicionad"+d.genero+" ao seguinte setor de lotação: "+d.novoSetor+", mantendo o setor de lotação atual: "+d.setorAtual+".";
+}
+
+const tbody3 = document.querySelector("#tabela3 tbody");
+const estadoSalvo3 = JSON.parse(localStorage.getItem("lotacaoCompletas") || "{}");
+const portariasLotacao = [];
+
+dadosLotacao.forEach((d, idx)=>{
+  const tr=document.createElement("tr");
+
+  tr.innerHTML =
+    "<td class='arq'><span class='num'>"+(idx+1)+"/"+dadosLotacao.length+"</span><br>"+
+      "<span class='status-badge pendente'>Pendente</span><br>"+
+      "<span style='font-size:13px;color:#555;'>"+d.nome+"</span></td>"+
+    "<td><div class='texto-container'>"+
+      "<div class='texto-titulo'>"+
+        "<div class='texto-titulo-text'>"+gerarTituloLotacao(d)+"</div>"+
+        "<button class='copy copy-titulo' style='flex-shrink:0;'>Copiar texto</button>"+
+      "</div>"+
+      "<div class='texto-corpo'>"+
+        "<div class='texto-corpo-text'>"+gerarTextoLotacao(d)+"</div>"+
+        "<button class='copy copy-corpo' style='flex-shrink:0;'>Copiar texto</button>"+
+      "</div>"+
+    "</div></td>";
+
+  const statusBadge = tr.querySelector(".status-badge");
+  const btnTitulo = tr.querySelector(".copy-titulo");
+  const btnCorpo = tr.querySelector(".copy-corpo");
+  const textoTitulo = tr.querySelector(".texto-titulo-text");
+  const textoCorpo = tr.querySelector(".texto-corpo-text");
+
+  if(estadoSalvo3[idx]){
+    statusBadge.textContent = "Concluído";
+    statusBadge.classList.remove("pendente");
+    statusBadge.classList.add("concluido");
+  }
+
+  const portaria = {
+    idx: idx,
+    statusBadge: statusBadge,
+    btnTitulo: btnTitulo,
+    btnCorpo: btnCorpo,
+    textoTitulo: textoTitulo,
+    textoCorpo: textoCorpo,
+    clicouTitulo: false,
+    clicouCorpo: false
+  };
+
+  portariasLotacao.push(portaria);
+  tbody3.appendChild(tr);
+});
+
+function atualizarBarraProgresso3(){
+  const concluidas = Object.keys(estadoSalvo3).length;
+  const total = dadosLotacao.length;
+  const percentual = Math.round((concluidas / total) * 100);
+  document.getElementById("progresso-fill3").style.width = percentual + "%";
+  document.getElementById("progresso-texto3").textContent = concluidas + "/" + total;
+  document.getElementById("progresso-percentual3").textContent = percentual + "%";
+}
+
+function marcarConcluida3(portaria){
+  portaria.statusBadge.textContent = "Concluído";
+  portaria.statusBadge.classList.remove("pendente");
+  portaria.statusBadge.classList.add("concluido");
+  estadoSalvo3[portaria.idx] = true;
+  localStorage.setItem("lotacaoCompletas", JSON.stringify(estadoSalvo3));
+  atualizarBarraProgresso3();
+}
+
+portariasLotacao.forEach((portaria, indice)=>{
+  const d = dadosLotacao[indice];
+
+  portaria.btnTitulo.addEventListener("click",function(){
+    copiarTexto(gerarTituloLotacaoPlano(d));
+    portaria.clicouTitulo = true;
+    this.classList.add("copiado");
+    setTimeout(()=>this.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida3(portaria); }
+  });
+
+  portaria.btnCorpo.addEventListener("click",function(){
+    copiarTexto(gerarTextoLotacaoPlano(d));
+    portaria.clicouCorpo = true;
+    this.classList.add("copiado");
+    setTimeout(()=>this.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida3(portaria); }
+  });
+
+  portaria.textoTitulo.addEventListener("click",function(){
+    copiarTexto(gerarTituloLotacaoPlano(d));
+    portaria.clicouTitulo = true;
+    portaria.btnTitulo.classList.add("copiado");
+    setTimeout(()=>portaria.btnTitulo.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida3(portaria); }
+  });
+
+  portaria.textoCorpo.addEventListener("click",function(){
+    copiarTexto(gerarTextoLotacaoPlano(d));
+    portaria.clicouCorpo = true;
+    portaria.btnCorpo.classList.add("copiado");
+    setTimeout(()=>portaria.btnCorpo.classList.remove("copiado"),1500);
+    if(portaria.clicouTitulo && portaria.clicouCorpo){ marcarConcluida3(portaria); }
+  });
+});
+
+atualizarBarraProgresso3();
+
+document.getElementById("limparProgresso3").addEventListener("click",function(){
+  if(confirm("Tem certeza que deseja limpar todo o progresso desta seção?")){
+    localStorage.removeItem("lotacaoCompletas");
+    location.reload();
+  }
+});
+
+document.getElementById("busca3").addEventListener("input",function(){
+  const q=this.value.toLowerCase();
+  document.querySelectorAll("#tabela3 tbody tr").forEach(tr=>{
     tr.style.display = tr.textContent.toLowerCase().includes(q) ? "" : "none";
   });
 });
