@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organograma SEAGRI 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 :root{--purple:#7030a0;--yellow:#ffc000;--blue:#4472c4;--green:#70ad47;--orange:#ed7d31;--line:#111827;--ink:#1f2933;--panel:#fff;--border:#cfd6dc;--verde:#1b5e20;--verde2:#2e7d32;--radius:6px}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -74,6 +76,8 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
     <button class="tool-button" id="btnExpand" type="button">+ Expandir</button>
     <button class="tool-button" id="btnCollapse" type="button">&minus; Recolher</button>
     <button class="tool-button" id="btnFit" type="button">&square; Ajustar</button>
+    <button class="tool-button" id="btnJPG" type="button">&#128247; JPG</button>
+    <button class="tool-button" id="btnPDF" type="button">&#128196; PDF</button>
     <button class="icon-button" id="btnZoomOut" type="button">&minus;</button>
     <input id="zoomRange" class="zoom-range" type="range" min="20" max="150" step="5" value="70">
     <button class="icon-button" id="btnZoomIn" type="button">+</button>
@@ -503,6 +507,52 @@ document.getElementById("btnCollapse").addEventListener("click",()=>{
 // Init: fully expanded, fit to screen
 drawLines();
 setTimeout(fitToScreen,60);
+
+// ===== Download =====
+function captureCanvas(){
+  return new Promise(resolve=>{
+    const prevTransform=canvas.style.transform;
+    const prevOverflow=canvas.style.overflow;
+    const wasCollapsed=[...collapsed];
+    collapsed.clear();refresh();
+    canvas.style.transform="none";
+    canvas.style.overflow="visible";
+    setTimeout(()=>{
+      html2canvas(canvas,{scale:2,useCORS:true,backgroundColor:"#ffffff",width:RW,height:RH,windowWidth:RW,windowHeight:RH}).then(c=>{
+        canvas.style.transform=prevTransform;
+        canvas.style.overflow=prevOverflow;
+        wasCollapsed.forEach(id=>collapsed.add(id));refresh();
+        resolve(c);
+      });
+    },100);
+  });
+}
+
+function downloadLink(url,name){
+  const a=document.createElement("a");a.href=url;a.download=name;
+  document.body.appendChild(a);a.click();a.remove();
+}
+
+document.getElementById("btnJPG").addEventListener("click",()=>{
+  const btn=document.getElementById("btnJPG");
+  btn.disabled=true;btn.textContent="Gerando...";
+  captureCanvas().then(c=>{
+    downloadLink(c.toDataURL("image/jpeg",0.95),"Organograma_SEAGRI_2026.jpg");
+    btn.disabled=false;btn.innerHTML="&#128247; JPG";
+  });
+});
+
+document.getElementById("btnPDF").addEventListener("click",()=>{
+  const btn=document.getElementById("btnPDF");
+  btn.disabled=true;btn.textContent="Gerando...";
+  captureCanvas().then(c=>{
+    const imgData=c.toDataURL("image/jpeg",0.95);
+    const pdf=new jspdf.jsPDF({orientation:"landscape",unit:"px",format:[RW,RH]});
+    pdf.addImage(imgData,"JPEG",0,0,RW,RH);
+    pdf.save("Organograma_SEAGRI_2026.pdf");
+    btn.disabled=false;btn.innerHTML="&#128196; PDF";
+  });
+});
 </script>
 </body>
 </html>
