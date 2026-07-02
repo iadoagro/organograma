@@ -59,6 +59,9 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 .tooltip strong{display:block;margin-bottom:4px}
 .tooltip span{display:block;color:#4b5563;white-space:pre-line}
 @media(max-width:700px){.topbar{height:auto;flex-direction:column;padding:8px}.toolbar{flex-wrap:wrap}.nav-row{padding:4px 8px}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1f2933;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:60;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.node-header{cursor:copy}
 </style>
 </head>
 <body>
@@ -236,7 +239,11 @@ function createNode(n){
   if(n.children.length>0){const tg=document.createElement("span");tg.className="node-toggle";tg.textContent="−";hdr.appendChild(tg)}
   const body=document.createElement("div");body.className="node-body";body.textContent=n.holder||"—";
   el.append(hdr,body);
-  el.addEventListener("click",()=>handleClick(n));
+  el.addEventListener("click",e=>{
+    if(e.target.closest(".node-toggle")){e.stopPropagation();toggleNode(n);return}
+    e.stopPropagation();
+    copyNodeText(n);
+  });
   el.addEventListener("mouseenter",e=>showTip(e,n));
   el.addEventListener("mousemove",moveTip);
   el.addEventListener("mouseleave",hideTip);
@@ -244,11 +251,35 @@ function createNode(n){
   rendered.set(n.id,el);
 }
 
-function handleClick(n){
-  if(n.children.length>0){
-    if(collapsed.has(n.id))collapsed.delete(n.id);else collapsed.add(n.id);
-    refresh();
+function toggleNode(n){
+  if(collapsed.has(n.id))collapsed.delete(n.id);else collapsed.add(n.id);
+  refresh();
+}
+
+function copyNodeText(n){
+  const parts=[n.title];
+  if(n.holder)parts.push(n.holder);
+  const text=parts.join("\n");
+  function fallback(){
+    try{
+      const ta=document.createElement("textarea");ta.value=text;ta.style.cssText="position:fixed;left:-9999px;opacity:0";
+      document.body.appendChild(ta);ta.focus();ta.select();document.execCommand("copy");ta.remove();
+    }catch(e){}
+    showToast("Texto copiado!");
   }
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(()=>showToast("Texto copiado!")).catch(fallback);
+    }else{fallback()}
+  }catch(e){fallback()}
+}
+
+let toastTimer=0;
+function showToast(msg){
+  let t=document.querySelector(".toast");
+  if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t)}
+  t.textContent=msg;clearTimeout(toastTimer);
+  t.classList.add("show");toastTimer=setTimeout(()=>t.classList.remove("show"),2000);
 }
 
 function showTip(e,n){
@@ -311,7 +342,9 @@ function drawLines(){
     if(below.length===1){
       const cr=rectFor(below[0]);
       const gap=Math.max(24,cr.top-pr.bottom);
-      const midY=pr.bottom+gap*.5;
+      const hDist=Math.abs(cr.cx-pr.cx);
+      const ratio=hDist>50?.85:.5;
+      const midY=pr.bottom+gap*ratio;
       addPath(`M ${pr.cx.toFixed(1)} ${pr.bottom.toFixed(1)} V ${midY.toFixed(1)} H ${cr.cx.toFixed(1)} V ${cr.top.toFixed(1)}`);
       return;
     }
