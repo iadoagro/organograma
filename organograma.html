@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organograma SEAGRI - Secretaria de Estado da Agricultura</title>
+<style>
+  :root{
+    --roxo:#7030A0; --amarelo:#FFC000; --azul:#4472C4; --verde:#70AD47; --laranja:#ED7D31;
+    --verde-seagri:#1b5e20; --verde-seagri2:#2e7d32;
+    --borda:#444; --linha:#555; --fundo:#fafafa; --texto:#212121;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Segoe UI","Roboto",Arial,sans-serif;background:var(--fundo);color:var(--texto);overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+  header{background:linear-gradient(135deg,var(--verde-seagri),var(--verde-seagri2));color:#fff;padding:14px 24px;box-shadow:0 4px 12px rgba(27,94,32,0.2);display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;flex-shrink:0;z-index:10;}
+  header h1{margin:0;font-size:18px;font-weight:500;}
+  header p{margin:2px 0 0;font-size:12px;opacity:.9;}
+  .logo-seagri{background:#fff;border:2px solid #000;padding:4px 12px;text-align:center;line-height:1.1;}
+  .logo-seagri .l1{color:#555;font-size:10px;letter-spacing:1px;font-weight:600;border-bottom:3px solid var(--amarelo);display:block;padding-bottom:2px;}
+  .logo-seagri .l2{color:#1e7d34;font-size:18px;font-weight:800;letter-spacing:1px;display:block;}
+  .toolbar{padding:8px 24px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;flex-shrink:0;z-index:10;background:#fff;border-bottom:1px solid #e0e0e0;}
+  .toolbar button{padding:6px 14px;border:none;border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;color:#fff;background:var(--verde-seagri2);transition:all .2s;box-shadow:0 2px 6px rgba(27,94,32,0.15);}
+  .toolbar button:hover{background:var(--verde-seagri);transform:translateY(-1px);}
+  .toolbar a.voltar{padding:6px 14px;border-radius:6px;font-weight:600;font-size:12px;color:var(--verde-seagri);background:#fff;border:1px solid var(--verde-seagri2);text-decoration:none;transition:all .2s;}
+  .toolbar a.voltar:hover{background:#e8f5e9;}
+  .toolbar .sep{width:1px;height:20px;background:#ddd;margin:0 4px;}
+  .zoom-controls{display:flex;align-items:center;gap:4px;}
+  .zoom-controls button{padding:4px 10px;font-size:14px;min-width:32px;background:#f5f5f5;color:#333;border:1px solid #ccc;}
+  .zoom-controls button:hover{background:#e0e0e0;transform:none;}
+  .zoom-controls span{font-size:11px;min-width:40px;text-align:center;color:#666;font-weight:600;}
+  .legenda{display:flex;gap:10px;flex-wrap:wrap;padding:4px 24px 4px;font-size:10px;align-items:center;flex-shrink:0;z-index:10;background:#fff;}
+  .legenda span{display:inline-flex;align-items:center;gap:4px;}
+  .legenda i{width:10px;height:10px;display:inline-block;border:1px solid #666;}
+  .dica{padding:2px 24px 6px;font-size:10px;color:#666;flex-shrink:0;z-index:10;background:#fff;border-bottom:1px solid #eee;}
+
+  /* Viewport de zoom/pan */
+  .viewport{flex:1;overflow:hidden;position:relative;cursor:grab;background:#f0f0f0;background-image:radial-gradient(circle,#ddd 1px,transparent 1px);background-size:20px 20px;}
+  .viewport.dragging{cursor:grabbing;}
+  .canvas{transform-origin:0 0;position:absolute;top:0;left:0;padding:40px 60px 80px;}
+
+  footer{padding:10px 24px;font-size:10px;color:#999;text-align:center;border-top:1px solid #e0e0e0;flex-shrink:0;z-index:10;background:#fff;}
+
+  /* ===== Árvore CSS puro ===== */
+  .tree,.tree ul{list-style:none;padding:0;margin:0;display:flex;justify-content:center;position:relative;}
+
+  .tree li{display:flex;flex-direction:column;align-items:center;position:relative;padding:0 6px;text-align:center;}
+
+  .tree li .conector{width:1.5px;height:20px;background:var(--linha);flex-shrink:0;}
+  .tree > li > .conector{display:none;}
+
+  .linha-h{position:absolute;height:1.5px;background:var(--linha);top:0;pointer-events:none;}
+
+  .tree li.tem-filhos > .linha-desc{width:1.5px;height:20px;background:var(--linha);flex-shrink:0;}
+  .tree li.tem-filhos.fechado > .linha-desc{display:none;}
+  .tree li.tem-filhos.fechado > ul{display:none;}
+
+  /* ===== Caixas ===== */
+  .no-box{border:1.5px solid var(--borda);background:#fff;min-width:150px;max-width:190px;text-align:center;font-size:11px;box-shadow:1px 1px 4px rgba(0,0,0,0.12);flex-shrink:0;}
+  .no-box .titulo{color:#fff;font-weight:700;padding:5px 6px;font-size:10.5px;line-height:1.2;border-bottom:1.5px solid var(--borda);user-select:none;}
+  .no-box .pessoa{padding:5px 6px;line-height:1.35;background:#fff;font-size:10.5px;}
+  .no-box .pessoa b{display:block;font-size:11px;}
+  .no-box .pessoa .vazio{color:#999;font-style:italic;}
+  .no-box.roxo .titulo{background:var(--roxo);}
+  .no-box.amarelo .titulo{background:var(--amarelo);color:#000;}
+  .no-box.azul .titulo{background:var(--azul);}
+  .no-box.verde .titulo{background:var(--verde);}
+  .no-box.laranja .titulo{background:var(--laranja);}
+
+  .tree li.tem-filhos > .no-box .titulo{cursor:pointer;position:relative;padding-right:20px;}
+  .tree li.tem-filhos > .no-box .titulo:hover{filter:brightness(1.15);}
+  .tree li.tem-filhos > .no-box .titulo::after{content:"\2212";position:absolute;right:4px;top:50%;transform:translateY(-50%);font-weight:900;font-size:11px;background:rgba(255,255,255,0.3);width:14px;height:14px;line-height:14px;border-radius:50%;text-align:center;}
+  .tree li.tem-filhos.fechado > .no-box .titulo::after{content:"+";}
+
+  ul.grade{flex-wrap:wrap;width:2200px;justify-content:center;padding-top:20px;}
+  ul.grade::before{content:"";position:absolute;top:0;left:50%;width:1.5px;height:20px;background:var(--linha);}
+  ul.grade > li::before, ul.grade > li::after{display:none;}
+  ul.grade > li{padding:6px 6px 0;flex:0 0 auto;}
+
+  .comissao .no-box{min-width:170px;max-width:215px;}
+  .comissao .no-box .titulo{font-size:9.5px;padding:4px 5px;}
+
+  @media(max-width:700px){
+    header{padding:10px 12px;}
+    header h1{font-size:14px;}
+    .toolbar,.legenda,.dica{padding-left:12px;padding-right:12px;}
+    .no-box{min-width:120px;max-width:160px;font-size:10px;}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>Organograma &ndash; SEAGRI</h1>
+    <p>Secretaria de Estado de Agricultura &ndash; Estado do Acre &middot; Atualizado em 01/07/2026</p>
+  </div>
+  <div class="logo-seagri">
+    <span class="l1">SECRETARIA DE ESTADO DA</span>
+    <span class="l2">AGRICULTURA</span>
+  </div>
+</header>
+
+<div class="toolbar">
+  <a class="voltar" href="index.html">&larr; Menu</a>
+  <button id="btnExpandir">Expandir tudo</button>
+  <button id="btnRecolher">Recolher tudo</button>
+  <div class="sep"></div>
+  <div class="zoom-controls">
+    <button id="btnZoomOut" title="Diminuir zoom">&minus;</button>
+    <span id="zoomLevel">100%</span>
+    <button id="btnZoomIn" title="Aumentar zoom">+</button>
+    <button id="btnZoomFit" title="Ajustar &agrave; tela" style="font-size:11px;padding:4px 8px;">Ajustar</button>
+    <button id="btnZoomReset" title="Zoom 100%" style="font-size:11px;padding:4px 8px;">100%</button>
+  </div>
+</div>
+
+<div class="legenda">
+  <span><i style="background:#7030A0"></i> Secret&aacute;ria</span>
+  <span><i style="background:#FFC000"></i> Gabinetes / Assessorias</span>
+  <span><i style="background:#4472C4"></i> Adm. e Finan&ccedil;as</span>
+  <span><i style="background:#70AD47"></i> Produ&ccedil;&atilde;o e Agroneg&oacute;cio</span>
+  <span><i style="background:#ED7D31"></i> Pesquisa e Tecnologia</span>
+</div>
+<div class="dica">Scroll do mouse para zoom. Clique e arraste para mover. Clique no t&iacute;tulo com <b>+/&minus;</b> para expandir ou recolher.</div>
+
+<div class="viewport" id="viewport">
+  <div class="canvas" id="canvas">
+    <ul class="tree" id="arvore"></ul>
+  </div>
+</div>
+
+<footer>Reprodu&ccedil;&atilde;o do organograma oficial da SEAGRI (slide de 01/07/2026) &middot; P&aacute;gina de apoio interno</footer>
+
+<script>
+const org = {
+  t:"Secretária", cor:"roxo", p:"Temyllis Lima da Silva", d:"Decreto Nº 12457-P/2026",
+  filhos:[
+    {t:"Gabinete da Secretária", cor:"amarelo", p:"Francisco Diego", d:"Portaria Nº 24/2026"},
+    {t:"Secretário Adjunto", cor:"amarelo", p:"Edivan Maciel", d:"Decreto Nº1.307-P/2023", filhos:[
+      {t:"Gabinete do Secretário Adjunto", cor:"amarelo", p:"Josilda Lima", d:"Portaria Nº214/2023"}
+    ]},
+    {t:"Controle Interno", cor:"amarelo", p:"Lilian Vitoria", d:"Portaria Nº285/2024"},
+    {t:"Consultoria Jurídica", cor:"amarelo", p:"Thais Ferreira", d:"Portaria Nº35/2023"},
+    {t:"Assessoria de Comunicação", cor:"amarelo", p:"Dionisio Neto", d:"Portaria Nº192/2026"},
+    {t:"Ouvidoria", cor:"amarelo", p:"Maria Socorro", d:"Portaria Nº110/2023"},
+    {t:"Comissão do Programa Estadual de Compras Governamentais da Agricultura Familiar e Economia Solidária no Estado do Acre", cor:"amarelo", p:"", d:"", comissao:true},
+    {t:"Comissão Permanente de Processo Administrativo Sancionador", cor:"amarelo", p:"", d:"", comissao:true},
+    {t:"Diretoria de Administração e Finanças", cor:"azul", p:"Nivia Cristina", d:"Decreto Nº12.182-P/2026", filhos:[
+      {t:"Departamento de Escritórios Locais", cor:"azul", p:"Jorge Ney Pontes", d:"Portaria Nº 45/2023", grade:true, filhos:[
+        {t:"Escritório Local de Acrelândia", cor:"azul", p:"Max Teodoro", d:"Portaria Nº298/2025"},
+        {t:"Escritório Local de Assis Brasil", cor:"azul", p:"Wilker Nazareno", d:"Portaria Nº187/2023"},
+        {t:"Escritório Local da Baixa Verde", cor:"azul", p:"", d:""},
+        {t:"Escritório Local de Brasiléia", cor:"azul", p:"Antônio Francisco", d:"Portaria Nº153/2023"},
+        {t:"Escritório Local de Bujari", cor:"azul", p:"Luciano Queiroz", d:"Portaria Nº 86/2025"},
+        {t:"Escritório Local de Campinas", cor:"azul", p:"", d:""},
+        {t:"Escritório Local de Capixaba", cor:"azul", p:"Kemy Fernandes", d:"Portaria Nº329/2024"},
+        {t:"Escritório Local de Cruzeiro do Sul", cor:"azul", p:"Marcos Pereira", d:"Portaria Nº136/2023"},
+        {t:"Escritório Local de Epitaciolândia", cor:"azul", p:"Jose Menezes", d:"Portaria Nº138/2023"},
+        {t:"Escritório Local de Feijó", cor:"azul", p:"João Paulo", d:"Portaria Nº134/2023"},
+        {t:"Escritório Local do Humaitá", cor:"azul", p:"Wilson Brito", d:"Portaria Nº30/2025"},
+        {t:"Escritório Local de Jordão", cor:"azul", p:"Cintia Araujo", d:"Portaria Nº127/2026"},
+        {t:"Escritório Local de Mâncio Lima", cor:"azul", p:"Magno Corrêa", d:"Portaria Nº177/2024"},
+        {t:"Escritório Local de Manoel Urbano", cor:"azul", p:"Denes Bruno", d:"Portaria Nº175/2023"},
+        {t:"Escritório Local de Marechal Thaumaturgo", cor:"azul", p:"Marcos Pereira", d:"Portaria Nº290/2025"},
+        {t:"Escritório Local de Porto Acre", cor:"azul", p:"Wilson de Brito", d:"Portaria Nº191/2023"},
+        {t:"Escritório Local de Plácido de Castro", cor:"azul", p:"Antonio Pinto", d:"Portaria Nº101/2025"},
+        {t:"Escritório Local de Porto Walter", cor:"azul", p:"Eriânio Melo", d:"Portaria Nº255/2024"},
+        {t:"Escritório Local de Rio Branco", cor:"azul", p:"Risomar Freire", d:"Portaria Nº179/2023"},
+        {t:"Escritório Local de Rodrigues Alves", cor:"azul", p:"", d:""},
+        {t:"Escritório Local de Santa Rosa do Purus", cor:"azul", p:"Lugma Fernanda", d:"Portaria Nº181/2026"},
+        {t:"Escritório Local de Sena Madureira", cor:"azul", p:"Adoneyson Campos", d:"Portaria Nº118/2024"},
+        {t:"Escritório Local de Senador Guiomard", cor:"azul", p:"Carlos Casas", d:"Portaria Nº269/2025"},
+        {t:"Escritório Local de Tarauacá", cor:"azul", p:"Leocélia Monteiro", d:"Portaria Nº 141/2026"},
+        {t:"Escritório Local da Transacreana", cor:"azul", p:"Lucas Paiva", d:"Portaria Nº 180/2023"},
+        {t:"Escritório Local de Xapuri", cor:"azul", p:"Antonio Alves", d:"Portaria Nº32/2025"}
+      ]},
+      {t:"Departamento de Gestão", cor:"azul", p:"Mayssa Diniz", d:"Portaria Nº 83/2026", filhos:[
+        {t:"Divisão de Serviços Gerais", cor:"azul", p:"Renata Carvalho", d:"Portaria Nº151/2025"},
+        {t:"Divisão de Patrimônio e Materiais", cor:"azul", p:"Rosimeire Cavalcante", d:"Portaria Nº 06/2023"},
+        {t:"Divisão de Arquivo e Protocolo", cor:"azul", p:"Maria do Socorro", d:"Portaria Nº 07/2023"},
+        {t:"Divisão de Recursos Humanos", cor:"azul", p:"Marcleide Tavares", d:"Portaria Nº 04/2023"},
+        {t:"Divisão de Transporte", cor:"azul", p:"Pedro Alencar", d:"Portaria Nº 173/2026"},
+        {t:"Divisão de Modernização Tecnológica", cor:"azul", p:"Luan Dourado", d:"Portaria Nº 213/2023"},
+        {t:"Divisão de Licitações, Compras e Contratos", cor:"azul", p:"João Paulo", d:"Portaria Nº 30/2026"}
+      ]},
+      {t:"Departamento de Planejamento", cor:"azul", p:"Natalia Cristina", d:"Portaria Nº 60/2025", filhos:[
+        {t:"Divisão de Convênios", cor:"azul", p:"Pâmela Galvão", d:"Portaria Nº 280/2024"},
+        {t:"Divisão de Programas", cor:"azul", p:"Marcos Santana", d:"Portaria Nº132/2025"},
+        {t:"Divisão de Monitoramento", cor:"azul", p:"Éllen Abud", d:"Portaria Nº 97/2023"}
+      ]},
+      {t:"Departamento de Orçamento e Finanças", cor:"azul", p:"Heloneyda Marques", d:"Portaria Nº 193/2026", filhos:[
+        {t:"Divisão de Finanças", cor:"azul", p:"Karin Gomes", d:"Portaria Nº 194/2026"},
+        {t:"Divisão de Contabilidade", cor:"azul", p:"Camila Arruda", d:"Portaria Nº 195/2026"}
+      ]}
+    ]},
+    {t:"Diretoria de Produção e Agronegócio", cor:"verde", p:"Cláudio Malveira", d:"Decreto 1.855-P/2023", filhos:[
+      {t:"Departamento Socioprodutivo e Segurança Alimentar", cor:"verde", p:"Igor Honorato", d:"Portaria Nº 196/2026", filhos:[
+        {t:"Divisão de Inclusão Socioprodutiva", cor:"verde", p:"Ariane Gadelha", d:"Portaria Nº197/2026", filhos:[
+          {t:"Núcleo de Apoio Logístico", cor:"verde", p:"Antônio José", d:"Portaria Nº 198/2026"},
+          {t:"Núcleo de Cadastro da Agricultura Familiar", cor:"verde", p:"Conceição", d:"Portaria Nº 199/2026"},
+          {t:"Núcleo de Pólos Agroflorestais", cor:"verde", p:"Carlos Antonio", d:"Portaria Nº 200/2026"}
+        ]},
+        {t:"Divisão de Segurança Alimentar", cor:"verde", p:"Marcela", d:"Portaria Nº 201/2026", filhos:[
+          {t:"Núcleo do Programa de Aquisição de Alimentos", cor:"verde", p:"Claiton", d:"Portaria Nº 202/2026"},
+          {t:"Núcleo do Programa de Aquisição de Alimentos Indígena", cor:"verde", p:"José Paulo", d:"Portaria Nº 204/2026"},
+          {t:"Núcleo do Programa de Aquisição de Alimentos Extrativista", cor:"verde", p:"Yanná", d:"Portaria Nº 205/2026"}
+        ]}
+      ]},
+      {t:"Departamento de Agronegócio", cor:"verde", p:"Jalceyr Pessoa", d:"Portaria Nº 94/2023", filhos:[
+        {t:"Divisão de Agricultura", cor:"verde", p:"Nilton César", d:"Portaria Nº 207/2026", filhos:[
+          {t:"Núcleo do Café", cor:"verde", p:"Michelma Silva", d:"Portaria Nº 206/2026"},
+          {t:"Núcleo de Armazenamento e Silos", cor:"verde", p:"Nilton César", d:"Portaria Nº 207/2026"}
+        ]},
+        {t:"Divisão de Pecuária", cor:"verde", p:"Willian Junis", d:"Portaria Nº 227/2025", filhos:[
+          {t:"Núcleo de Aquicultura e Pesca", cor:"verde", p:"Wallace Santos", d:"Portaria Nº 208/2026"},
+          {t:"Núcleo da Avicultura", cor:"verde", p:"Wallace Santos", d:"Portaria Nº 209/2026"}
+        ]}
+      ]},
+      {t:"Departamento de Produção Familiar", cor:"verde", p:"Josicley Azevedo", d:"Portaria Nº 244/2026", filhos:[
+        {t:"Divisão de Produção Indígena", cor:"verde", p:"Adriano Dias", d:"Portaria Nº 107/2023"},
+        {t:"Divisão de Produção Familiar", cor:"verde", p:"Wally Stanley", d:"Portaria Nº 245/2026"},
+        {t:"Divisão de Sociobiodiversidade", cor:"verde", p:"Eneide Thaumaturgo", d:"Portaria Nº 246/2026", filhos:[
+          {t:"Núcleo Socioprodutivo Indígena", cor:"verde", p:"Hidelk Farias", d:"Portaria Nº 210/2026"},
+          {t:"Núcleo do Cacau", cor:"verde", p:"Marcos Rocha", d:"Portaria Nº 211/2026"},
+          {t:"Núcleo do Mel", cor:"verde", p:"Rubia Mara", d:"Portaria Nº 212/2026"},
+          {t:"Núcleo da Mandioca", cor:"verde", p:"Murilo Matos", d:"Portaria Nº 213/2026"},
+          {t:"Núcleo da Olericultura", cor:"verde", p:"Adriana Melo", d:"Portaria Nº 214/2026"},
+          {t:"Núcleo de Extrativismo", cor:"verde", p:"Angelina Lima", d:"Portaria Nº 215/2026"}
+        ]}
+      ]},
+      {t:"Departamento de Mecanização", cor:"verde", p:"Richarler Aguiar", d:"Portaria Nº 124/2024", filhos:[
+        {t:"Divisão de Manutenção de Equipamentos", cor:"verde", p:"", d:""},
+        {t:"Divisão de Escoamento e Operações", cor:"verde", p:"", d:""}
+      ]}
+    ]},
+    {t:"Diretoria de Pesquisa, Tecnologia e Inovação do Agronegócio", cor:"laranja", p:"Thiago de Almeida", d:"Decreto Nº2525-P/2023", filhos:[
+      {t:"Departamento de Tecnologia", cor:"laranja", p:"Luan Sobral", d:"Portaria Nº 216/2026", filhos:[
+        {t:"Divisão de Agricultura de Precisão", cor:"laranja", p:"", d:""},
+        {t:"Divisão de Dados Estatísticos", cor:"laranja", p:"", d:""},
+        {t:"Divisão de Geoprocessamento e Telemetria", cor:"laranja", p:"Izaura Cardoso", d:"Portaria Nº 218/2026"},
+        {t:"Divisão de Sistema de Informação", cor:"laranja", p:"Gabriane Vaz", d:"Portaria Nº 219/2026"}
+      ]},
+      {t:"Departamento de Pesquisa e Inovação", cor:"laranja", p:"Roger Recco", d:"Portaria Nº 53/2024", filhos:[
+        {t:"Divisão de Transferência de Tecnologia", cor:"laranja", p:"Ediu Carlos", d:"Portaria Nº 220/2026"},
+        {t:"Divisão de Pesquisa Agropecuária", cor:"laranja", p:"Marcos Vinicius", d:"Portaria Nº 217/2026"},
+        {t:"Divisão de Certificação de Produtos", cor:"laranja", p:"Yanná Thaumaturgo", d:"Portaria Nº 102/2025"}
+      ]}
+    ]}
+  ]
+};
+
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+function criarNo(node){
+  const li = document.createElement("li");
+  const temFilhos = node.filhos && node.filhos.length;
+  if(temFilhos) li.className = "tem-filhos";
+  if(node.comissao) li.classList.add("comissao");
+
+  const conector = document.createElement("div");
+  conector.className = "conector";
+  li.appendChild(conector);
+
+  const box = document.createElement("div");
+  box.className = "no-box " + node.cor;
+  let corpo = node.p
+    ? "<b>"+esc(node.p)+"</b>" + (node.d ? esc(node.d) : "")
+    : "<span class='vazio'>&mdash;</span>";
+  box.innerHTML = "<div class='titulo'>"+esc(node.t)+"</div><div class='pessoa'>"+corpo+"</div>";
+  li.appendChild(box);
+
+  if(temFilhos){
+    const linhaDesc = document.createElement("div");
+    linhaDesc.className = "linha-desc";
+    li.appendChild(linhaDesc);
+
+    const ul = document.createElement("ul");
+    if(node.grade) ul.className = "grade";
+    node.filhos.forEach(f => ul.appendChild(criarNo(f)));
+    li.appendChild(ul);
+
+    box.querySelector(".titulo").addEventListener("click", (e) => {
+      e.stopPropagation();
+      li.classList.toggle("fechado");
+      setTimeout(posicionarLinhasH,20);
+    });
+  }
+  return li;
+}
+
+const arvore = document.getElementById("arvore");
+arvore.appendChild(criarNo(org));
+
+function definirTodos(fechar){
+  document.querySelectorAll(".tree li.tem-filhos").forEach(li => {
+    li.classList.toggle("fechado", fechar);
+  });
+}
+
+function posicionarLinhasH(){
+  document.querySelectorAll(".linha-h").forEach(el => el.remove());
+  document.querySelectorAll(".tree ul:not(.grade)").forEach(ul => {
+    if(ul.offsetParent === null) return;
+    const lis = [...ul.children];
+    if(lis.length < 2) return;
+    const ulRect = ul.getBoundingClientRect();
+    const firstConn = lis[0].querySelector(".conector");
+    const lastConn = lis[lis.length - 1].querySelector(".conector");
+    if(!firstConn || !lastConn) return;
+    const fr = firstConn.getBoundingClientRect();
+    const lr = lastConn.getBoundingClientRect();
+    const left = (fr.left + fr.width / 2) - ulRect.left;
+    const right = ulRect.right - (lr.left + lr.width / 2);
+    const div = document.createElement("div");
+    div.className = "linha-h";
+    div.style.left = left + "px";
+    div.style.right = right + "px";
+    ul.appendChild(div);
+  });
+}
+
+// ===== Zoom e Pan =====
+const viewport = document.getElementById("viewport");
+const canvas = document.getElementById("canvas");
+
+let scale = 1;
+let panX = 0, panY = 0;
+let isDragging = false;
+let dragStartX, dragStartY, panStartX, panStartY;
+const MIN_SCALE = 0.1;
+const MAX_SCALE = 2;
+const ZOOM_STEP = 0.1;
+
+function applyTransform(){
+  canvas.style.transform = "translate("+panX+"px,"+panY+"px) scale("+scale+")";
+  document.getElementById("zoomLevel").textContent = Math.round(scale*100)+"%";
+}
+
+function zoomAtCenter(newScale){
+  const vr = viewport.getBoundingClientRect();
+  const cx = vr.width/2;
+  const cy = vr.height/2;
+  zoomAtPoint(newScale, cx, cy);
+}
+
+function zoomAtPoint(newScale, px, py){
+  newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
+  const ratio = newScale / scale;
+  panX = px - ratio * (px - panX);
+  panY = py - ratio * (py - panY);
+  scale = newScale;
+  applyTransform();
+}
+
+function fitToScreen(){
+  const vr = viewport.getBoundingClientRect();
+  const cw = canvas.scrollWidth;
+  const ch = canvas.scrollHeight;
+  const sx = vr.width / cw;
+  const sy = vr.height / ch;
+  scale = Math.min(sx, sy, 1) * 0.95;
+  panX = (vr.width - cw * scale) / 2;
+  panY = (vr.height - ch * scale) / 2;
+  applyTransform();
+}
+
+// Mouse wheel zoom
+viewport.addEventListener("wheel", function(e){
+  e.preventDefault();
+  const rect = viewport.getBoundingClientRect();
+  const px = e.clientX - rect.left;
+  const py = e.clientY - rect.top;
+  const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+  zoomAtPoint(scale + delta, px, py);
+}, {passive:false});
+
+// Drag to pan
+viewport.addEventListener("mousedown", function(e){
+  if(e.target.closest(".no-box .titulo")){return;}
+  isDragging = true;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
+  panStartX = panX;
+  panStartY = panY;
+  viewport.classList.add("dragging");
+  e.preventDefault();
+});
+window.addEventListener("mousemove", function(e){
+  if(!isDragging) return;
+  panX = panStartX + (e.clientX - dragStartX);
+  panY = panStartY + (e.clientY - dragStartY);
+  applyTransform();
+});
+window.addEventListener("mouseup", function(){
+  isDragging = false;
+  viewport.classList.remove("dragging");
+});
+
+// Touch support
+let lastTouchDist = 0;
+let lastTouchCenter = null;
+viewport.addEventListener("touchstart", function(e){
+  if(e.target.closest(".no-box .titulo")) return;
+  if(e.touches.length === 1){
+    isDragging = true;
+    dragStartX = e.touches[0].clientX;
+    dragStartY = e.touches[0].clientY;
+    panStartX = panX;
+    panStartY = panY;
+  } else if(e.touches.length === 2){
+    isDragging = false;
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    lastTouchDist = Math.sqrt(dx*dx + dy*dy);
+    const rect = viewport.getBoundingClientRect();
+    lastTouchCenter = {
+      x: (e.touches[0].clientX + e.touches[1].clientX)/2 - rect.left,
+      y: (e.touches[0].clientY + e.touches[1].clientY)/2 - rect.top
+    };
+  }
+  e.preventDefault();
+}, {passive:false});
+viewport.addEventListener("touchmove", function(e){
+  if(e.touches.length === 1 && isDragging){
+    panX = panStartX + (e.touches[0].clientX - dragStartX);
+    panY = panStartY + (e.touches[0].clientY - dragStartY);
+    applyTransform();
+  } else if(e.touches.length === 2){
+    const dx = e.touches[0].clientX - e.touches[1].clientX;
+    const dy = e.touches[0].clientY - e.touches[1].clientY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(lastTouchDist > 0 && lastTouchCenter){
+      const newScale = scale * (dist / lastTouchDist);
+      zoomAtPoint(newScale, lastTouchCenter.x, lastTouchCenter.y);
+    }
+    lastTouchDist = dist;
+    const rect = viewport.getBoundingClientRect();
+    lastTouchCenter = {
+      x: (e.touches[0].clientX + e.touches[1].clientX)/2 - rect.left,
+      y: (e.touches[0].clientY + e.touches[1].clientY)/2 - rect.top
+    };
+  }
+  e.preventDefault();
+}, {passive:false});
+viewport.addEventListener("touchend", function(){
+  isDragging = false;
+  lastTouchDist = 0;
+  lastTouchCenter = null;
+});
+
+// Buttons
+document.getElementById("btnZoomIn").addEventListener("click", () => zoomAtCenter(scale + ZOOM_STEP));
+document.getElementById("btnZoomOut").addEventListener("click", () => zoomAtCenter(scale - ZOOM_STEP));
+document.getElementById("btnZoomReset").addEventListener("click", () => {
+  scale = 1;
+  panX = 0;
+  panY = 0;
+  applyTransform();
+});
+document.getElementById("btnZoomFit").addEventListener("click", () => {
+  setTimeout(fitToScreen, 30);
+});
+
+document.getElementById("btnExpandir").addEventListener("click", () => {
+  definirTodos(false);
+  setTimeout(() => { posicionarLinhasH(); fitToScreen(); }, 50);
+});
+document.getElementById("btnRecolher").addEventListener("click", () => {
+  definirTodos(true);
+  arvore.querySelector("li.tem-filhos").classList.remove("fechado");
+  setTimeout(() => { posicionarLinhasH(); fitToScreen(); }, 50);
+});
+
+// Estado inicial: tudo expandido, ajustar à tela
+setTimeout(() => {
+  posicionarLinhasH();
+  fitToScreen();
+}, 100);
+window.addEventListener("resize", () => setTimeout(posicionarLinhasH,20));
+</script>
+</body>
+</html>
