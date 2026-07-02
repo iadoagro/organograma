@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portarias SEAGRI - SolicitaÃ§Ãµes de LotaÃ§Ã£o e HabilitaÃ§Ã£o de Assinatura</title>
+<title>Portarias SEAGRI - Solicitações de Lotação e Habilitação de Assinatura</title>
 <style>
   :root{
     --verde:#1b5e20; --verde2:#2e7d32; --verde-claro:#e8f5e9; --cinza:#f5f5f5; --linha:#e0e0e0;
@@ -57,7 +57,7 @@
   .copy:hover{background:var(--verde);transform:translateY(-2px);box-shadow:0 4px 12px rgba(27,94,32,0.2);}
   .copy:active{transform:translateY(0);}
   .copy.copiado{background:#4caf50;position:relative;}
-  .copy.copiado::after{content:"âœ“";margin-left:6px;font-weight:bold;}
+  .copy.copiado::after{content:"✓";margin-left:6px;font-weight:bold;}
   .obs{margin-top:32px;background:#fff8e1;border:1px solid #f0d98a;border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.6;box-shadow:var(--sombra);}
   .obs b{color:#9a6b00;}
   .modal-backdrop{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:10000;}
@@ -174,53 +174,53 @@
 </div>
 <script>
 const dados = [
- {n:"192", arq:"Portaria 192 - Dionisio Ferreira do Vale Neto.pdf", orig:"[03]-0021487054_Publicacao.pdf", nome:"Dionisio Ferreira do Vale Neto", chefia:"Chefe da Assessoria de ComunicaÃ§Ã£o â€“ ASCOM"},
- {n:"193", arq:"Portaria 193 - Heloneyda Marques de Oliveira.pdf", orig:"[05]-0021487149_Publicacao.pdf", nome:"Heloneyda Marques de Oliveira", chefia:"Chefe do Departamento de OrÃ§amento e FinanÃ§as â€“ DEOF"},
- {n:"194", arq:"Portaria 194 - Karin Gomes Barlatti.pdf", orig:"[07]-0021487244_Publicacao.pdf", nome:"Karin Gomes Barlatti", chefia:"Chefe da DivisÃ£o de FinanÃ§as â€“ DIF"},
- {n:"195", arq:"Portaria 195 - Camila de Melo Pires Arruda Oliveira.pdf", orig:"[09]-0021487390_Publicacao.pdf", nome:"Camila de Melo Pires Arruda Oliveira", chefia:"Chefe da DivisÃ£o de Contabilidade â€“ DIC"},
- {n:"196", arq:"Portaria 196 - Igor Honorato Leduino da Silva.pdf", orig:"[11]-0021487550_Publicacao.pdf", nome:"Igor Honorato Leduino da Silva", chefia:"Chefe do Departamento Socioprodutivo e SeguranÃ§a Alimentar â€“ DESAN"},
- {n:"197", arq:"Portaria 197 - Ariane Gadelha dos Santos.pdf", orig:"[13]-0021487748_Publicacao.pdf", nome:"Ariane Gadelha dos Santos", chefia:"Chefe da DivisÃ£o de InclusÃ£o Socioprodutiva â€“ DIIS"},
- {n:"198", arq:"Portaria 198 - Antonio Jose Pereira da Silva.pdf", orig:"[15]-0021487877_Publicacao.pdf", nome:"AntÃ´nio JosÃ© Pereira da Silva", chefia:"Chefe do NÃºcleo de Apoio LogÃ­stico â€“ NAP"},
- {n:"199", arq:"Portaria 199 - Maria da Conceicao Almeida.pdf", orig:"[17]-0021487975_Publicacao.pdf", nome:"Maria da ConceiÃ§Ã£o Almeida", chefia:"Chefe do NÃºcleo de Cadastro da Agricultura Familiar â€“ NCAF"},
- {n:"200", arq:"Portaria 200 - Carlos Antonio Pinheiro da Silva.pdf", orig:"[19]-0021488051_Publicacao.pdf", nome:"Carlos AntÃ´nio Pinheiro da Silva", chefia:"Chefe do NÃºcleo de Polos Agroflorestais â€“ NPOLO"},
- {n:"201", arq:"Portaria 201 - Marcela Rocha da Silva.pdf", orig:"[21]-0021488125_Publicacao.pdf", nome:"Marcela Rocha da Silva", chefia:"Chefe da DivisÃ£o de SeguranÃ§a Alimentar â€“ DISAN"},
- {n:"202", arq:"Portaria 202 - Claiton Roniere Oliveira.pdf", orig:"[23]-0021488206_Publicacao.pdf", nome:"Claiton Roniere Oliveira", chefia:"Chefe do NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos â€“ NPAA"},
- {n:"204", arq:"Portaria 204 - Jose Paulo dos Santos Silva.pdf", orig:"[25]-0021488298_Publicacao.pdf", nome:"JosÃ© Paulo dos Santos Silva", chefia:"Chefe do NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos IndÃ­gena â€“ NPAAI"},
- {n:"205", arq:"Portaria 205 - Yanna Thaumaturgo Motta.pdf", orig:"[27]-0021488361_Publicacao.pdf", nome:"Yanna Thaumaturgo Motta", chefia:"Chefe do NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos Extrativista â€“ NPAAEX e Chefe da DivisÃ£o de CertificaÃ§Ã£o de Produtos â€“ DICP"},
- {n:"206", arq:"Portaria 206 - Michelma Neves de Lima.pdf", orig:"[29]-0021488488_Publicacao.pdf", nome:"Michelma Neves de Lima", chefia:"Chefe do NÃºcleo do CafÃ© â€“ NUCAF"},
- {n:"207", arq:"Portaria 207 - Nilton Cesar de Souza.pdf", orig:"[31]-0021488659_Publicacao.pdf", nome:"Nilton CÃ©sar de Souza", chefia:"Chefe da DivisÃ£o de Agricultura â€“ DIA e Chefe do NÃºcleo de Armazenamento e Silos â€“ NUARS"},
- {n:"208", arq:"Portaria 208 - Wallace Santos Batista.pdf", orig:"[33]-0021488757_Publicacao.pdf", nome:"Wallace Santos Batista", chefia:"Chefe da DivisÃ£o de Aquicultura e Pesca â€“ DIAPES e Chefe do NÃºcleo de Aquicultura e Pesca â€“ NUAPES"},
- {n:"209", arq:"Portaria 209 - Bruna da Silva Diogo.pdf", orig:"[35]-0021489141_Publicacao.pdf", nome:"Bruna da Silva Diogo", chefia:"Chefe do NÃºcleo de Avicultura â€“ NUAV"},
- {n:"210", arq:"Portaria 210 - Hidelk Dinarte Farias de Albuquerque.pdf", orig:"[37]-0021489250_Publicacao.pdf", nome:"Hidelk Dinarte Farias de Albuquerque", chefia:"Chefe do NÃºcleo Socioprodutivo IndÃ­gena â€“ NUSPI"},
- {n:"211", arq:"Portaria 211 - Marcos Rocha da Silva.pdf", orig:"[39]-0021489376_Publicacao.pdf", nome:"Marcos Rocha da Silva", chefia:"Chefe do NÃºcleo do Cacau â€“ NUCAC"},
- {n:"212", arq:"Portaria 212 - Rubia Mara Pessoa da Costa Lima.pdf", orig:"[41]-0021489429_Publicacao.pdf", nome:"RÃºbia Mara Pessoa da Costa Lima", chefia:"Chefe do NÃºcleo do Mel â€“ NUMEL"},
- {n:"213", arq:"Portaria 213 - Murilo de Araujo Matos Filho.pdf", orig:"[43]-0021489498_Publicacao.pdf", nome:"Murilo de AraÃºjo Matos Filho", chefia:"Chefe do NÃºcleo da Mandioca â€“ NUMAN"},
- {n:"214", arq:"Portaria 214 - Adriana da Silva Melo.pdf", orig:"[45]-0021489594_Publicacao.pdf", nome:"Adriana da Silva Melo", chefia:"Chefe do NÃºcleo da Olericultura â€“ NUOLE"},
- {n:"215", arq:"Portaria 215 - Angelina Frota de Lima.pdf", orig:"[47]-0021489672_Publicacao.pdf", nome:"Angelina Frota de Lima", chefia:"Chefe do NÃºcleo de Extrativismo â€“ NUEX"},
- {n:"216", arq:"Portaria 216 - Luan Sobral Dourado.pdf", orig:"[49]-0021489739_Publicacao.pdf", nome:"Luan Sobral Dourado", chefia:"Chefe do Departamento de Tecnologia â€“ DET e Chefe da DivisÃ£o de ModernizaÃ§Ã£o TecnolÃ³gica â€“ DIMT"},
- {n:"217", arq:"Portaria 217 - Marcos Vinicius Rodrigues Santana.pdf", orig:"[51]-0021489820_Publicacao.pdf", nome:"Marcos Vinicius Rodrigues Santana", chefia:"Chefe da DivisÃ£o de Programas â€“ DIPRO e Chefe da DivisÃ£o de Pesquisa AgropecuÃ¡ria â€“ DIPA"},
- {n:"218", arq:"Portaria 218 - Izaura Maria Cardoso Barros de Sa.pdf", orig:"[53]-0021489909_Publicacao.pdf", nome:"Izaura Maria Cardoso Barros de SÃ¡", chefia:"Chefe da DivisÃ£o de Geoprocessamento e Telemetria â€“ DIGT"},
- {n:"219", arq:"Portaria 219 - Gabriane Morais Vaz.pdf", orig:"[55]-0021490028_Publicacao.pdf", nome:"Gabriane Morais Vaz", chefia:"Chefe da DivisÃ£o de Sistema de InformaÃ§Ã£o â€“ DISOFT"},
- {n:"220", arq:"Portaria 220 - Ediu Carlos da Silva Junior.pdf", orig:"[57]-0021490099_Publicacao.pdf", nome:"Ediu Carlos da Silva Junior", chefia:"Chefe da DivisÃ£o de TransferÃªncia de Tecnologia â€“ DITT"}
+ {n:"192", arq:"Portaria 192 - Dionisio Ferreira do Vale Neto.pdf", orig:"[03]-0021487054_Publicacao.pdf", nome:"Dionisio Ferreira do Vale Neto", chefia:"Chefe da Assessoria de Comunicação – ASCOM"},
+ {n:"193", arq:"Portaria 193 - Heloneyda Marques de Oliveira.pdf", orig:"[05]-0021487149_Publicacao.pdf", nome:"Heloneyda Marques de Oliveira", chefia:"Chefe do Departamento de Orçamento e Finanças – DEOF"},
+ {n:"194", arq:"Portaria 194 - Karin Gomes Barlatti.pdf", orig:"[07]-0021487244_Publicacao.pdf", nome:"Karin Gomes Barlatti", chefia:"Chefe da Divisão de Finanças – DIF"},
+ {n:"195", arq:"Portaria 195 - Camila de Melo Pires Arruda Oliveira.pdf", orig:"[09]-0021487390_Publicacao.pdf", nome:"Camila de Melo Pires Arruda Oliveira", chefia:"Chefe da Divisão de Contabilidade – DIC"},
+ {n:"196", arq:"Portaria 196 - Igor Honorato Leduino da Silva.pdf", orig:"[11]-0021487550_Publicacao.pdf", nome:"Igor Honorato Leduino da Silva", chefia:"Chefe do Departamento Socioprodutivo e Segurança Alimentar – DESAN"},
+ {n:"197", arq:"Portaria 197 - Ariane Gadelha dos Santos.pdf", orig:"[13]-0021487748_Publicacao.pdf", nome:"Ariane Gadelha dos Santos", chefia:"Chefe da Divisão de Inclusão Socioprodutiva – DIIS"},
+ {n:"198", arq:"Portaria 198 - Antonio Jose Pereira da Silva.pdf", orig:"[15]-0021487877_Publicacao.pdf", nome:"Antônio José Pereira da Silva", chefia:"Chefe do Núcleo de Apoio Logístico – NAP"},
+ {n:"199", arq:"Portaria 199 - Maria da Conceicao Almeida.pdf", orig:"[17]-0021487975_Publicacao.pdf", nome:"Maria da Conceição Almeida", chefia:"Chefe do Núcleo de Cadastro da Agricultura Familiar – NCAF"},
+ {n:"200", arq:"Portaria 200 - Carlos Antonio Pinheiro da Silva.pdf", orig:"[19]-0021488051_Publicacao.pdf", nome:"Carlos Antônio Pinheiro da Silva", chefia:"Chefe do Núcleo de Polos Agroflorestais – NPOLO"},
+ {n:"201", arq:"Portaria 201 - Marcela Rocha da Silva.pdf", orig:"[21]-0021488125_Publicacao.pdf", nome:"Marcela Rocha da Silva", chefia:"Chefe da Divisão de Segurança Alimentar – DISAN"},
+ {n:"202", arq:"Portaria 202 - Claiton Roniere Oliveira.pdf", orig:"[23]-0021488206_Publicacao.pdf", nome:"Claiton Roniere Oliveira", chefia:"Chefe do Núcleo do Programa de Aquisição de Alimentos – NPAA"},
+ {n:"204", arq:"Portaria 204 - Jose Paulo dos Santos Silva.pdf", orig:"[25]-0021488298_Publicacao.pdf", nome:"José Paulo dos Santos Silva", chefia:"Chefe do Núcleo do Programa de Aquisição de Alimentos Indígena – NPAAI"},
+ {n:"205", arq:"Portaria 205 - Yanna Thaumaturgo Motta.pdf", orig:"[27]-0021488361_Publicacao.pdf", nome:"Yanna Thaumaturgo Motta", chefia:"Chefe do Núcleo do Programa de Aquisição de Alimentos Extrativista – NPAAEX e Chefe da Divisão de Certificação de Produtos – DICP"},
+ {n:"206", arq:"Portaria 206 - Michelma Neves de Lima.pdf", orig:"[29]-0021488488_Publicacao.pdf", nome:"Michelma Neves de Lima", chefia:"Chefe do Núcleo do Café – NUCAF"},
+ {n:"207", arq:"Portaria 207 - Nilton Cesar de Souza.pdf", orig:"[31]-0021488659_Publicacao.pdf", nome:"Nilton César de Souza", chefia:"Chefe da Divisão de Agricultura – DIA e Chefe do Núcleo de Armazenamento e Silos – NUARS"},
+ {n:"208", arq:"Portaria 208 - Wallace Santos Batista.pdf", orig:"[33]-0021488757_Publicacao.pdf", nome:"Wallace Santos Batista", chefia:"Chefe da Divisão de Aquicultura e Pesca – DIAPES e Chefe do Núcleo de Aquicultura e Pesca – NUAPES"},
+ {n:"209", arq:"Portaria 209 - Bruna da Silva Diogo.pdf", orig:"[35]-0021489141_Publicacao.pdf", nome:"Bruna da Silva Diogo", chefia:"Chefe do Núcleo de Avicultura – NUAV"},
+ {n:"210", arq:"Portaria 210 - Hidelk Dinarte Farias de Albuquerque.pdf", orig:"[37]-0021489250_Publicacao.pdf", nome:"Hidelk Dinarte Farias de Albuquerque", chefia:"Chefe do Núcleo Socioprodutivo Indígena – NUSPI"},
+ {n:"211", arq:"Portaria 211 - Marcos Rocha da Silva.pdf", orig:"[39]-0021489376_Publicacao.pdf", nome:"Marcos Rocha da Silva", chefia:"Chefe do Núcleo do Cacau – NUCAC"},
+ {n:"212", arq:"Portaria 212 - Rubia Mara Pessoa da Costa Lima.pdf", orig:"[41]-0021489429_Publicacao.pdf", nome:"Rúbia Mara Pessoa da Costa Lima", chefia:"Chefe do Núcleo do Mel – NUMEL"},
+ {n:"213", arq:"Portaria 213 - Murilo de Araujo Matos Filho.pdf", orig:"[43]-0021489498_Publicacao.pdf", nome:"Murilo de Araújo Matos Filho", chefia:"Chefe do Núcleo da Mandioca – NUMAN"},
+ {n:"214", arq:"Portaria 214 - Adriana da Silva Melo.pdf", orig:"[45]-0021489594_Publicacao.pdf", nome:"Adriana da Silva Melo", chefia:"Chefe do Núcleo da Olericultura – NUOLE"},
+ {n:"215", arq:"Portaria 215 - Angelina Frota de Lima.pdf", orig:"[47]-0021489672_Publicacao.pdf", nome:"Angelina Frota de Lima", chefia:"Chefe do Núcleo de Extrativismo – NUEX"},
+ {n:"216", arq:"Portaria 216 - Luan Sobral Dourado.pdf", orig:"[49]-0021489739_Publicacao.pdf", nome:"Luan Sobral Dourado", chefia:"Chefe do Departamento de Tecnologia – DET e Chefe da Divisão de Modernização Tecnológica – DIMT"},
+ {n:"217", arq:"Portaria 217 - Marcos Vinicius Rodrigues Santana.pdf", orig:"[51]-0021489820_Publicacao.pdf", nome:"Marcos Vinicius Rodrigues Santana", chefia:"Chefe da Divisão de Programas – DIPRO e Chefe da Divisão de Pesquisa Agropecuária – DIPA"},
+ {n:"218", arq:"Portaria 218 - Izaura Maria Cardoso Barros de Sa.pdf", orig:"[53]-0021489909_Publicacao.pdf", nome:"Izaura Maria Cardoso Barros de Sá", chefia:"Chefe da Divisão de Geoprocessamento e Telemetria – DIGT"},
+ {n:"219", arq:"Portaria 219 - Gabriane Morais Vaz.pdf", orig:"[55]-0021490028_Publicacao.pdf", nome:"Gabriane Morais Vaz", chefia:"Chefe da Divisão de Sistema de Informação – DISOFT"},
+ {n:"220", arq:"Portaria 220 - Ediu Carlos da Silva Junior.pdf", orig:"[57]-0021490099_Publicacao.pdf", nome:"Ediu Carlos da Silva Junior", chefia:"Chefe da Divisão de Transferência de Tecnologia – DITT"}
 ];
 
 function gerarTitulo(d){
-  return "<b>AlteraÃ§Ã£o de Cadastro de Usuario - Chefia "+d.nome+"</b>";
+  return "<b>Alteração de Cadastro de Usuario - Chefia "+d.nome+"</b>";
 }
 function gerarTituloPlano(d){
-  return "AlteraÃ§Ã£o de Cadastro de Usuario - Chefia "+d.nome;
+  return "Alteração de Cadastro de Usuario - Chefia "+d.nome;
 }
 function gerarTextoMaior(d){
   let setor = d.chefia.replace(/^Chefe\s+/i, "");
-  return "Solicito que o seguinte servidor <span class='u'>"+d.nome+"</span> seja lotado na seguinte unidade <span class='u'>"+setor+"</span> e que tenha permissÃ£o para assinar como <span class='u'>"+d.chefia+"</span>, de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026  Conforme portaria em anexo Portaria "+d.n+" - "+d.nome;
+  return "Solicito que o seguinte servidor <span class='u'>"+d.nome+"</span> seja lotado na seguinte unidade <span class='u'>"+setor+"</span> e que tenha permissão para assinar como <span class='u'>"+d.chefia+"</span>, de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026  Conforme portaria em anexo Portaria "+d.n+" - "+d.nome;
 }
 function gerarTextoMaiorPlano(d){
   let setor = d.chefia.replace(/^Chefe\s+/i, "");
-  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade "+setor+" e que tenha permissÃ£o para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026  Conforme portaria em anexo Portaria "+d.n+" - "+d.nome;}
+  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade "+setor+" e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026  Conforme portaria em anexo Portaria "+d.n+" - "+d.nome;}
 function gerarTextoMenor(d){
-  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura â€“ SEAGRI e que tenha permissÃ£o para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
+  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura – SEAGRI e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
 function gerarTextoMenorPlano(d){
-  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura â€“ SEAGRI e que tenha permissÃ£o para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
+  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura – SEAGRI e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
 
 const tbody = document.querySelector("#tabela tbody");
 
@@ -234,7 +234,7 @@ dados.forEach(d=>{
   const nomeArquivoSemExtensao = d.arq.replace(/\.pdf$/i, "");
   
   tr.innerHTML =
-    "<td class='arq'><span class='num'>Portaria nÂº "+d.n+"</span><br>"+
+    "<td class='arq'><span class='num'>Portaria nº "+d.n+"</span><br>"+
       "<span class='status-badge pendente'>Pendente</span><br>"+
       "<a href=\""+encodeURI(d.arq)+"\" target=\"_blank\">"+nomeArquivoSemExtensao+"</a></td>"+
     "<td><div class='texto-container'>"+
@@ -256,7 +256,7 @@ dados.forEach(d=>{
   
   // Restaurar estado salvo
   if(estadoSalvo[d.n]){
-    statusBadge.textContent = "ConcluÃ­do";
+    statusBadge.textContent = "Concluído";
     statusBadge.classList.remove("pendente");
     statusBadge.classList.add("concluido");
   }
@@ -277,7 +277,7 @@ dados.forEach(d=>{
   tbody.appendChild(tr);
 });
 
-// Segunda passagem: adicionar event listeners com referÃªncia correta
+// Segunda passagem: adicionar event listeners com referência correta
 
 function mostrarToast(){
   const toastAntigo = document.querySelector(".toast-notificacao");
@@ -287,7 +287,7 @@ function mostrarToast(){
   }
   const toast = document.createElement("div");
   toast.className = "toast-notificacao";
-  toast.textContent = "âœ“ Copiado para a Ã¡rea de transferÃªncia!";
+  toast.textContent = "✓ Copiado para a área de transferência!";
   document.body.appendChild(toast);
   setTimeout(()=>{
     toast.classList.add("toast-saindo");
@@ -305,7 +305,7 @@ function abrirModalCopiaManual(texto){
       "<div class='modal-conteudo' style='max-width:600px;text-align:left;'>"+
         "<button class='modal-fechar' id='modal-copia-fechar'>&times;</button>"+
         "<div class='modal-titulo' style='font-size:18px;margin-bottom:12px;'>Copie o texto manualmente</div>"+
-        "<p style='font-size:13px;color:#666;margin:0 0 12px;'>NÃ£o foi possÃ­vel copiar automaticamente (restriÃ§Ã£o do navegador). Toque no campo abaixo â€” o texto jÃ¡ vem selecionado â€” e use Ctrl+C (ou Cmd+C no Mac) para copiar.</p>"+
+        "<p style='font-size:13px;color:#666;margin:0 0 12px;'>Não foi possível copiar automaticamente (restrição do navegador). Toque no campo abaixo — o texto já vem selecionado — e use Ctrl+C (ou Cmd+C no Mac) para copiar.</p>"+
         "<textarea id='modal-copia-texto' style='width:100%;min-height:160px;padding:12px;border:1px solid var(--linha);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical;' readonly></textarea>"+
       "</div>";
     document.body.appendChild(backdrop);
@@ -369,7 +369,7 @@ portarias.forEach((portaria, indice)=>{
   function marcarAnteriorComoConcluida(){
     if(indice > 0){
       const portariaAnterior = portarias[indice - 1];
-      portariaAnterior.statusBadge.textContent = "ConcluÃ­do";
+      portariaAnterior.statusBadge.textContent = "Concluído";
       portariaAnterior.statusBadge.classList.remove("pendente");
       portariaAnterior.statusBadge.classList.add("concluido");
       estadoSalvo[portariaAnterior.numero] = true;
@@ -400,7 +400,7 @@ portarias.forEach((portaria, indice)=>{
     }
   });
   
-  // Listener para clicar no texto do tÃ­tulo
+  // Listener para clicar no texto do título
   portaria.textoTitulo.addEventListener("click",function(){
     copiarTexto(gerarTituloPlano(d));
     portaria.clicouTitulo = true;
@@ -447,30 +447,30 @@ document.getElementById("busca").addEventListener("input",function(){
   });
 });
 
-// ===================== SEÃ‡ÃƒO 2: Acesso a Setores Subordinados =====================
+// ===================== SEÇÃO 2: Acesso a Setores Subordinados =====================
 const dadosDept = [
- {n:"193", nome:"Heloneyda Marques de Oliveira", chefia:"Chefe do Departamento de OrÃ§amento e FinanÃ§as â€“ DEOF", setores:["DivisÃ£o de FinanÃ§as (DIF)","DivisÃ£o de Contabilidade (DIC)"]},
- {n:"196", nome:"Igor Honorato Leduino da Silva", chefia:"Chefe do Departamento Socioprodutivo e SeguranÃ§a Alimentar â€“ DESAN", setores:["DivisÃ£o de InclusÃ£o Socioprodutiva (DIIS)","NÃºcleo de Apoio LogÃ­stico (NAP)","NÃºcleo de Cadastro da Agricultura Familiar (NCAF)","NÃºcleo de Polos Agroflorestais (NPOLO)","DivisÃ£o de SeguranÃ§a Alimentar (DISAN)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos (NPAA)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos IndÃ­gena (NPAAI)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos Extrativista (NPAAEX)"]},
- {n:"197", nome:"Ariane Gadelha dos Santos", chefia:"Chefe da DivisÃ£o de InclusÃ£o Socioprodutiva â€“ DIIS", setores:["NÃºcleo de Apoio LogÃ­stico (NAP)","NÃºcleo de Cadastro da Agricultura Familiar (NCAF)","NÃºcleo de Polos Agroflorestais (NPOLO)"]},
- {n:"201", nome:"Marcela Rocha da Silva", chefia:"Chefe da DivisÃ£o de SeguranÃ§a Alimentar â€“ DISAN", setores:["NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos (NPAA)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos IndÃ­gena (NPAAI)","NÃºcleo do Programa de AquisiÃ§Ã£o de Alimentos Extrativista (NPAAEX)"]},
- {n:"207", nome:"Nilton CÃ©sar de Souza", chefia:"Chefe da DivisÃ£o de Agricultura â€“ DIA", setores:["NÃºcleo do CafÃ© (NUCAF)","NÃºcleo de Armazenamento e Silos (NUARS)"]},
- {n:"208", nome:"Wallace Santos Batista", chefia:"Chefe da DivisÃ£o de PecuÃ¡ria/Aquicultura e Pesca â€“ DIPEC/DIAPES", setores:["NÃºcleo de Aquicultura e Pesca (NUAPES)","NÃºcleo de Avicultura (NUAV)"]},
- {n:"216", nome:"Luan Sobral Dourado", chefia:"Chefe do Departamento de Tecnologia â€“ DET", setores:["DivisÃ£o de Agricultura de PrecisÃ£o (DIAP)","DivisÃ£o de Dados EstatÃ­sticos (DIDA)","DivisÃ£o de Geoprocessamento e Telemetria (DIGT)","DivisÃ£o de Sistema de InformaÃ§Ã£o (DISOFT)"]}
+ {n:"193", nome:"Heloneyda Marques de Oliveira", chefia:"Chefe do Departamento de Orçamento e Finanças – DEOF", setores:["Divisão de Finanças (DIF)","Divisão de Contabilidade (DIC)"]},
+ {n:"196", nome:"Igor Honorato Leduino da Silva", chefia:"Chefe do Departamento Socioprodutivo e Segurança Alimentar – DESAN", setores:["Divisão de Inclusão Socioprodutiva (DIIS)","Núcleo de Apoio Logístico (NAP)","Núcleo de Cadastro da Agricultura Familiar (NCAF)","Núcleo de Polos Agroflorestais (NPOLO)","Divisão de Segurança Alimentar (DISAN)","Núcleo do Programa de Aquisição de Alimentos (NPAA)","Núcleo do Programa de Aquisição de Alimentos Indígena (NPAAI)","Núcleo do Programa de Aquisição de Alimentos Extrativista (NPAAEX)"]},
+ {n:"197", nome:"Ariane Gadelha dos Santos", chefia:"Chefe da Divisão de Inclusão Socioprodutiva – DIIS", setores:["Núcleo de Apoio Logístico (NAP)","Núcleo de Cadastro da Agricultura Familiar (NCAF)","Núcleo de Polos Agroflorestais (NPOLO)"]},
+ {n:"201", nome:"Marcela Rocha da Silva", chefia:"Chefe da Divisão de Segurança Alimentar – DISAN", setores:["Núcleo do Programa de Aquisição de Alimentos (NPAA)","Núcleo do Programa de Aquisição de Alimentos Indígena (NPAAI)","Núcleo do Programa de Aquisição de Alimentos Extrativista (NPAAEX)"]},
+ {n:"207", nome:"Nilton César de Souza", chefia:"Chefe da Divisão de Agricultura – DIA", setores:["Núcleo do Café (NUCAF)","Núcleo de Armazenamento e Silos (NUARS)"]},
+ {n:"208", nome:"Wallace Santos Batista", chefia:"Chefe da Divisão de Pecuária/Aquicultura e Pesca – DIPEC/DIAPES", setores:["Núcleo de Aquicultura e Pesca (NUAPES)","Núcleo de Avicultura (NUAV)"]},
+ {n:"216", nome:"Luan Sobral Dourado", chefia:"Chefe do Departamento de Tecnologia – DET", setores:["Divisão de Agricultura de Precisão (DIAP)","Divisão de Dados Estatísticos (DIDA)","Divisão de Geoprocessamento e Telemetria (DIGT)","Divisão de Sistema de Informação (DISOFT)"]}
 ];
 
 function gerarTituloDept(d){
-  return "<b>LotaÃ§Ã£o de UsuÃ¡rio - "+d.nome+"</b>";
+  return "<b>Lotação de Usuário - "+d.nome+"</b>";
 }
 function gerarTituloDeptPlano(d){
-  return "LotaÃ§Ã£o de UsuÃ¡rio - "+d.nome;
+  return "Lotação de Usuário - "+d.nome;
 }
 function gerarTextoDept(d){
   const lista = d.setores.map(s=>"<span class='u'>"+s+"</span>").join("<br>");
-  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotaÃ§Ã£o:<br>"+lista+"<br>de acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026.";
+  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotação:<br>"+lista+"<br>de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026.";
 }
 function gerarTextoDeptPlano(d){
   const lista = d.setores.join("\n");
-  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotaÃ§Ã£o:\n"+lista+"\nde acordo com a Portaria SEAGRI nÂº "+d.n+", de 19 de junho de 2026.";
+  return "Solicito que "+d.nome+" seja adicionado(a) aos seguintes setores de lotação:\n"+lista+"\nde acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026.";
 }
 
 const tbody2 = document.querySelector("#tabela2 tbody");
@@ -481,7 +481,7 @@ dadosDept.forEach(d=>{
   const tr=document.createElement("tr");
 
   tr.innerHTML =
-    "<td class='arq'><span class='num'>Portaria nÂº "+d.n+"</span><br>"+
+    "<td class='arq'><span class='num'>Portaria nº "+d.n+"</span><br>"+
       "<span class='status-badge pendente'>Pendente</span><br>"+
       "<span style='font-size:13px;color:#555;'>"+d.chefia+"</span></td>"+
     "<td><div class='texto-container'>"+
@@ -502,7 +502,7 @@ dadosDept.forEach(d=>{
   const textoCorpo = tr.querySelector(".texto-corpo-text");
 
   if(estadoSalvo2[d.n]){
-    statusBadge.textContent = "ConcluÃ­do";
+    statusBadge.textContent = "Concluído";
     statusBadge.classList.remove("pendente");
     statusBadge.classList.add("concluido");
   }
@@ -532,7 +532,7 @@ function atualizarBarraProgresso2(){
 }
 
 function marcarConcluida2(portaria){
-  portaria.statusBadge.textContent = "ConcluÃ­do";
+  portaria.statusBadge.textContent = "Concluído";
   portaria.statusBadge.classList.remove("pendente");
   portaria.statusBadge.classList.add("concluido");
   estadoSalvo2[portaria.numero] = true;
@@ -579,7 +579,7 @@ portariasDept.forEach((portaria, indice)=>{
 atualizarBarraProgresso2();
 
 document.getElementById("limparProgresso2").addEventListener("click",function(){
-  if(confirm("Tem certeza que deseja limpar todo o progresso desta seÃ§Ã£o?")){
+  if(confirm("Tem certeza que deseja limpar todo o progresso desta seção?")){
     localStorage.removeItem("portariasDeptCompletas");
     location.reload();
   }
