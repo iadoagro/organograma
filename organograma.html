@@ -63,7 +63,8 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 @media(max-width:700px){.topbar{height:auto;flex-direction:column;padding:8px}.toolbar{flex-wrap:wrap}.nav-row{padding:4px 8px}}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1f2933;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:60;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.node-header{cursor:copy}
+.org-node[data-has-pdf="true"]{cursor:pointer}
+.org-node[data-has-pdf="true"]:hover .node-header::after{content:" ↓";font-size:7px;opacity:.7}
 </style>
 </head>
 <body>
@@ -93,7 +94,7 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
     <span><i class="swatch" style="background:#70ad47"></i>DPA</span>
     <span><i class="swatch" style="background:#ed7d31"></i>DPTEC</span>
   </div>
-  <span style="color:#888;margin-left:auto">Scroll para zoom &middot; Clique e arraste para mover &middot; Clique na caixa para expandir/recolher</span>
+  <span style="color:#888;margin-left:auto">Scroll para zoom &middot; Clique e arraste para mover &middot; Clique na caixa para baixar a portaria &middot; Clique em &minus;/+ para expandir/recolher</span>
 </nav>
 <div class="viewport" id="viewport">
   <div class="canvas" id="canvas">
@@ -104,6 +105,91 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 </div>
 <div class="tooltip" id="tooltip"></div>
 <script>
+const PORTARIA_PDF={
+  "04/2023":"portarias/portarias 2023/[015]-5958327_Publicacao.pdf",
+  "06/2023":"portarias/portarias 2023/[015]-5958327_Publicacao.pdf",
+  "07/2023":"portarias/portarias 2023/[015]-5958327_Publicacao.pdf",
+  "35/2023":"portarias/portarias 2023/[066]-6025855_Publicacao.pdf",
+  "45/2023":"portarias/portarias 2023/[082]-6065080_Publicacao.pdf",
+  "94/2023":"portarias/portarias 2023/[149]-6204238_Publicacao.pdf",
+  "97/2023":"portarias/portarias 2023/[149]-6204238_Publicacao.pdf",
+  "107/2023":"portarias/portarias 2023/[159]-6204795_Publicacao.pdf",
+  "110/2023":"portarias/portarias 2023/[127]-6188760_Publicacao.pdf",
+  "134/2023":"portarias/portarias 2023/[199]-6355713_Publicacao.pdf",
+  "136/2023":"portarias/portarias 2023/[199]-6355713_Publicacao.pdf",
+  "138/2023":"portarias/portarias 2023/[199]-6355713_Publicacao.pdf",
+  "153/2023":"portarias/portarias 2023/[218]-6444113_Publicacao.pdf",
+  "175/2023":"portarias/portarias 2023/[252]-6499223_Publicacao.pdf",
+  "179/2023":"portarias/portarias 2023/[259]-6501228_Publicacao.pdf",
+  "180/2023":"portarias/portarias 2023/[259]-6501228_Publicacao.pdf",
+  "187/2023":"portarias/portarias 2023/[264]-6501405_Publicacao.pdf",
+  "191/2023":"portarias/portarias 2023/[266]-6508343_Publicacao.pdf",
+  "213/2023":"portarias/portarias 2023/[272]-6736012_Publicacao.pdf",
+  "214/2023":"portarias/portarias 2023/[274]-6751629_Publicacao.pdf",
+  "118/2024":"portarias/portarias 2024/[094]-0011286402_Publicacao.pdf",
+  "124/2024":"portarias/portarias 2024/[100]-0011304172_Publicacao.pdf",
+  "177/2024":"portarias/portarias 2024/[110]-0011990282_Publicacao.pdf",
+  "255/2024":"portarias/portarias 2024/[144]-0012930490_Publicacao.pdf",
+  "280/2024":"portarias/portarias 2024/[158]-0013209229_Publicacao.pdf",
+  "285/2024":"portarias/portarias 2024/[161]-0013278709_Publicacao_Portaria_285___Republicado___Chefe.pdf",
+  "329/2024":"portarias/portarias 2024/[217]-0013616259_Publicacao.pdf",
+  "19/2025":"portarias/portarias 2025/[023]-0013959607_Publicacao.pdf",
+  "30/2025":"portarias/portarias 2025/[029]-0014215576_Publicacao.pdf",
+  "32/2025":"portarias/portarias 2025/[033]-0014231639_Publicacao.pdf",
+  "53/2025":"portarias/portarias 2025/[043]-0014601644_Publicacao_da_Portaria_n._53_2025___Chefia_do_Dep._de.pdf",
+  "60/2025":"portarias/portarias 2025/[051]-0014721879_Publicacao_da_Portaria_60_2025__.pdf",
+  "86/2025":"portarias/portarias 2025/[071]-0015089859_Publicacao.pdf",
+  "101/2025":"portarias/portarias 2025/[087]-0015406227_Publicacao.pdf",
+  "102/2025":"portarias/portarias 2025/[089]-0015466098_Publicacao.pdf",
+  "132/2025":"portarias/portarias 2025/[113]-0016096089_Publicacao.pdf",
+  "151/2025":"portarias/portarias 2025/[129]-0017061525_Publicacao.pdf",
+  "227/2025":"portarias/portarias 2025/[129]-0017061525_Publicacao.pdf",
+  "269/2025":"portarias/portarias 2025/[143]-0018040909_Publicacao.pdf",
+  "290/2025":"portarias/portarias 2025/[145]-0018081245_Publicacao.pdf",
+  "298/2025":"portarias/portarias 2025/[151]-0018170345_Publicacao.pdf",
+  "25/2026":"portarias/portarias 2026/Portaria 25 - Francisco Diego Soares de Messias.pdf",
+  "83/2026":"portarias/portarias 2026/Portaria 83 - Mayssa Jhully Oliveira de Souza Diniz.pdf",
+  "173/2026":"portarias/portarias 2026/Portaria 173 - Pedro de Alencar Pedrosa Matos.pdf",
+  "181/2026":"portarias/portarias 2026/Portaria 181 - Lugma Fernanda Pinheiro de Moura.pdf",
+  "192/2026":"portarias/portarias 2026/Portaria 192 - Dionisio Ferreira do Vale Neto.pdf",
+  "193/2026":"portarias/portarias 2026/Portaria 193 - Heloneyda Marques de Oliveira.pdf",
+  "194/2026":"portarias/portarias 2026/Portaria 194 - Karin Gomes Barlatti.pdf",
+  "195/2026":"portarias/portarias 2026/Portaria 195 - Camila de Melo Pires Arruda Oliveira.pdf",
+  "196/2026":"portarias/portarias 2026/Portaria 196 - Igor Honorato Leduino da Silva.pdf",
+  "197/2026":"portarias/portarias 2026/Portaria 197 - Ariane Gadelha dos Santos.pdf",
+  "198/2026":"portarias/portarias 2026/Portaria 198 - Antonio Jose Pereira da Silva.pdf",
+  "199/2026":"portarias/portarias 2026/Portaria 199 - Maria da Conceicao Almeida.pdf",
+  "200/2026":"portarias/portarias 2026/Portaria 200 - Carlos Antonio Pinheiro da Silva.pdf",
+  "201/2026":"portarias/portarias 2026/Portaria 201 - Marcela Rocha da Silva.pdf",
+  "202/2026":"portarias/portarias 2026/Portaria 202 - Claiton Roniere Oliveira.pdf",
+  "204/2026":"portarias/portarias 2026/Portaria 204 - Jose Paulo dos Santos Silva.pdf",
+  "205/2026":"portarias/portarias 2026/Portaria 205 - Yanna Thaumaturgo Motta.pdf",
+  "206/2026":"portarias/portarias 2026/Portaria 206 - Michelma Neves de Lima.pdf",
+  "207/2026":"portarias/portarias 2026/Portaria 207 - Nilton Cesar de Souza.pdf",
+  "208/2026":"portarias/portarias 2026/Portaria 208 - Wallace Santos Batista.pdf",
+  "209/2026":"portarias/portarias 2026/Portaria 209 - Bruna da Silva Diogo.pdf",
+  "210/2026":"portarias/portarias 2026/Portaria 210 - Hidelk Dinarte Farias de Albuquerque.pdf",
+  "211/2026":"portarias/portarias 2026/Portaria 211 - Marcos Rocha da Silva.pdf",
+  "212/2026":"portarias/portarias 2026/Portaria 212 - Rubia Mara Pessoa da Costa Lima.pdf",
+  "213/2026":"portarias/portarias 2026/Portaria 213 - Murilo de Araujo Matos Filho.pdf",
+  "214/2026":"portarias/portarias 2026/Portaria 214 - Adriana da Silva Melo.pdf",
+  "215/2026":"portarias/portarias 2026/Portaria 215 - Angelina Frota de Lima.pdf",
+  "216/2026":"portarias/portarias 2026/Portaria 216 - Luan Sobral Dourado.pdf",
+  "217/2026":"portarias/portarias 2026/Portaria 217 - Marcos Vinicius Rodrigues Santana.pdf",
+  "218/2026":"portarias/portarias 2026/Portaria 218 - Izaura Maria Cardoso Barros de Sa.pdf",
+  "219/2026":"portarias/portarias 2026/Portaria 219 - Gabriane Morais Vaz.pdf",
+  "220/2026":"portarias/portarias 2026/Portaria 220 - Ediu Carlos da Silva Junior.pdf",
+  "244/2026":"portarias/portarias 2026/Portaria 244-246 - Josicley, Wally, Eneide.pdf",
+  "245/2026":"portarias/portarias 2026/Portaria 244-246 - Josicley, Wally, Eneide.pdf",
+  "246/2026":"portarias/portarias 2026/Portaria 244-246 - Josicley, Wally, Eneide.pdf"
+};
+
+function getPDFPath(holder){
+  const m=holder.match(/Portaria\s+N[ºo°]\s*(\d+)\/(\d{4})/i);
+  if(!m)return null;
+  return PORTARIA_PDF[m[1]+"/"+m[2]]||null;
+}
+
 const SW=9144000,SH=5143500,RW=2400,RH=1350;
 function xPx(v){return v/SW*RW}
 function yPx(v){return v/SH*RH}
@@ -243,10 +329,13 @@ function createNode(n){
   if(n.children.length>0){const tg=document.createElement("span");tg.className="node-toggle";tg.textContent="−";hdr.appendChild(tg)}
   const body=document.createElement("div");body.className="node-body";body.textContent=n.holder||"—";
   el.append(hdr,body);
+  const pdfPath=getPDFPath(n.holder);
+  if(pdfPath)el.dataset.hasPdf="true";
   el.addEventListener("click",e=>{
     if(e.target.closest(".node-toggle")){e.stopPropagation();toggleNode(n);return}
     e.stopPropagation();
-    copyNodeText(n);
+    if(pdfPath){downloadLink(pdfPath,pdfPath.split("/").pop())}
+    else{showToast("PDF não disponível para este cargo")}
   });
   el.addEventListener("mouseenter",e=>showTip(e,n));
   el.addEventListener("mousemove",moveTip);
