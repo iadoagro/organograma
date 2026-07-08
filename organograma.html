@@ -31,7 +31,7 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 .viewport{flex:1;position:relative;overflow:hidden;cursor:grab;background:linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(46,74,91,.05) 40px),repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(46,74,91,.05) 40px)}
 .viewport.dragging{cursor:grabbing}
 .canvas{position:absolute;top:0;left:0;transform-origin:0 0;width:2400px;height:1350px;background:#fff;box-shadow:0 12px 30px rgba(31,41,51,.12);overflow:hidden}
-.canvas::before{content:"AC";position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-size:390px;font-weight:800;color:rgba(112,173,71,.05);pointer-events:none}
+.watermark{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:700px;height:700px;object-fit:contain;opacity:0.08;pointer-events:none;z-index:0;user-select:none}
 .line-layer{position:absolute;inset:0;width:2400px;height:1350px;overflow:visible;z-index:1}
 .line-layer path{fill:none;stroke:var(--line);stroke-width:2.1;stroke-linecap:square;stroke-linejoin:miter;opacity:.9}
 .org-node{position:absolute;z-index:2;border:1.4px solid #111827;background:#fff;color:#111827;cursor:pointer;overflow:hidden;box-shadow:0 2px 4px rgba(17,24,39,.08);transition:opacity .16s,filter .16s,transform .16s;padding:0;font:inherit;text-align:left}
@@ -98,6 +98,7 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 </nav>
 <div class="viewport" id="viewport">
   <div class="canvas" id="canvas">
+    <img class="watermark" src="LOGO GOVERNO DO ACRE 2023-2026 brasão.png" alt="">
     <svg class="line-layer" id="lineLayer"></svg>
     <div class="slide-brand"><span>Secretaria de Estado da</span><strong>Agricultura</strong></div>
     <div class="source-note">Portaria SEAGRI N&ordm; 187/2026</div>
