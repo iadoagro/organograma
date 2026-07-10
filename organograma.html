@@ -31,6 +31,9 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 .viewport{flex:1;position:relative;overflow:hidden;cursor:grab;background:linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(46,74,91,.05) 40px),repeating-linear-gradient(90deg,transparent 0,transparent 39px,rgba(46,74,91,.05) 40px)}
 .viewport.dragging{cursor:grabbing}
 .canvas{position:absolute;top:0;left:0;transform-origin:0 0;width:2400px;height:1350px;background:#fff;box-shadow:0 12px 30px rgba(31,41,51,.12);overflow:hidden}
+.canvas::before{content:"";position:absolute;inset:0;background:url('assets/imagens/brasao.png') center center / 71.66% no-repeat;opacity:.06;pointer-events:none}
+.canvas.exporting::before{display:none}
+.canvas.exporting .node-toggle{display:none}
 .canvas::before{content:"AC";position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);font-size:390px;font-weight:800;color:rgba(112,173,71,.05);pointer-events:none}
 .line-layer{position:absolute;inset:0;width:2400px;height:1350px;overflow:visible;z-index:1}
 .line-layer path{fill:none;stroke:var(--line);stroke-width:2.1;stroke-linecap:square;stroke-linejoin:miter;opacity:.9}
@@ -599,6 +602,29 @@ drawLines();
 setTimeout(fitToScreen,60);
 
 // ===== Download =====
+// Brasão pré-carregado para desenhar por cima da captura (evita contaminar o canvas do html2canvas)
+const brasaoImg=new Image();
+brasaoImg.src="assets/imagens/brasao.png";
+
+// Desenha o brasão (marca d'água) sobre uma cópia do canvas capturado.
+// Se por algum motivo contaminar (taint), retorna a captura original sem brasão.
+function withBrasao(base){
+  try{
+    if(!brasaoImg.complete||!brasaoImg.naturalWidth)return base;
+    const c2=document.createElement("canvas");
+    c2.width=base.width;c2.height=base.height;
+    const ctx=c2.getContext("2d");
+    ctx.drawImage(base,0,0);
+    const targetW=base.width*0.7166;
+    const targetH=targetW*(brasaoImg.naturalHeight/brasaoImg.naturalWidth);
+    ctx.globalAlpha=0.06;
+    ctx.drawImage(brasaoImg,(base.width-targetW)/2,(base.height-targetH)/2,targetW,targetH);
+    ctx.globalAlpha=1;
+    c2.toDataURL("image/jpeg",0.5); // testa contaminação
+    return c2;
+  }catch(e){return base;}
+}
+
 function captureCanvas(){
   return new Promise(resolve=>{
     const prevTransform=canvas.style.transform;
@@ -607,14 +633,18 @@ function captureCanvas(){
     collapsed.clear();refresh();
     canvas.style.transform="none";
     canvas.style.overflow="visible";
+    canvas.classList.add("exporting"); // oculta o brasão durante a captura
+    const restore=()=>{
+      canvas.style.transform=prevTransform;
+      canvas.style.overflow=prevOverflow;
+      canvas.classList.remove("exporting");
+      wasCollapsed.forEach(id=>collapsed.add(id));refresh();
+    };
     setTimeout(()=>{
-      html2canvas(canvas,{scale:2,useCORS:true,backgroundColor:"#ffffff",width:RW,height:RH,windowWidth:RW,windowHeight:RH}).then(c=>{
-        canvas.style.transform=prevTransform;
-        canvas.style.overflow=prevOverflow;
-        wasCollapsed.forEach(id=>collapsed.add(id));refresh();
-        resolve(c);
-      });
-    },100);
+      html2canvas(canvas,{scale:1.5,useCORS:true,backgroundColor:"#ffffff",width:RW,height:RH,windowWidth:RW,windowHeight:RH,logging:false}).then(c=>{
+        restore();resolve(withBrasao(c));
+      }).catch(()=>{restore();resolve(null)});
+    },50);
   });
 }
 
@@ -627,7 +657,11 @@ document.getElementById("btnJPG").addEventListener("click",()=>{
   const btn=document.getElementById("btnJPG");
   btn.disabled=true;btn.textContent="Gerando...";
   captureCanvas().then(c=>{
-    downloadLink(c.toDataURL("image/jpeg",0.95),"Organograma_SEAGRI_2026.jpg");
+    if(!c)throw new Error("captura vazia");
+    downloadLink(c.toDataURL("image/jpeg",0.92),"Organograma_SEAGRI_2026.jpg");
+  }).catch(err=>{
+    console.error(err);showToast("Erro ao gerar JPG. Tente novamente.");
+  }).finally(()=>{
     btn.disabled=false;btn.innerHTML="&#128247; JPG";
   });
 });
@@ -636,10 +670,14 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
   const btn=document.getElementById("btnPDF");
   btn.disabled=true;btn.textContent="Gerando...";
   captureCanvas().then(c=>{
-    const imgData=c.toDataURL("image/jpeg",0.95);
+    if(!c)throw new Error("captura vazia");
+    const imgData=c.toDataURL("image/jpeg",0.92);
     const pdf=new jspdf.jsPDF({orientation:"landscape",unit:"px",format:[RW,RH]});
     pdf.addImage(imgData,"JPEG",0,0,RW,RH);
     pdf.save("Organograma_SEAGRI_2026.pdf");
+  }).catch(err=>{
+    console.error(err);showToast("Erro ao gerar PDF. Tente novamente.");
+  }).finally(()=>{
     btn.disabled=false;btn.innerHTML="&#128196; PDF";
   });
 });
