@@ -7,7 +7,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-:root{--purple:#7030a0;--yellow:#ffc000;--blue:#4472c4;--green:#70ad47;--orange:#ed7d31;--line:#111827;--ink:#1f2933;--panel:#fff;--border:#cfd6dc;--verde:#1b5e20;--verde2:#2e7d32;--radius:6px}
+:root{--purple:#c0392b;--yellow:#ffc000;--blue:#4472c4;--green:#70ad47;--orange:#ed7d31;--line:#111827;--ink:#1f2933;--panel:#fff;--border:#cfd6dc;--verde:#1b5e20;--verde2:#2e7d32;--radius:6px}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display:flex;flex-direction:column;background:#f3f5f0;color:var(--ink)}
 .topbar{height:54px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 16px;background:linear-gradient(135deg,var(--verde),var(--verde2));border-bottom:1px solid var(--border);flex-shrink:0;z-index:10}
@@ -34,24 +34,27 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 .watermark{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:700px;height:700px;object-fit:contain;opacity:0.08;pointer-events:none;z-index:0;user-select:none}
 .line-layer{position:absolute;inset:0;width:2400px;height:1350px;overflow:visible;z-index:1}
 .line-layer path{fill:none;stroke:var(--line);stroke-width:2.1;stroke-linecap:square;stroke-linejoin:miter;opacity:.9}
-.org-node{position:absolute;z-index:2;border:1.4px solid #111827;background:#fff;color:#111827;cursor:pointer;overflow:hidden;box-shadow:0 2px 4px rgba(17,24,39,.08);transition:opacity .16s,filter .16s,transform .16s;padding:0;font:inherit;text-align:left}
-.org-node:hover{transform:translateY(-1px);z-index:5;box-shadow:0 8px 20px rgba(17,24,39,.18)}
+.org-node{position:absolute;z-index:2;border:1.4px solid #111827;background:#fff;color:#111827;cursor:pointer;overflow:hidden;box-shadow:0 2px 4px rgba(17,24,39,.08);transition:opacity .16s,filter .16s;padding:0;font:inherit;text-align:left}
+.org-node:hover{z-index:5;box-shadow:0 8px 20px rgba(17,24,39,.18)}
 .org-node.hidden{display:none}
 .org-node.dimmed{opacity:.32;filter:grayscale(.55)}
-.node-header{position:relative;display:grid;place-items:center;height:var(--hh);padding:2px 7px;color:#111827;text-align:center;font-size:9px;font-weight:700;line-height:1.08;border-bottom:1.4px solid #111827}
-.node-body{display:grid;place-items:center;height:var(--bh);padding:2px 7px;background:#fff;color:#111827;text-align:center;white-space:pre-line;font-size:8px;line-height:1.12}
+.node-header{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:var(--hh);padding:5.4px 7px 4px;color:#fff;text-align:center;font-size:7px;font-weight:700;line-height:1.08;border-bottom:1.4px solid #111827;box-sizing:border-box}
+.node-body{display:grid;place-items:center;height:var(--bh);padding:4px 7px;background:#fff;color:#111827;text-align:center;white-space:pre-line;font-size:7px;line-height:1.12;box-sizing:border-box}
 .node-toggle{position:absolute;right:3px;top:3px;display:grid;place-items:center;width:11px;height:11px;background:rgba(255,255,255,.86);border:1px solid rgba(17,24,39,.72);border-radius:50%;color:#111827;font-size:8px;font-weight:700;line-height:1}
-.org-node[data-color="purple"] .node-header{background:var(--purple);color:#fff}
+.node-sigla{display:inline-block;margin-top:0;padding:1px 5px;font-size:7px;font-weight:800;line-height:1.1;letter-spacing:.4px;background:#fff;color:#111827;border:1px solid rgba(17,24,39,.35);border-radius:3px}
+.org-node[data-color="purple"]{--node-bg:var(--purple)}
+.org-node[data-color="purple"] .node-header{background:var(--purple)}
+.org-node[data-color="yellow"]{--node-bg:var(--yellow)}
 .org-node[data-color="yellow"] .node-header{background:var(--yellow)}
-.org-node[data-color="blue"] .node-header{background:var(--blue);color:#fff}
+.org-node[data-color="blue"]{--node-bg:var(--blue)}
+.org-node[data-color="blue"] .node-header{background:var(--blue)}
+.org-node[data-color="green"]{--node-bg:var(--green)}
 .org-node[data-color="green"] .node-header{background:var(--green)}
+.org-node[data-color="orange"]{--node-bg:var(--orange)}
 .org-node[data-color="orange"] .node-header{background:var(--orange)}
-.org-node[data-kind="secretaria"] .node-header{font-size:10px;text-transform:uppercase}
-.org-node[data-kind="diretoria"] .node-header,.org-node[data-kind="departamento"] .node-header{font-size:8px}
-.org-node[data-kind="divisao"] .node-header,.org-node[data-kind="nucleo"] .node-header{padding:2px 3px;font-size:6.4px}
-.org-node[data-kind="divisao"] .node-body,.org-node[data-kind="nucleo"] .node-body{padding:2px 3px;font-size:6.5px}
-.org-node[data-kind="escritorio"] .node-header,.org-node[data-kind="escritorio"] .node-body{font-size:7px}
-.org-node[data-long="true"] .node-header{font-size:5.7px;line-height:1.02}
+.org-node[data-kind="secretaria"] .node-header{text-transform:uppercase}
+.org-node[data-kind="divisao"] .node-header,.org-node[data-kind="nucleo"] .node-header{padding:2px 3px}
+.org-node[data-kind="divisao"] .node-body,.org-node[data-kind="nucleo"] .node-body{padding:2px 3px}
 .slide-brand{position:absolute;top:38px;right:88px;z-index:0;width:500px;text-align:center;text-transform:uppercase;line-height:.95;color:#222;pointer-events:none;display:grid}
 .slide-brand span{font-size:26px;letter-spacing:.4px}
 .slide-brand strong{color:#239044;font-size:54px}
@@ -60,11 +63,12 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 .tooltip.show{opacity:1;transform:translateY(0)}
 .tooltip strong{display:block;margin-bottom:4px}
 .tooltip span{display:block;color:#4b5563;white-space:pre-line}
+.tip-vinculo{margin-top:6px;padding-top:6px;border-top:1px solid #e5e7eb;color:#6b7280;font-style:italic}
 @media(max-width:700px){.topbar{height:auto;flex-direction:column;padding:8px}.toolbar{flex-wrap:wrap}.nav-row{padding:4px 8px}}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(60px);background:#1f2933;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:60;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .org-node[data-has-pdf="true"]{cursor:pointer}
-.org-node[data-has-pdf="true"]:hover .node-header::after{content:" ↓";font-size:7px;opacity:.7}
+.org-node[data-has-pdf="true"]:hover .node-header::after{content:"↓";position:absolute;right:3px;bottom:2px;font-size:7px;opacity:.75;pointer-events:none}
 </style>
 </head>
 <body>
@@ -88,7 +92,7 @@ body{font-family:Arial,Helvetica,sans-serif;overflow:hidden;height:100vh;display
 <nav class="nav-row">
   <a class="voltar" href="index.html">&larr; Menu</a>
   <div class="legend">
-    <span><i class="swatch" style="background:#7030a0"></i>Secretaria</span>
+    <span><i class="swatch" style="background:#c0392b"></i>Secretaria</span>
     <span><i class="swatch" style="background:#ffc000"></i>Assessorias</span>
     <span><i class="swatch" style="background:#4472c4"></i>DAF</span>
     <span><i class="swatch" style="background:#70ad47"></i>DPA</span>
@@ -293,7 +297,7 @@ const RAW=[
 ["el-xpi","del","escritorio","blue","Escritório Local de Xapuri","Antonio Alves\nPortaria Nº 32/2025",7053032,4430333,481846,135000,135000]
 ];
 
-const nodes=RAW.map(d=>({id:d[0],parent:d[1],kind:d[2],color:d[3],title:d[4],holder:d[5],x:d[6],y:d[7],w:d[8],hh:d[9],bh:d[10]||d[9],children:[]}));
+const nodes=RAW.map(d=>({id:d[0],parent:d[1],kind:d[2],color:d[3],title:d[4],holder:d[5],x:d[6],y:d[7],w:d[8],hh:d[9],bh:d[10]||d[9],sigla:d[0].toUpperCase(),children:[]}));
 const byId=new Map(nodes.map(n=>[n.id,n]));
 nodes.forEach(n=>{if(n.parent&&byId.has(n.parent))byId.get(n.parent).children.push(n.id)});
 
@@ -327,7 +331,9 @@ function createNode(n){
   el.dataset.id=n.id;el.dataset.kind=n.kind;el.dataset.color=n.color;
   el.dataset.long=String(n.title.length>42);
   el.style.cssText=`left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px;--hh:${r.hh}px;--bh:${r.bh}px`;
-  const hdr=document.createElement("div");hdr.className="node-header";hdr.textContent=n.title;
+  const hdr=document.createElement("div");hdr.className="node-header";
+  const ttl=document.createElement("span");ttl.className="node-title";ttl.textContent=n.title;hdr.appendChild(ttl);
+  const sg=document.createElement("span");sg.className="node-sigla";sg.textContent=n.sigla;hdr.appendChild(sg);
   if(n.children.length>0){const tg=document.createElement("span");tg.className="node-toggle";tg.textContent="−";hdr.appendChild(tg)}
   const body=document.createElement("div");body.className="node-body";body.textContent=n.holder||"—";
   el.append(hdr,body);
@@ -378,7 +384,13 @@ function showToast(msg){
 }
 
 function showTip(e,n){
-  tooltip.innerHTML=`<strong>${esc(n.title)}</strong><span>${esc(n.holder||n.kind)}</span>`;
+  const parent=n.parent?byId.get(n.parent):null;
+  let vinculo='';
+  if(parent){
+    const chief=parent.holder?parent.holder.split("\n")[0]:null;
+    vinculo=`<span class="tip-vinculo">Vinculado a: ${esc(parent.title)}${chief?"<br>Responsável: "+esc(chief):""}</span>`;
+  }
+  tooltip.innerHTML=`<strong>${esc(n.title)}</strong><span>${esc(n.holder||n.kind)}</span>${vinculo}`;
   tooltip.classList.add("show");moveTip(e);
 }
 function moveTip(e){
@@ -434,6 +446,20 @@ function drawLines(){
 
     // Draw vertical connections using grouped approach
     if(below.length===0)return;
+
+    // SEC children: individual lines only (no horizontal bar between siblings)
+    if(pid==="sec"){
+      below.forEach(c=>{
+        const cr=rectFor(c);
+        const gap=Math.max(24,cr.top-pr.bottom);
+        const hDist=Math.abs(cr.cx-pr.cx);
+        const ratio=hDist>50?.85:.5;
+        const midY=pr.bottom+gap*ratio;
+        addPath(`M ${pr.cx.toFixed(1)} ${pr.bottom.toFixed(1)} V ${midY.toFixed(1)} H ${cr.cx.toFixed(1)} V ${cr.top.toFixed(1)}`);
+      });
+      return;
+    }
+
     if(below.length===1){
       const cr=rectFor(below[0]);
       const gap=Math.max(24,cr.top-pr.bottom);
@@ -522,6 +548,236 @@ function refresh(){
 // Render all nodes
 nodes.forEach(createNode);
 
+// Measure natural height of an element by temporarily removing its fixed height
+function naturalH(el){
+  el.style.height='auto';
+  const h=el.offsetHeight;
+  el.style.height='';
+  return h;
+}
+
+// Ensure header and body content always fits — grow the box if needed
+function fitBoxes(){
+  rendered.forEach((el,id)=>{
+    const n=byId.get(id);
+    const hdr=el.querySelector(".node-header");
+    const body=el.querySelector(".node-body");
+
+    const neededHdr=naturalH(hdr);
+    const curHdr=yPx(n.hh);
+    if(neededHdr>curHdr+0.5) n.hh+=(neededHdr-curHdr)/RH*SH;
+
+    if(body){
+      const neededBody=naturalH(body);
+      const curBody=yPx(n.bh);
+      if(neededBody>curBody+0.5) n.bh+=(neededBody-curBody)/RH*SH;
+    }
+
+    const r=rectFor(n);
+    el.style.height=r.h+"px";
+    el.style.setProperty("--hh",r.hh+"px");
+    el.style.setProperty("--bh",r.bh+"px");
+  });
+}
+fitBoxes();
+
+// Two shape families: wide/short boxes (org units) vs narrow/tall boxes (divisao/nucleo)
+const VERT_KINDS=new Set(["divisao","nucleo"]);
+function shapeGroup(kind){return VERT_KINDS.has(kind)?"vert":"horiz"}
+
+// Shrink a title's font-size (only) until its header fits within maxH, without truncating text
+function shrinkTitleToFit(hdr,title,maxH){
+  let fs=7;
+  title.style.fontSize=fs+"px";
+  while(naturalH(hdr)>maxH+0.5&&fs>3.5){
+    fs-=0.3;
+    title.style.fontSize=fs.toFixed(2)+"px";
+  }
+}
+
+// A couple of committee names are far longer than any other title. Instead of letting
+// them inflate every box in the group, cap the standard height from the typical boxes
+// and only shrink the title font on these specific outliers so nothing is cropped.
+function capOutlierHeights(){
+  const OUTLIER_KINDS=new Set(["comissao"]);
+  let targetHH=0;
+  nodes.forEach(n=>{
+    if(shapeGroup(n.kind)==="horiz"&&!OUTLIER_KINDS.has(n.kind)&&n.hh>targetHH) targetHH=n.hh;
+  });
+  nodes.forEach(n=>{
+    if(OUTLIER_KINDS.has(n.kind)&&n.hh>targetHH){
+      const el=rendered.get(n.id);
+      const hdr=el.querySelector(".node-header");
+      const title=hdr.querySelector(".node-title");
+      shrinkTitleToFit(hdr,title,yPx(targetHH));
+      n.hh=targetHH;
+    }
+  });
+}
+capOutlierHeights();
+
+// Equalize width & height of every box within its shape family (horiz vs vert)
+function normalizeBoxes(){
+  const stats={};
+  nodes.forEach(n=>{
+    const g=shapeGroup(n.kind);
+    if(!stats[g]) stats[g]={hh:0,bh:0,w:0};
+    const s=stats[g];
+    if(n.hh>s.hh) s.hh=n.hh;
+    if(n.bh>s.bh) s.bh=n.bh;
+    if(n.w>s.w) s.w=n.w;
+  });
+  nodes.forEach(n=>{
+    const s=stats[shapeGroup(n.kind)];
+    const oldCx=n.x+n.w/2;
+    n.hh=s.hh; n.bh=s.bh;
+    n.w=s.w;
+    n.x=oldCx-s.w/2;
+    const el=rendered.get(n.id);
+    if(el){
+      const r=rectFor(n);
+      el.style.left=r.x+'px';
+      el.style.width=r.w+'px';
+      el.style.height=r.h+'px';
+      el.style.setProperty('--hh',r.hh+'px');
+      el.style.setProperty('--bh',r.bh+'px');
+    }
+  });
+}
+normalizeBoxes();
+
+// After width standardization, boxes that used to sit close together in the same
+// visual row (regardless of parent) can now touch/overlap. Push them apart in x-order.
+function resolveRowOverlaps(){
+  const minGapPx=6;
+  const minGapEmu=minGapPx/xPx(1);
+  const byKind=new Map();
+  nodes.forEach(n=>{
+    if(!byKind.has(n.kind))byKind.set(n.kind,[]);
+    byKind.get(n.kind).push(n);
+  });
+  byKind.forEach(list=>{
+    const rows=[];
+    list.forEach(c=>{
+      let row=rows.find(r=>Math.abs(r.y-c.y)<200000);
+      if(!row){row={y:c.y,list:[]};rows.push(row)}
+      row.list.push(c);
+    });
+    rows.forEach(row=>{
+      row.list.sort((a,b)=>a.x-b.x);
+      for(let i=1;i<row.list.length;i++){
+        const prev=row.list[i-1],cur=row.list[i];
+        const needed=prev.x+prev.w+minGapEmu;
+        if(cur.x<needed){
+          const shift=needed-cur.x;
+          for(let j=i;j<row.list.length;j++)row.list[j].x+=shift;
+        }
+      }
+    });
+  });
+  nodes.forEach(n=>{
+    const el=rendered.get(n.id);
+    if(el){const r=rectFor(n);el.style.left=r.x+'px';}
+  });
+}
+resolveRowOverlaps();
+
+// Box resizing can leave too little vertical room between a parent's bottom edge
+// and its children's top edge, so the connector bar ends up drawn inside the child
+// box instead of in the gap above it. This also happens BETWEEN stacked rows of
+// children under the same parent (e.g. two rows of assessorias). Walk the tree
+// top-down, group each parent's "below" children into visual rows, and push each
+// row (and everything under it) down as a rigid block until a safe gap is restored.
+// Siblings drawn "beside" the parent (same row as the parent itself) are untouched.
+function fixVerticalGaps(){
+  const MIN_GAP=80;
+  const ROW_TOL=30;
+  const emuPerPx=1/yPx(1);
+
+  function processNode(n,inheritedShift){
+    n.y+=inheritedShift;
+    const r=rectFor(n);
+
+    const below=[],beside=[];
+    n.children.forEach(cid=>{
+      const c=byId.get(cid);
+      const simTop=yPx(c.y+inheritedShift);
+      (simTop<r.bottom-5?beside:below).push(c);
+    });
+
+    beside.forEach(c=>processNode(c,inheritedShift));
+
+    const rows=[];
+    below.forEach(c=>{
+      const simTop=yPx(c.y+inheritedShift);
+      let row=rows.find(rw=>Math.abs(rw.refTop-simTop)<ROW_TOL);
+      if(!row){row={refTop:simTop,list:[]};rows.push(row)}
+      row.list.push(c);
+    });
+    rows.sort((a,b)=>a.refTop-b.refTop);
+
+    let cursorBottom=r.bottom;
+    rows.forEach(row=>{
+      const minTop=Math.min(...row.list.map(c=>yPx(c.y+inheritedShift)));
+      const extra=minTop-cursorBottom<MIN_GAP?(MIN_GAP-(minTop-cursorBottom))*emuPerPx:0;
+      const rowShift=inheritedShift+extra;
+      let rowBottom=-Infinity;
+      row.list.forEach(c=>{
+        processNode(c,rowShift);
+        const cr=rectFor(c);
+        if(cr.bottom>rowBottom)rowBottom=cr.bottom;
+      });
+      cursorBottom=rowBottom;
+    });
+  }
+
+  nodes.filter(n=>!n.parent).forEach(root=>processNode(root,0));
+
+  nodes.forEach(n=>{
+    const el=rendered.get(n.id);
+    if(el){const r=rectFor(n);el.style.top=r.y+'px';}
+  });
+}
+fixVerticalGaps();
+
+// All the box growth above can push content past the original 2400x1350 canvas
+// bounds. Measure the actual content extents, then size the printable frame
+// (an A4-landscape ratio, since this is meant to be printed) to fully contain
+// everything with a margin, and center the content inside it.
+let CANVAS_W=RW,CANVAS_H=RH;
+function fitCanvasToContent(){
+  const A4_RATIO=297/210;
+  const MARGIN=60;
+  let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+  nodes.forEach(n=>{
+    const r=rectFor(n);
+    if(r.x<minX)minX=r.x;
+    if(r.top<minY)minY=r.top;
+    if(r.x+r.w>maxX)maxX=r.x+r.w;
+    if(r.bottom>maxY)maxY=r.bottom;
+  });
+  const contentW=maxX-minX,contentH=maxY-minY;
+  CANVAS_W=Math.max(contentW+2*MARGIN,(contentH+2*MARGIN)*A4_RATIO);
+  CANVAS_H=CANVAS_W/A4_RATIO;
+  const offsetXpx=(CANVAS_W-contentW)/2-minX;
+  const offsetYpx=(CANVAS_H-contentH)/2-minY;
+  const offsetXemu=offsetXpx/RW*SW;
+  const offsetYemu=offsetYpx/RH*SH;
+  nodes.forEach(n=>{n.x+=offsetXemu;n.y+=offsetYemu});
+
+  canvas.style.width=CANVAS_W+'px';
+  canvas.style.height=CANVAS_H+'px';
+  lineLayer.style.width=CANVAS_W+'px';
+  lineLayer.style.height=CANVAS_H+'px';
+
+  nodes.forEach(n=>{
+    const el=rendered.get(n.id);
+    if(el){const r=rectFor(n);el.style.left=r.x+'px';el.style.top=r.y+'px';}
+  });
+  drawLines();
+}
+fitCanvasToContent();
+
 // ===== Zoom & Pan =====
 let scale=0.7,panX=0,panY=0;
 let isDrag=false,dragSX,dragSY,panSX,panSY;
@@ -548,10 +804,10 @@ function zoomCenter(ns){
 
 function fitToScreen(){
   const vr=viewport.getBoundingClientRect();
-  const sx=(vr.width-48)/RW,sy=(vr.height-48)/RH;
+  const sx=(vr.width-48)/CANVAS_W,sy=(vr.height-48)/CANVAS_H;
   scale=Math.max(.2,Math.min(1,Math.min(sx,sy)));
-  panX=(vr.width-RW*scale)/2;
-  panY=(vr.height-RH*scale)/2;
+  panX=(vr.width-CANVAS_W*scale)/2;
+  panY=(vr.height-CANVAS_H*scale)/2;
   applyTransform();
 }
 
@@ -609,7 +865,7 @@ function captureCanvas(){
     canvas.style.transform="none";
     canvas.style.overflow="visible";
     setTimeout(()=>{
-      html2canvas(canvas,{scale:2,useCORS:true,backgroundColor:"#ffffff",width:RW,height:RH,windowWidth:RW,windowHeight:RH}).then(c=>{
+      html2canvas(canvas,{scale:2,useCORS:true,backgroundColor:"#ffffff",width:CANVAS_W,height:CANVAS_H,windowWidth:CANVAS_W,windowHeight:CANVAS_H}).then(c=>{
         canvas.style.transform=prevTransform;
         canvas.style.overflow=prevOverflow;
         wasCollapsed.forEach(id=>collapsed.add(id));refresh();
@@ -638,8 +894,8 @@ document.getElementById("btnPDF").addEventListener("click",()=>{
   btn.disabled=true;btn.textContent="Gerando...";
   captureCanvas().then(c=>{
     const imgData=c.toDataURL("image/jpeg",0.95);
-    const pdf=new jspdf.jsPDF({orientation:"landscape",unit:"px",format:[RW,RH]});
-    pdf.addImage(imgData,"JPEG",0,0,RW,RH);
+    const pdf=new jspdf.jsPDF({orientation:"landscape",unit:"px",format:[CANVAS_W,CANVAS_H]});
+    pdf.addImage(imgData,"JPEG",0,0,CANVAS_W,CANVAS_H);
     pdf.save("Organograma_SEAGRI_2026.pdf");
     btn.disabled=false;btn.innerHTML="&#128196; PDF";
   });
