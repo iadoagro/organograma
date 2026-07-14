@@ -37,7 +37,7 @@ header h1{font-size:20px;font-weight:500;flex:1}
 .filtro-btn[data-grupo="DPA"].ativo{background:#388e3c;border-color:#388e3c}
 .filtro-btn[data-grupo="DPTEC"].ativo{background:var(--laranja);border-color:var(--laranja)}
 .filtro-btn[data-grupo="Escritórios Locais"].ativo{background:var(--cinza);border-color:var(--cinza)}
-main{flex:1;padding:24px;max-width:1400px;margin:0 auto;width:100%}
+main{flex:1;padding:24px;max-width:none;margin:0 auto;width:100%}
 .grupo-secao{margin-bottom:32px}
 .grupo-titulo{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:6px 14px;border-radius:6px;display:inline-flex;align-items:center;gap:8px;margin-bottom:12px}
 .grupo-titulo.Secretaria{background:var(--roxo)}
@@ -47,11 +47,12 @@ main{flex:1;padding:24px;max-width:1400px;margin:0 auto;width:100%}
 .grupo-titulo.Escritórios{background:var(--cinza)}
 .subgrupo-titulo{font-size:12px;font-weight:600;color:#555;margin:16px 0 8px;padding-left:4px;border-left:3px solid #cfcfcf;padding:2px 0 2px 10px;text-transform:uppercase;letter-spacing:.04em}
 .grupo-secao .subgrupo-titulo:first-of-type{margin-top:4px}
-.cards-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-@media(max-width:1200px){.cards-grid{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:960px){.cards-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:720px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:480px){.cards-grid{grid-template-columns:1fr}}
+/* 7 colunas ocupando a largura inteira da página; reduz em telas menores */
+.cards-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+@media(max-width:1200px){.cards-grid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:900px){.cards-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:680px){.cards-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
 .card-contato{background:#fff;border-radius:12px;padding:16px;box-shadow:var(--sombra);border:1.5px solid var(--borda);transition:border-color .2s}
 .card-contato:hover{border-color:#bbb}
 .card-nome{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:2px}
