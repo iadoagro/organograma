@@ -3,122 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portarias SEAGRI - Solicitações de Lotação e Habilitação de Assinatura</title>
-<style>
-  :root{
-    --verde:#1b5e20; --verde2:#2e7d32; --verde-claro:#e8f5e9; --cinza:#f5f5f5; --linha:#e0e0e0;
-    --texto:#212121; --azul:#0b5394; --sombra:0 2px 8px rgba(27,94,32,0.1);
-  }
-  *{box-sizing:border-box;}
-  body{font-family:"Roboto","Segoe UI",Arial,sans-serif;margin:0;color:var(--texto);background:#fafafa;}
-  header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:40px 32px;text-align:center;box-shadow:0 4px 12px rgba(27,94,32,0.2);}
-  header h1{margin:0 0 8px;font-size:28px;font-weight:500;}
-  header p{margin:0;font-size:14px;opacity:.9;}
-  .btn-voltar{display:inline-block;margin-top:14px;padding:10px 20px;background:#fff;color:var(--verde);font-weight:600;font-size:14px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all .2s;}
-  .btn-voltar:hover{background:var(--verde-claro);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.2);}
-  .wrap{padding:32px;max-width:100%;margin:0;}
-  .meta{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 32px;padding:0;}
-  .card{background:#fff;border:none;border-radius:12px;padding:16px 20px;font-size:13px;box-shadow:var(--sombra);}
-  .card b{color:var(--verde);}
-  .tools{margin:0 0 24px;font-size:14px;padding:0;}
-  .progresso-container{margin-bottom:20px;}
-  .progresso-titulo{display:flex;justify-content:space-between;margin-bottom:8px;font-size:13px;font-weight:500;}
-  .progresso-barra{width:100%;height:8px;background:var(--linha);border-radius:10px;overflow:hidden;}
-  .progresso-fill{height:100%;background:linear-gradient(90deg,var(--verde),var(--verde2));width:0%;transition:width 0.3s ease;border-radius:10px;}
-  .tools input{padding:12px 16px;border:1px solid var(--linha);border-radius:8px;width:100%;max-width:400px;font-size:14px;background:#fff;box-shadow:var(--sombra);margin-top:12px;}
-  .tools input:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 4px rgba(27,94,32,0.1);}
-  table{border-collapse:separate;border-spacing:0;width:100%;background:transparent;border-radius:0;overflow:visible;box-shadow:none;margin:0;padding:0;}
-  thead{display:none;}
-  tbody{display:grid;grid-template-columns:1fr;gap:16px;width:100%;padding:0;}
-  tbody td{border:none;padding:16px;font-size:14px;vertical-align:top;background:#fff;box-shadow:var(--sombra);border-radius:8px;width:100%;}
-  tbody tr:nth-child(even){background:#fff;}
-  tbody tr:hover{background:#f1f8e9;}
-  tbody tr{background:#fff;box-shadow:var(--sombra);overflow:hidden;display:flex;margin:0;border:none;}
-  tbody tr > td:first-child{width:30%;border-radius:0;}
-  tbody tr > td:last-child{flex:1;border-radius:0;padding:16px;}
-  .num{font-weight:600;color:var(--verde);white-space:nowrap;font-size:13px;}
-  .status-badge{display:inline-block;margin-top:6px;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;}
-  .status-badge.pendente{background:#fff3e0;color:#e65100;}
-  .status-badge.concluido{background:#e8f5e9;color:#2e7d32;}
-  .arq{flex:0 0 30%;min-width:200px;}
-  .arq a{color:var(--azul);text-decoration:none;font-weight:600;word-break:break-word;transition:color 0.2s;}
-  .arq a:hover{color:var(--verde);text-decoration:underline;}
-  .texto{line-height:1.8;font-size:14px;}
-  .texto .u{font-weight:600;color:var(--verde);}
-  .texto-container{display:flex;flex-direction:column;gap:16px;}
-  .texto-titulo{display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--verde-claro);border-radius:8px;border-left:4px solid var(--verde);}
-  .texto-titulo-text{flex:1;font-weight:500;color:var(--texto);cursor:pointer;transition:opacity 0.2s;}
-  .texto-titulo-text:hover{opacity:0.7;}
-  .texto-corpo-text{font-size:14px;cursor:pointer;transition:opacity 0.2s;}
-  .texto-corpo-text:hover{opacity:0.7;}
-  .toast-notificacao{position:fixed;bottom:20px;right:20px;background:var(--verde);color:#fff;padding:16px 24px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-weight:500;z-index:9999;animation:slideIn 0.3s ease-out;}
-  @keyframes slideIn{from{transform:translateY(100px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-  @keyframes slideOut{from{transform:translateY(0);opacity:1;}to{transform:translateY(100px);opacity:0;}}
-  .toast-saindo{animation:slideOut 0.3s ease-out forwards;}
-  .copy{font-size:12px;color:#fff;background:var(--verde2);border:none;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all 0.2s;box-shadow:var(--sombra);position:relative;}
-  .copy:hover{background:var(--verde);transform:translateY(-2px);box-shadow:0 4px 12px rgba(27,94,32,0.2);}
-  .copy:active{transform:translateY(0);}
-  .copy.copiado{background:#4caf50;position:relative;}
-  .copy.copiado::after{content:"\2713";margin-left:6px;font-weight:bold;}
-  .obs{margin-top:32px;background:#fff8e1;border:1px solid #f0d98a;border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.6;box-shadow:var(--sombra);}
-  .obs b{color:#9a6b00;}
-  .modal-backdrop{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:10000;}
-  .modal-backdrop.ativo{display:flex;}
-  .modal-conteudo{background:#fff;border-radius:16px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-width:500px;text-align:center;position:relative;animation:modalEntrada 0.3s ease-out;}
-  @keyframes modalEntrada{from{transform:scale(0.8);opacity:0;}to{transform:scale(1);opacity:1;}}
-  .modal-titulo{font-size:32px;margin:0 0 20px;color:var(--verde);font-weight:500;}
-  .modal-emoji{font-size:80px;margin-bottom:20px;}
-  .modal-fechar{position:absolute;top:12px;right:12px;background:none;border:none;font-size:28px;cursor:pointer;color:#999;transition:color 0.2s;}
-  .modal-fechar:hover{color:var(--verde);}
-  footer{padding:24px 32px;font-size:12px;color:#999;text-align:center;border-top:1px solid var(--linha);}
-  @media(max-width:900px){
-    .wrap{padding:16px;}
-    header{padding:20px 16px;}
-    header h1{font-size:22px;}
-    table{padding:0;}
-    tbody{grid-template-columns:1fr;gap:12px;}
-    tbody tr{flex-direction:column;}
-    tbody tr > td{width:100%;}
-    tbody tr > td:last-child{flex:1;}
-    .arq{width:100%;}
-    .texto{font-size:13px;}
-    .copy{padding:6px 12px;font-size:11px;}
-  }
-  @media(max-width:600px){
-    .wrap{padding:12px;}
-    header{padding:16px 12px;}
-    header h1{font-size:20px;}
-    header p{font-size:12px;}
-    .meta{gap:8px;margin-bottom:16px;}
-    .card{padding:12px;font-size:12px;}
-    table{padding:0;}
-    tbody{grid-template-columns:1fr;gap:8px;}
-    tbody tr{flex-direction:column;border-radius:8px;}
-    tbody tr > td{padding:12px;}
-    .arq{width:100%;}
-    .num{font-size:12px;}
-    .texto{font-size:13px;}
-    .texto-titulo{padding:10px;gap:8px;}
-    .texto-corpo-text{font-size:13px;}
-    .copy{padding:6px 10px;font-size:10px;}
-  }
-  /* Modal de senha */
-  #gate{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;padding:24px;}
-  #gate .gate-box{background:#fff;border-radius:16px;padding:36px 32px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.45);border-top:5px solid var(--verde);animation:gatePop .22s ease;}
-  @keyframes gatePop{from{opacity:0;transform:translateY(-12px) scale(.96);}to{opacity:1;transform:none;}}
-  #gate .gate-icon{font-size:52px;margin-bottom:12px;}
-  #gate h2{margin:0 0 8px;font-size:22px;color:var(--verde);font-weight:600;}
-  #gate p{margin:0 0 24px;font-size:14px;color:#666;}
-  #gate input{width:100%;padding:14px 16px;border:1px solid var(--linha);border-radius:8px;font-size:16px;text-align:center;letter-spacing:2px;background:#fafafa;}
-  #gate input:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 4px rgba(27,94,32,0.12);background:#fff;}
-  #gate button{width:100%;margin-top:16px;padding:14px;background:var(--verde);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;transition:background .2s;}
-  #gate button:hover{background:var(--verde2);}
-  #gate .gate-erro{color:#c62828;font-size:13px;margin-top:12px;min-height:18px;font-weight:500;}
-  body.locked{overflow:hidden;}
-  body.locked > *:not(#gate){filter:blur(6px);pointer-events:none;user-select:none;}
-</style>
+<title>Chamados – SEAGRI</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Chamados SEAGRI">
+<meta property="og:description" content="Sistema de chamados de lotação e habilitação de assinatura – SEAGRI Acre.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="chamados.css">
 </head>
-<body class="locked">
+<body class="locked sidebar-open">
+<button class="sidebar-expand" id="sidebarExpand" aria-label="Expandir menu">&#8250;</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<nav class="sidebar open" id="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-head-info">
+      <div class="sidebar-head-sub">Agricultura</div>
+      <div class="sidebar-head-title">Sistema Interno</div>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher">&#8249;</button>
+  </div>
+  <div class="sidebar-nav">
+    <a class="sidebar-link" href="index.html" data-page="index">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <a class="sidebar-link" href="organograma.html" data-page="organograma">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><rect x="1" y="17" width="6" height="4" rx="1"/><rect x="9" y="17" width="6" height="4" rx="1"/><rect x="17" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M4 17v-4h16v4"/></svg>
+      Organograma
+    </a>
+    <a class="sidebar-link" href="portarias.html" data-page="portarias">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Portarias
+    </a>
+    <a class="sidebar-link" href="chamados.html" data-page="chamados">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Chamados
+    </a>
+    <a class="sidebar-link" href="contatos.html" data-page="contatos" id="sidebarLinkContatos">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Contatos
+    </a>
+  </div>
+  <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
+</nav>
+<script>(function(){var t=document.getElementById('sidebarToggle'),e=document.getElementById('sidebarExpand'),b=document.getElementById('sidebarBackdrop'),s=document.getElementById('sidebar');function openSidebar(){s.classList.add('open');document.body.classList.add('sidebar-open')}function closeSidebar(){s.classList.remove('open');document.body.classList.remove('sidebar-open')}t.addEventListener('click',closeSidebar);if(e)e.addEventListener('click',openSidebar);document.addEventListener('keydown',function(k){if(k.key==='Escape')closeSidebar()});var p=location.pathname.split('/').pop().replace('.html','');if(!p||p==='')p='index';var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');if(a)a.classList.add('ativo');function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}refreshAdmin();window._sidebarRefreshAdmin=refreshAdmin;})();</script>
 <div id="gate">
   <div class="gate-box">
     <div class="gate-icon">&#128274;</div>

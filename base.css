@@ -1,0 +1,92 @@
+/* Estilos compartilhados — SEAGRI */
+:root{
+  --verde:#1b5e20;
+  --verde2:#2e7d32;
+  --verde-claro:#e8f5e9;
+  --azul:#4472c4;
+  --laranja:#ed7d31;
+  --amarelo:#ffc000;
+  --cinza:#888;
+  --linha:#e0e0e0;
+  --texto:#212121;
+  --sombra:0 2px 8px rgba(27,94,32,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Roboto","Segoe UI",Arial,sans-serif;background:#fafafa;color:var(--texto);transition:padding-left .28s cubic-bezier(.4,0,.2,1)}
+body.sidebar-open{padding-left:260px}
+
+.seagri-header{
+  background:linear-gradient(135deg,var(--verde),var(--verde2));
+  color:#fff;
+  padding:32px 32px 28px;
+  text-align:center;
+  box-shadow:0 4px 12px rgba(27,94,32,0.2);
+  position:relative;
+}
+.seagri-header h1{font-size:26px;font-weight:500;margin:0 0 6px}
+.seagri-header p{font-size:14px;opacity:.9;margin:0}
+.seagri-header .voltar{
+  position:absolute;left:20px;top:50%;transform:translateY(-50%);
+  color:#fff;text-decoration:none;font-size:14px;opacity:.85;
+  display:flex;align-items:center;gap:6px;
+}
+.seagri-header .voltar:hover{opacity:1}
+
+.seagri-footer{
+  padding:20px 32px;
+  font-size:12px;
+  color:#999;
+  text-align:center;
+  border-top:1px solid var(--linha);
+}
+
+/* Sidebar navigation */
+.sidebar-expand{
+  position:fixed;left:0;top:50%;transform:translateY(-50%);
+  z-index:1480;width:20px;height:56px;
+  background:var(--verde);border:none;border-radius:0 8px 8px 0;
+  cursor:pointer;color:#fff;font-size:18px;font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:2px 0 8px rgba(0,0,0,.15);
+  opacity:0;pointer-events:none;
+  transition:opacity .2s,width .15s,background .15s;
+}
+.sidebar-expand:hover{width:26px;background:var(--verde2)}
+body:not(.sidebar-open) .sidebar-expand{opacity:1;pointer-events:auto}
+.sidebar{
+  position:fixed;left:-270px;top:0;bottom:0;width:260px;
+  background:#fff;z-index:1500;
+  transition:left .28s cubic-bezier(.4,0,.2,1);
+  display:flex;flex-direction:column;
+  box-shadow:4px 0 28px rgba(0,0,0,.15);
+}
+.sidebar.open{left:0}
+.sidebar-head{
+  background:linear-gradient(135deg,var(--verde),var(--verde2));
+  color:#fff;padding:20px 16px 16px;flex-shrink:0;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:8px;
+}
+.sidebar-head-info{flex:1;min-width:0}
+.sidebar-head-sub{font-size:11px;font-weight:500;opacity:.75;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px}
+.sidebar-head-title{font-size:17px;font-weight:700;letter-spacing:.2px}
+.sidebar-toggle{
+  background:rgba(255,255,255,.15);border:none;color:#fff;
+  width:30px;height:30px;border-radius:6px;flex-shrink:0;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:300;line-height:1;
+  transition:background .15s;
+}
+.sidebar-toggle:hover{background:rgba(255,255,255,.28)}
+.sidebar-nav{flex:1;padding:8px 0;overflow-y:auto}
+.sidebar-link{
+  display:flex;align-items:center;gap:14px;
+  padding:13px 20px;
+  color:#444;text-decoration:none;font-size:14px;font-weight:500;
+  border-left:3px solid transparent;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.sidebar-link:hover{background:#f5f5f5;color:var(--verde)}
+.sidebar-link.ativo{background:#e8f5e9;color:var(--verde);border-left-color:var(--verde)}
+.sidebar-icon{flex-shrink:0;width:20px;height:20px;color:inherit;opacity:.8}
+.sidebar-link.ativo .sidebar-icon,.sidebar-link:hover .sidebar-icon{opacity:1}
+.sidebar-foot{padding:14px 20px;font-size:11px;color:#bbb;border-top:1px solid #f0f0f0;letter-spacing:.3px}

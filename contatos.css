@@ -1,0 +1,77 @@
+/* Estilos da página Contatos — SEAGRI */
+:root{--roxo:#c0392b;--borda:#e0e0e0;}
+body{background:#f5f5f5;min-height:100vh;display:flex;flex-direction:column}
+header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:20px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(27,94,32,.25)}
+.voltar{color:#fff;text-decoration:none;font-size:14px;opacity:.85;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.voltar:hover{opacity:1}
+header h1{font-size:20px;font-weight:500;flex:1}
+.header-stats{font-size:13px;opacity:.8;white-space:nowrap}
+.controles{background:#fff;padding:16px 24px;border-bottom:1px solid var(--borda);display:flex;flex-wrap:wrap;gap:12px;align-items:center;position:sticky;top:0;z-index:10;box-shadow:var(--sombra)}
+.busca{flex:1;min-width:200px;padding:9px 14px 9px 38px;border:1.5px solid var(--borda);border-radius:8px;font-size:14px;outline:none;background:#fafafa url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.44 1.151a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z'/%3E%3C/svg%3E") 12px center no-repeat}
+.busca:focus{border-color:var(--verde2);background-color:#fff}
+.filtros{display:flex;gap:6px;flex-wrap:wrap}
+.filtro-btn{padding:7px 14px;border:1.5px solid var(--borda);border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;background:#fff;color:#555;transition:all .2s}
+.filtro-btn:hover{border-color:var(--verde2);color:var(--verde2)}
+.filtro-btn.ativo{background:var(--verde);color:#fff;border-color:var(--verde)}
+.filtro-btn[data-grupo="Secretaria"].ativo{background:var(--roxo);border-color:var(--roxo)}
+.filtro-btn[data-grupo="DAF"].ativo{background:var(--azul);border-color:var(--azul)}
+.filtro-btn[data-grupo="DPA"].ativo{background:#388e3c;border-color:#388e3c}
+.filtro-btn[data-grupo="DPTEC"].ativo{background:var(--laranja);border-color:var(--laranja)}
+.filtro-btn[data-grupo="Escritórios Locais"].ativo{background:var(--cinza);border-color:var(--cinza)}
+main{flex:1;padding:24px;max-width:none;margin:0 auto;width:100%}
+.grupo-secao{margin-bottom:32px}
+.grupo-titulo{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:6px 14px;border-radius:6px;display:inline-flex;align-items:center;gap:8px;margin-bottom:12px}
+.grupo-titulo.Secretaria{background:var(--roxo)}
+.grupo-titulo.DAF{background:var(--azul)}
+.grupo-titulo.DPA{background:#388e3c}
+.grupo-titulo.DPTEC{background:var(--laranja)}
+.grupo-titulo.Escritórios{background:var(--cinza)}
+.subgrupo-titulo{font-size:12px;font-weight:600;color:#555;margin:16px 0 8px;padding-left:4px;border-left:3px solid #cfcfcf;padding:2px 0 2px 10px;text-transform:uppercase;letter-spacing:.04em}
+.grupo-secao .subgrupo-titulo:first-of-type{margin-top:4px}
+/* 7 colunas ocupando a largura inteira da página; reduz em telas menores */
+.cards-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+@media(max-width:1200px){.cards-grid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:900px){.cards-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:680px){.cards-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:480px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
+.card-contato{background:#fff;border-radius:12px;padding:16px;box-shadow:var(--sombra);border:1.5px solid var(--borda);transition:border-color .2s}
+.card-contato:hover{border-color:#bbb}
+.card-nome{font-size:15px;font-weight:600;color:var(--texto);margin-bottom:2px}
+.card-setor{font-size:12px;color:#666;margin-bottom:12px;line-height:1.4}
+.campo-tel{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.campo-tel .input-tel{min-width:120px}
+.input-tel{flex:1;padding:8px 12px;border:1.5px solid var(--borda);border-radius:8px;font-size:14px;outline:none;transition:border-color .2s;color:var(--texto);background:#fff}
+.input-tel:focus{border-color:var(--verde2)}
+.input-tel.salvo{border-color:#66bb6a}
+.input-tel:disabled,.input-tel.locked{background:#f5f5f5;color:#333;border-color:#e0e0e0;cursor:default}
+.btn-salvar{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;background:var(--verde2);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s}
+.btn-salvar:hover{background:var(--verde)}
+.btn-salvar:disabled{background:#a5c7a7;cursor:default}
+.btn-salvar.oculto{display:none}
+.btn-editar{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;background:#fff;color:#666;border:1.5px solid var(--borda);border-radius:8px;cursor:pointer;transition:all .2s;padding:0}
+.btn-editar:hover{border-color:var(--verde2);color:var(--verde2);background:var(--verde-claro)}
+.btn-editar.oculto{display:none}
+.btn-editar svg{width:16px;height:16px;pointer-events:none}
+.btn-wa{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;background:#25d366;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .2s}
+.btn-wa:hover{background:#1ebe5c}
+.btn-wa.oculto{display:none}
+.sem-resultado{text-align:center;color:#999;padding:48px 16px;font-size:15px}
+.toast{position:fixed;bottom:24px;right:24px;background:#333;color:#fff;padding:10px 18px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999}
+.toast.show{opacity:1}
+.btn-qr{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;background:#fff;color:#555;border:1.5px solid var(--borda);border-radius:8px;cursor:pointer;transition:all .2s;padding:0;font-size:17px;line-height:1}
+.btn-qr:hover{border-color:var(--verde2);color:var(--verde2);background:var(--verde-claro)}
+.qr-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center}
+.qr-modal-backdrop.show{display:flex}
+.qr-modal{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center;max-width:320px;width:90%}
+.qr-modal-nome{font-size:16px;font-weight:700;margin-bottom:4px;color:var(--texto)}
+.qr-modal-setor{font-size:13px;color:#666;margin-bottom:16px}
+.qr-modal-canvas{display:flex;justify-content:center;margin-bottom:16px}
+.qr-modal-hint{font-size:12px;color:#999;margin-bottom:16px}
+.qr-modal-close{padding:8px 22px;background:var(--verde2);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer}
+.qr-modal-close:hover{background:var(--verde)}
+@media(max-width:600px){
+  header{padding:16px}
+  header h1{font-size:16px}
+  .controles{padding:12px 16px}
+  main{padding:16px}
+}

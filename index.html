@@ -3,57 +3,51 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SEAGRI - Secretaria de Estado de Agricultura</title>
-<style>
-  :root{
-    --verde:#1b5e20; --verde2:#2e7d32; --verde-claro:#e8f5e9; --linha:#e0e0e0;
-    --texto:#212121; --sombra:0 2px 8px rgba(27,94,32,0.1);
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:"Roboto","Segoe UI",Arial,sans-serif;background:#fafafa;color:var(--texto);min-height:100vh;display:flex;flex-direction:column;}
-  header{position:relative;background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:40px 32px;text-align:center;box-shadow:0 4px 12px rgba(27,94,32,0.2);}
-  header h1{font-size:28px;font-weight:500;margin:0 0 8px;}
-  header p{font-size:14px;opacity:.9;margin:0;}
-  .admin-login-btn{position:absolute;top:16px;right:20px;display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .2s}
-  .admin-login-btn:hover{background:rgba(255,255,255,.28)}
-  .admin-login-btn.logado{background:#25d366;border-color:#1aab52}
-  #cardContatos{display:none;}
-  #cardContatos.visivel{display:block;}
-  .admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center}
-  .admin-overlay.show{display:flex}
-  .admin-box{background:#fff;border-radius:14px;padding:28px;max-width:360px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:left}
-  .admin-box-title{font-size:17px;font-weight:700;color:#212121;margin:0 0 8px}
-  .admin-box-desc{font-size:13px;color:#666;margin:0 0 16px;line-height:1.5}
-  .admin-pwd{width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;margin-bottom:6px}
-  .admin-pwd:focus{border-color:var(--verde2)}
-  .admin-errmsg{font-size:12px;color:#c0392b;min-height:18px;margin-bottom:12px}
-  .admin-btns{display:flex;gap:8px;justify-content:flex-end}
-  .admin-btn-ok{padding:9px 22px;background:var(--verde2);color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
-  .admin-btn-ok:hover{background:var(--verde)}
-  .admin-btn-cancel{padding:9px 16px;background:#f5f5f5;color:#333;border:1px solid #ddd;border-radius:8px;font-size:14px;cursor:pointer}
-  .admin-btn-cancel:hover{background:#e0e0e0}
-  .container{flex:1;display:flex;justify-content:center;align-items:center;padding:40px 24px;}
-  .cards{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:1400px;}
-  .card-link{text-decoration:none;color:inherit;display:block;flex:1 1 0;min-width:200px;max-width:260px;}
-  .card{background:#fff;border-radius:16px;padding:36px 24px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:2px solid transparent;transition:all .3s ease;height:100%;}
-  .card:hover{transform:translateY(-6px);box-shadow:0 8px 32px rgba(27,94,32,0.15);border-color:var(--verde2);}
-  .card-icon{font-size:48px;margin-bottom:16px;display:block;}
-  .card h2{font-size:22px;font-weight:600;color:var(--verde);margin:0 0 12px;}
-  .card p{font-size:14px;color:#666;line-height:1.6;margin:0;}
-  .card .badge{display:inline-block;margin-top:16px;padding:8px 20px;background:var(--verde);color:#fff;border-radius:8px;font-size:13px;font-weight:600;transition:background .2s;}
-  .card:hover .badge{background:var(--verde2);}
-  footer{padding:20px 32px;font-size:12px;color:#999;text-align:center;border-top:1px solid var(--linha);}
-  @media(max-width:600px){
-    header{padding:28px 16px;}
-    header h1{font-size:22px;}
-    .container{padding:24px 16px;}
-    .cards{gap:20px;}
-    .card{padding:28px 20px;}
-    .card h2{font-size:18px;}
-  }
-</style>
+<title>SEAGRI - Sistema de Apoio Interno</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="SEAGRI – Sistema de Apoio Interno">
+<meta property="og:description" content="Portal interno da Secretaria de Estado de Agricultura do Acre — organograma, portarias, chamados e contatos.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="LOGO GOVERNO DO ACRE 2023-2026 brasão.png">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="index.css">
 </head>
-<body>
+<body class="sidebar-open">
+<button class="sidebar-expand" id="sidebarExpand" aria-label="Expandir menu">&#8250;</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<nav class="sidebar open" id="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-head-info">
+      <div class="sidebar-head-sub">Agricultura</div>
+      <div class="sidebar-head-title">Sistema Interno</div>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher">&#8249;</button>
+  </div>
+  <div class="sidebar-nav">
+    <a class="sidebar-link" href="index.html" data-page="index">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <a class="sidebar-link" href="organograma.html" data-page="organograma">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><rect x="1" y="17" width="6" height="4" rx="1"/><rect x="9" y="17" width="6" height="4" rx="1"/><rect x="17" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M4 17v-4h16v4"/></svg>
+      Organograma
+    </a>
+    <a class="sidebar-link" href="portarias.html" data-page="portarias">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Portarias
+    </a>
+    <a class="sidebar-link" href="chamados.html" data-page="chamados">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Chamados
+    </a>
+    <a class="sidebar-link" href="contatos.html" data-page="contatos" id="sidebarLinkContatos">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Contatos
+    </a>
+  </div>
+  <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
+</nav>
+<script>(function(){var t=document.getElementById('sidebarToggle'),e=document.getElementById('sidebarExpand'),b=document.getElementById('sidebarBackdrop'),s=document.getElementById('sidebar');function openSidebar(){s.classList.add('open');document.body.classList.add('sidebar-open')}function closeSidebar(){s.classList.remove('open');document.body.classList.remove('sidebar-open')}t.addEventListener('click',closeSidebar);if(e)e.addEventListener('click',openSidebar);document.addEventListener('keydown',function(k){if(k.key==='Escape')closeSidebar()});var p=location.pathname.split('/').pop().replace('.html','');if(!p||p==='')p='index';var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');if(a)a.classList.add('ativo');function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}refreshAdmin();window._sidebarRefreshAdmin=refreshAdmin;})();</script>
 <header>
   <button class="admin-login-btn" id="adminLoginBtn" type="button">&#128274; Admin</button>
   <h1>Sistema de Apoio Interno</h1>
@@ -144,6 +138,7 @@ loginBtn.addEventListener('click',()=>{
     adminLogado=false;
     sessionStorage.removeItem('seagri_admin');
     aplicarEstado();
+    window._sidebarRefreshAdmin&&window._sidebarRefreshAdmin();
     return;
   }
   pwdInput.value='';errMsg.textContent='';
@@ -151,16 +146,22 @@ loginBtn.addEventListener('click',()=>{
   setTimeout(()=>pwdInput.focus(),80);
 });
 
+const ADMIN_HASH='8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
 function entrar(){
-  if(pwdInput.value==='admin'){
-    adminLogado=true;
-    sessionStorage.setItem('seagri_admin','1');
-    overlay.classList.remove('show');
-    aplicarEstado();
-  }else{
-    errMsg.textContent='Senha incorreta. Tente novamente.';
-    pwdInput.value='';pwdInput.focus();
-  }
+  const v=pwdInput.value;
+  crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(buf=>{
+    const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===ADMIN_HASH){
+      adminLogado=true;
+      sessionStorage.setItem('seagri_admin','1');
+      overlay.classList.remove('show');
+      aplicarEstado();
+      window._sidebarRefreshAdmin&&window._sidebarRefreshAdmin();
+    }else{
+      errMsg.textContent='Senha incorreta. Tente novamente.';
+      pwdInput.value='';pwdInput.focus();
+    }
+  });
 }
 
 document.getElementById('adminOk').addEventListener('click',entrar);

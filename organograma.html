@@ -4,76 +4,78 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organograma SEAGRI 2026</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta property="og:title" content="Organograma SEAGRI 2026">
+<meta property="og:description" content="Estrutura organizacional da Secretaria de Estado de Agricultura do Acre — 2026.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="LOGO GOVERNO DO ACRE 2023-2026 brasão.png">
 <link rel="stylesheet" href="organograma.css">
-<style>
-.admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center}
-.admin-overlay.show{display:flex}
-.admin-box{background:#fff;border-radius:14px;padding:28px 28px 22px;max-width:360px;width:90%;box-shadow:0 8px 40px rgba(0,0,0,.3)}
-.admin-box-title{font-size:17px;font-weight:700;color:#212121;margin-bottom:8px}
-.admin-box-desc{font-size:13px;color:#666;margin-bottom:16px;line-height:1.5}
-.admin-pwd{width:100%;padding:10px 14px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:14px;outline:none;margin-bottom:6px;box-sizing:border-box}
-.admin-pwd:focus{border-color:#2e7d32}
-.admin-errmsg{font-size:12px;color:#c0392b;min-height:18px;margin-bottom:12px}
-.admin-btns{display:flex;gap:8px;justify-content:flex-end}
-.admin-btn-ok{padding:9px 22px;background:#2e7d32;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
-.admin-btn-ok:hover{background:#1b5e20}
-.admin-btn-cancel{padding:9px 16px;background:#f5f5f5;color:#333;border:1px solid #ddd;border-radius:8px;font-size:14px;cursor:pointer;transition:background .2s}
-.admin-btn-cancel:hover{background:#e0e0e0}
-#btnAdmin.admin-ativo{background:#25d366 !important;color:#fff !important;border-color:#1aab52 !important}
-.detail-wa-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;background:#25d366;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s;margin-top:4px}
-.detail-wa-btn:hover{background:#1ebe5c}
-.detail-wa-btn svg{flex-shrink:0}
-.detail-copyable{display:flex;align-items:center;gap:6px}
-.detail-copyable .detail-copy-text{flex:1;min-width:0}
-.detail-copy-btn{flex-shrink:0;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;color:#aaa;cursor:pointer;border-radius:5px;transition:all .15s;padding:0}
-.detail-copy-btn:hover{background:#e8f5e9;color:#2e7d32}
-.detail-copy-btn:active{transform:scale(.9)}
-.detail-copy-btn.copiado{color:#2e7d32;background:#e8f5e9}
-.detail-copy-btn svg{width:14px;height:14px;pointer-events:none}
-@media print {
-  @page { size: A4 landscape; margin: 0; }
-  body { overflow: visible; height: auto; background: #fff; }
-  .topbar, .nav-row, .tooltip, .toast, .filter-panel, .detail-panel { display: none !important; }
-  .viewport { overflow: visible; position: static; width: 100%; height: auto; background: none; cursor: default; }
-  .canvas { position: static; transform: none !important; width: 100% !important; height: auto !important; box-shadow: none; overflow: visible; }
-  .line-layer { width: 100% !important; height: 100% !important; }
-}
-</style>
+<script src="dados-seagri.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body>
-<header class="topbar">
-  <div class="topbar__title">
-    <span>Secretaria de Estado da</span>
-    <strong>Agricultura</strong>
+<body class="sidebar-open">
+<button class="sidebar-expand" id="sidebarExpand" aria-label="Expandir menu">&#8250;</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<nav class="sidebar open" id="sidebar">
+  <div class="sidebar-head">
+    <div class="sidebar-head-info">
+      <div class="sidebar-head-sub">Agricultura</div>
+      <div class="sidebar-head-title">Sistema Interno</div>
+    </div>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher">&#8249;</button>
   </div>
+  <div class="sidebar-nav">
+    <a class="sidebar-link" href="index.html" data-page="index">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <a class="sidebar-link" href="organograma.html" data-page="organograma">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><rect x="1" y="17" width="6" height="4" rx="1"/><rect x="9" y="17" width="6" height="4" rx="1"/><rect x="17" y="17" width="6" height="4" rx="1"/><path d="M12 6v5M4 17v-4h16v4"/></svg>
+      Organograma
+    </a>
+    <a class="sidebar-link" href="portarias.html" data-page="portarias">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Portarias
+    </a>
+    <a class="sidebar-link" href="chamados.html" data-page="chamados">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Chamados
+    </a>
+    <a class="sidebar-link" href="contatos.html" data-page="contatos" id="sidebarLinkContatos">
+      <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Contatos
+    </a>
+  </div>
+  <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
+</nav>
+<script>(function(){var t=document.getElementById('sidebarToggle'),e=document.getElementById('sidebarExpand'),b=document.getElementById('sidebarBackdrop'),s=document.getElementById('sidebar');function openSidebar(){s.classList.add('open');document.body.classList.add('sidebar-open')}function closeSidebar(){s.classList.remove('open');document.body.classList.remove('sidebar-open')}t.addEventListener('click',closeSidebar);if(e)e.addEventListener('click',openSidebar);document.addEventListener('keydown',function(k){if(k.key==='Escape')closeSidebar()});var p=location.pathname.split('/').pop().replace('.html','');if(!p||p==='')p='index';var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');if(a)a.classList.add('ativo');function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}refreshAdmin();window._sidebarRefreshAdmin=refreshAdmin;})();</script>
+<header class="topbar">
   <div class="toolbar">
-    <button class="tool-button" id="btnFilter" type="button">&#128269; Filtros</button>
+    <div class="search-node-wrap">
+      <span class="search-node-label">Pesquisa</span>
+      <input class="search-node-input" id="searchNode" type="search" placeholder="Buscar setor ou servidor…" autocomplete="off">
+      <div class="search-node-results" id="searchResults"></div>
+    </div>
+    <button class="tool-button" id="btnFilter" type="button">Filtros</button>
     <button class="tool-button" id="btnExpand" type="button">+ Expandir</button>
-    <button class="tool-button" id="btnCollapse" type="button">&minus; Recolher</button>
-    <button class="tool-button" id="btnFit" type="button">&#x21BB; Redefinir</button>
-    <button class="tool-button" id="btnJPG" type="button">&#128247; JPG</button>
-    <button class="tool-button" id="btnPDF" type="button">&#128196; PDF</button>
-    <button class="tool-button" id="btnPrint" type="button">&#128424; Imprimir</button>
-    <button class="tool-button" id="btnAdmin" type="button">&#128274; Admin</button>
+    <button class="tool-button" id="btnCollapse" type="button">− Recolher</button>
+    <button class="tool-button" id="btnFit" type="button">↺ Redefinir</button>
+    <div class="dropdown-baixar">
+      <button class="tool-button" type="button">Baixar ▾</button>
+      <div class="dropdown-baixar-menu">
+        <button class="tool-button" id="btnPDF" type="button">&#128196; PDF</button>
+        <button class="tool-button" id="btnJPG" type="button">&#128247; JPG</button>
+      </div>
+    </div>
+    <button class="tool-button" id="btnPrint" type="button">Imprimir</button>
+    <button class="tool-button" id="btnAdmin" type="button">Admin</button>
     <button class="icon-button" id="btnZoomOut" type="button">&minus;</button>
     <input id="zoomRange" class="zoom-range" type="range" min="20" max="150" step="5" value="70">
     <button class="icon-button" id="btnZoomIn" type="button">+</button>
     <span class="zoom-label" id="zoomLabel">70%</span>
   </div>
 </header>
-<nav class="nav-row">
-  <a class="voltar" href="index.html">&larr; Menu</a>
-  <div class="legend">
-    <span><i class="swatch" style="background:#c0392b"></i>Secretaria</span>
-    <span><i class="swatch" style="background:#ffc000"></i>Assessorias</span>
-    <span><i class="swatch" style="background:#4472c4"></i>DAF</span>
-    <span><i class="swatch" style="background:#70ad47"></i>DPA</span>
-    <span><i class="swatch" style="background:#ed7d31"></i>DPTEC</span>
-  </div>
-  <span style="color:#888;margin-left:auto">Scroll para zoom &middot; Clique e arraste para mover &middot; Clique na caixa para ver detalhes &middot; Clique em &minus;/+ para expandir/recolher</span>
-</nav>
 <div class="main-row">
 <aside class="filter-panel" id="filterPanel">
   <div class="detail-header">
@@ -101,6 +103,19 @@
 </aside>
 </div>
 <div class="tooltip" id="tooltip"></div>
+<div class="pdf-overlay" id="pdfOverlay">
+  <div class="pdf-viewer-panel" id="pdfViewerPanel">
+    <div class="pdf-drag-handle" id="pdfDragHandle"></div>
+    <div class="pdf-viewer-toolbar">
+      <button class="pdf-zoom-btn" id="pdfZoomOut" title="Reduzir zoom">&minus;</button>
+      <span class="pdf-zoom-label" id="pdfZoomLabel">100%</span>
+      <button class="pdf-zoom-btn" id="pdfZoomIn" title="Aumentar zoom">+</button>
+      <span class="pdf-viewer-title" id="pdfViewerTitle">Portaria</span>
+      <button class="pdf-viewer-close" id="pdfViewerClose" title="Fechar">&#10005;</button>
+    </div>
+    <iframe class="pdf-viewer-iframe" id="pdfViewerIframe" title="Portaria"></iframe>
+  </div>
+</div>
 <div class="admin-overlay" id="adminOverlay">
   <div class="admin-box">
     <div class="admin-box-title">&#128274; Acesso Administrativo</div>
@@ -193,93 +208,7 @@ const PORTARIA_PDF={
   "246/2026":"portarias/portarias 2026/Portaria 244-246 - Josicley, Wally, Eneide.pdf"
 };
 
-// Matrícula por setor
-const MATRICULAS={
-  "sec":"",
-  "gab":"9610286-3",
-  "secad":"",
-  "gabsecad":"9592083-2",
-  "ci":"9557385-3",
-  "conjur":"9595716-2",
-  "ascom":"9206370-3",
-  "ouvid":"9507540-2",
-  "daf":"",
-  "dpa":"",
-  "dptec":"",
-  "del":"9470700-3",
-  "deg":"9608990-1",
-  "deplan":"9095012-5",
-  "deof":"9072837-11",
-  "disg":"9610944-2",
-  "dipm":"73725-1",
-  "diarp":"",
-  "dirh":"212598-1",
-  "dit":"",
-  "dimt":"9617973-2",
-  "dicompras":"9128123-5",
-  "dicon":"9572350-4",
-  "dipro":"9683477-1",
-  "dimon":"9332154-1",
-  "dif":"9612114-4",
-  "dic":"9572350-4",
-  "desan":"9348476-1",
-  "deagro":"9353720-1",
-  "deprof":"9094393-3",
-  "dem":"9610499-3",
-  "diis":"9508643-3",
-  "disan":"9310690-2",
-  "dia":"9249362-2",
-  "dipec":"",
-  "divpi":"",
-  "divpf":"9109595-4",
-  "disbio":"9182152-3",
-  "nap":"201278-1",
-  "ncaf":"291978-1",
-  "npolo":"150304-1",
-  "npaa":"9353674-1",
-  "npaai":"9111476-2",
-  "npaaex":"9626867-2",
-  "nucaf":"9312480-2",
-  "nuars":"9249362-2",
-  "nuapes":"9213317-1",
-  "nuav":"9626816-1",
-  "nuspi":"9098879-9",
-  "nucac":"9628576-1",
-  "numel":"9086870-6",
-  "numan":"265101-2",
-  "nuole":"9610936-3",
-  "nuex":"71153-1",
-  "det":"9617973-2",
-  "depi":"9213880-1",
-  "digt":"9189599-9",
-  "disoft":"9617230-1",
-  "ditt":"9683836-1",
-  "dipa":"9683477-1",
-  "dicp":"9626867-2",
-  "el-acld":"9407456-4",
-  "el-abl":"",
-  "el-bli":"",
-  "el-bjri":"9624643-2",
-  "el-cpxb":"",
-  "el-czs":"189391-2",
-  "el-ept":"263176-3",
-  "el-fjo":"9304762-2",
-  "el-pdht":"9102337-8",
-  "el-joao":"9470271-3",
-  "el-mli":"",
-  "el-mlu":"9334947-3",
-  "el-mlto":"9334866-2",
-  "el-poac":"9102337-8",
-  "el-pcy":"9235701-5",
-  "el-pwtr":"",
-  "el-rbo":"",
-  "el-srju":"",
-  "el-smd":"9437509-3",
-  "el-swd":"",
-  "el-tau":"",
-  "el-trcr":"",
-  "el-xpi":""
-};
+// MATRICULAS e HISTORICO vêm de dados-seagri.js
 
 function getPDFPath(holder){
   const m=holder.match(/Portaria\s+N[ºo°]\s*(\d+)\/(\d{4})/i);
@@ -642,11 +571,15 @@ function openDetailPanel(n,pdfPath){
   const decM=n.holder&&n.holder.match(/Decreto\s+N[°oº\.]\s*([\d\.\-P\/]+)/i);
   if(pdfPath){
     const sec=makeDetailSection("Portaria","📄");
-    const btn=document.createElement("button");
-    btn.className="detail-pdf-btn";
-    btn.textContent="Baixar portaria";
-    btn.onclick=()=>downloadLink(pdfPath,pdfPath.split("/").pop());
-    sec.appendChild(btn);
+    const btnDl=document.createElement("button");
+    btnDl.className="detail-pdf-btn";btnDl.textContent="Baixar portaria";
+    btnDl.onclick=()=>downloadLink(pdfPath,pdfPath.split("/").pop());
+    sec.appendChild(btnDl);
+    const btnVer=document.createElement("button");
+    btnVer.className="pdf-toggle-btn";btnVer.textContent="Visualizar PDF";
+    const portLabel=(()=>{const m=n.holder&&n.holder.match(/Portaria\s+N[ºo°]\s*(\d+\/\d{4})/i);return m?"Portaria "+m[1]:pdfPath.split("/").pop();})();
+    btnVer.onclick=()=>openPdfSidePanel(pdfPath,portLabel);
+    sec.appendChild(btnVer);
     body.appendChild(sec);
   }else if(decM){
     const sec=makeDetailSection("Decreto","📜");
@@ -656,27 +589,38 @@ function openDetailPanel(n,pdfPath){
     body.appendChild(sec);
   }
 
-  // Contato (admin)
-  if(adminMode){
-    const telefones=loadContatosAdmin();
-    const tel=telefones[n.id]||'';
+  // Linha do tempo (histórico de responsáveis)
+  const hist=typeof HISTORICO!=='undefined'?HISTORICO[n.id]:null;
+  if(hist&&hist.length>1){
+    const sec=makeDetailSection("Histórico de responsáveis","🕐");
+    const ul=document.createElement("ul");ul.className="timeline-list";
+    hist.forEach((h,i)=>{
+      const li=document.createElement("li");li.className="timeline-item";
+      const nome=document.createElement("span");nome.className="timeline-nome";nome.textContent=h.nome;
+      const port=document.createElement("span");port.className="timeline-port";
+      port.textContent="Portaria "+h.portaria+(h.ano?" ("+h.ano+")":"");
+      li.appendChild(nome);li.appendChild(port);
+      ul.appendChild(li);
+    });
+    sec.appendChild(ul);body.appendChild(sec);
+  }
+
+  // Contato — visível para todos se houver número; admin vê também quando vazio
+  const tel=(loadContatosAdmin())[n.id]||'';
+  if(tel||adminMode){
     const sec=makeDetailSection("Contato","📞");
     if(tel){
       const num=document.createElement("p");
-      num.className="detail-info-line";
-      num.textContent=formatTelDisplay(tel);
+      num.className="detail-info-line";num.textContent=formatTelDisplay(tel);
       sec.appendChild(num);
       const wa=document.createElement("a");
       wa.className="detail-wa-btn";
       wa.innerHTML=WA_ICON+"<span>WhatsApp</span>";
-      wa.href=formatWALink(tel);
-      wa.target="_blank";wa.rel="noopener";
+      wa.href=formatWALink(tel);wa.target="_blank";wa.rel="noopener";
       sec.appendChild(wa);
     }else{
-      const p=document.createElement("p");
-      p.className="detail-info-line";
-      p.style.color="#999";
-      p.textContent="Sem telefone cadastrado";
+      const p=document.createElement("p");p.className="detail-info-line";
+      p.style.color="#999";p.textContent="Sem telefone cadastrado";
       sec.appendChild(p);
     }
     body.appendChild(sec);
@@ -1436,12 +1380,13 @@ document.getElementById("btnPrint").addEventListener("click",()=>{
 let adminMode=sessionStorage.getItem('seagri_admin')==='1';
 const WA_ICON='<svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
 
-// Telefones vêm do arquivo compartilhado contatos.json (via salvar_contatos.php).
-// Mantém um cache do localStorage para leitura imediata e como fallback offline.
+// Lê telefones direto do contatos.json (funciona em GH Pages e local)
 let CONTATOS_DATA={};
 try{CONTATOS_DATA=JSON.parse(localStorage.getItem('seagri_contatos')||'{}')}catch(e){}
-fetch('salvar_contatos.php',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
-  if(d&&typeof d==='object'){CONTATOS_DATA=d;try{localStorage.setItem('seagri_contatos',JSON.stringify(d))}catch(e){}}
+fetch('contatos.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
+  if(d&&typeof d==='object'&&Object.keys(d).length>0){
+    CONTATOS_DATA=d;try{localStorage.setItem('seagri_contatos',JSON.stringify(d))}catch(e){}
+  }
 }).catch(()=>{});
 function loadContatosAdmin(){return CONTATOS_DATA;}
 function formatWALink(tel){const d=tel.replace(/\D/g,'');if(!d)return'#';return'https://wa.me/'+(d.startsWith('55')&&d.length>=12?d:'55'+d);}
@@ -1449,8 +1394,8 @@ function formatTelDisplay(tel){const d=tel.replace(/\D/g,'');if(d.length===11)re
 
 function updateAdminBtn(){
   const btn=document.getElementById('btnAdmin');
-  if(adminMode){btn.textContent='✅ Admin';btn.classList.add('admin-ativo')}
-  else{btn.innerHTML='&#128274; Admin';btn.classList.remove('admin-ativo')}
+  if(adminMode){btn.textContent='Admin ✓';btn.classList.add('admin-ativo')}
+  else{btn.textContent='Admin';btn.classList.remove('admin-ativo')}
 }
 updateAdminBtn();
 
@@ -1463,6 +1408,7 @@ function openAdminModal(){
     adminMode=false;
     sessionStorage.removeItem('seagri_admin');
     updateAdminBtn();
+    window._sidebarRefreshAdmin&&window._sidebarRefreshAdmin();
     showToast('Modo admin desativado');
     return;
   }
@@ -1472,18 +1418,23 @@ function openAdminModal(){
   setTimeout(()=>adminPwdInput.focus(),80);
 }
 
+const ADMIN_HASH='8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
 function submitAdminPwd(){
-  if(adminPwdInput.value==='admin'){
-    adminMode=true;
-    sessionStorage.setItem('seagri_admin','1');
-    updateAdminBtn();
-    adminOverlay.classList.remove('show');
-    showToast('Modo admin ativado — clique em uma caixa para ver o contato');
-  }else{
-    adminErr.textContent='Senha incorreta. Tente novamente.';
-    adminPwdInput.value='';
-    adminPwdInput.focus();
-  }
+  const v=adminPwdInput.value;
+  crypto.subtle.digest('SHA-256',new TextEncoder().encode(v)).then(buf=>{
+    const hex=Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if(hex===ADMIN_HASH){
+      adminMode=true;
+      sessionStorage.setItem('seagri_admin','1');
+      updateAdminBtn();
+      window._sidebarRefreshAdmin&&window._sidebarRefreshAdmin();
+      adminOverlay.classList.remove('show');
+      showToast('Modo admin ativado — clique em uma caixa para ver o contato');
+    }else{
+      adminErr.textContent='Senha incorreta. Tente novamente.';
+      adminPwdInput.value='';adminPwdInput.focus();
+    }
+  });
 }
 
 document.getElementById('btnAdmin').addEventListener('click',openAdminModal);
@@ -1491,6 +1442,104 @@ document.getElementById('adminOk').addEventListener('click',submitAdminPwd);
 document.getElementById('adminCancel').addEventListener('click',()=>adminOverlay.classList.remove('show'));
 adminPwdInput.addEventListener('keydown',e=>{if(e.key==='Enter')submitAdminPwd();if(e.key==='Escape')adminOverlay.classList.remove('show');});
 adminOverlay.addEventListener('click',e=>{if(e.target===adminOverlay)adminOverlay.classList.remove('show');});
+
+// ===== PDF Overlay Viewer =====
+let _pdfPath='',_pdfZoom=100;
+const pdfOverlay=document.getElementById('pdfOverlay');
+const pdfPanel=document.getElementById('pdfViewerPanel');
+const pdfIframe=document.getElementById('pdfViewerIframe');
+const pdfZoomLbl=document.getElementById('pdfZoomLabel');
+
+function openPdfSidePanel(path,label){
+  _pdfPath=path;_pdfZoom=100;
+  document.getElementById('pdfViewerTitle').textContent=label||'Portaria';
+  pdfZoomLbl.textContent='100%';
+  pdfIframe.src=path+'#zoom=100';
+  pdfOverlay.classList.add('open');
+}
+function closePdfOverlay(){
+  pdfOverlay.classList.remove('open');
+  setTimeout(()=>{pdfIframe.src='';},300);
+}
+document.getElementById('pdfViewerClose').addEventListener('click',closePdfOverlay);
+pdfOverlay.addEventListener('click',e=>{if(e.target===pdfOverlay)closePdfOverlay();});
+document.getElementById('pdfZoomIn').addEventListener('click',()=>{
+  _pdfZoom=Math.min(_pdfZoom+25,300);
+  pdfZoomLbl.textContent=_pdfZoom+'%';
+  pdfIframe.src=_pdfPath+'#zoom='+_pdfZoom;
+});
+document.getElementById('pdfZoomOut').addEventListener('click',()=>{
+  _pdfZoom=Math.max(_pdfZoom-25,50);
+  pdfZoomLbl.textContent=_pdfZoom+'%';
+  pdfIframe.src=_pdfPath+'#zoom='+_pdfZoom;
+});
+// Drag handle to resize panel width
+(function(){
+  const handle=document.getElementById('pdfDragHandle');
+  let dragging=false,startX=0,startW=0;
+  handle.addEventListener('mousedown',e=>{
+    dragging=true;startX=e.clientX;startW=pdfPanel.offsetWidth;
+    handle.classList.add('dragging');document.body.style.userSelect='none';e.preventDefault();
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!dragging)return;
+    const newW=Math.max(320,Math.min(window.innerWidth*.92,startW+(startX-e.clientX)));
+    pdfPanel.style.width=newW+'px';
+  });
+  window.addEventListener('mouseup',()=>{
+    if(!dragging)return;
+    dragging=false;handle.classList.remove('dragging');document.body.style.userSelect='';
+  });
+})();
+
+// ===== Busca rápida de nós (2.2) =====
+const searchInput=document.getElementById('searchNode');
+const searchResults=document.getElementById('searchResults');
+const KIND_COLOR_MAP={secretaria:"#c0392b",diretoria:"#c0392b","secretaria-adjunta":"#ffc000",assessoria:"#ffc000",comissao:"#ffc000",departamento:"#4472c4",divisao:"#70ad47",nucleo:"#ed7d31",escritorio:"#888"};
+
+function doSearch(q){
+  searchResults.innerHTML='';
+  if(!q){searchResults.classList.remove('show');return;}
+  const ql=q.toLowerCase();
+  const matches=nodes.filter(n=>{
+    return n.title.toLowerCase().includes(ql)||
+           n.sigla.toLowerCase().includes(ql)||
+           (n.holder&&n.holder.toLowerCase().includes(ql));
+  }).slice(0,12);
+  if(!matches.length){searchResults.classList.remove('show');return;}
+  matches.forEach(n=>{
+    const item=document.createElement('div');item.className='search-node-item';
+    const dot=document.createElement('span');dot.className='search-node-dot';
+    dot.style.background=KIND_COLOR_MAP[n.kind]||'#888';
+    const name=document.createElement('span');name.className='search-node-name';
+    name.textContent=n.title;
+    const holder=document.createElement('span');holder.className='search-node-holder';
+    holder.textContent=n.holder?n.holder.split('\n')[0]:'';
+    item.appendChild(dot);item.appendChild(name);item.appendChild(holder);
+    item.addEventListener('click',()=>{
+      searchResults.classList.remove('show');
+      searchInput.value='';
+      collapsed.clear();refresh();
+      panToNode(n);
+      openDetailPanel(n,getPDFPath(n.holder));
+    });
+    searchResults.appendChild(item);
+  });
+  searchResults.classList.add('show');
+}
+
+searchInput.addEventListener('input',e=>doSearch(e.target.value.trim()));
+searchInput.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){searchResults.classList.remove('show');searchInput.value='';}
+  if(e.key==='Enter'){
+    const first=searchResults.querySelector('.search-node-item');
+    if(first)first.click();
+  }
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.search-node-wrap'))searchResults.classList.remove('show');
+});
+
 </script>
 </body>
 </html>
