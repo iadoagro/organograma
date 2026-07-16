@@ -13,15 +13,12 @@
 <link rel="stylesheet" href="../css/index.css">
 </head>
 <body class="sidebar-open">
-<button class="sidebar-expand" id="sidebarExpand" aria-label="Expandir menu">&#8250;</button>
-<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 <nav class="sidebar open" id="sidebar">
   <div class="sidebar-head">
     <div class="sidebar-head-info">
       <div class="sidebar-head-sub">Agricultura</div>
       <div class="sidebar-head-title">Sistema Interno</div>
     </div>
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Recolher">&#8249;</button>
   </div>
   <div class="sidebar-nav">
     <a class="sidebar-link" href="index.html" data-page="index">
@@ -47,7 +44,25 @@
   </div>
   <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
 </nav>
-<script>(function(){var t=document.getElementById('sidebarToggle'),e=document.getElementById('sidebarExpand'),b=document.getElementById('sidebarBackdrop'),s=document.getElementById('sidebar');function openSidebar(){s.classList.add('open');document.body.classList.add('sidebar-open')}function closeSidebar(){s.classList.remove('open');document.body.classList.remove('sidebar-open')}t.addEventListener('click',closeSidebar);if(e)e.addEventListener('click',openSidebar);document.addEventListener('keydown',function(k){if(k.key==='Escape')closeSidebar()});var p=location.pathname.split('/').pop().replace('.html','');if(!p||p==='')p='index';var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');if(a)a.classList.add('ativo');function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}refreshAdmin();window._sidebarRefreshAdmin=refreshAdmin;})();</script>
+<script>(function(){
+  document.getElementById('sidebar').classList.add('open');
+  document.body.classList.add('sidebar-open');
+  var p=location.pathname.split('/').pop().replace('.html','');
+  if(!p||p==='')p='index';
+  var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');
+  if(a)a.classList.add('ativo');
+  function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}
+  refreshAdmin();
+  window._sidebarRefreshAdmin=refreshAdmin;
+  document.addEventListener('DOMContentLoaded',function(){
+    var h=document.querySelector('header');
+    var sh=document.querySelector('.sidebar-head');
+    if(!h||!sh)return;
+    function sync(){sh.style.minHeight=h.offsetHeight+'px';}
+    sync();
+    window.addEventListener('resize',sync);
+  });
+})();</script>
 <header>
   <button class="admin-login-btn" id="adminLoginBtn" type="button">&#128274; Admin</button>
   <h1>Sistema de Apoio Interno</h1>

@@ -1,7 +1,7 @@
 /* Estilos da página Contatos — SEAGRI */
 :root{--roxo:#c0392b;--borda:#e0e0e0;}
 body{background:#f5f5f5;min-height:100vh;display:flex;flex-direction:column}
-header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:20px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(27,94,32,.25)}
+header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:10px 24px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 8px rgba(27,94,32,.25)}
 .voltar{color:#fff;text-decoration:none;font-size:14px;opacity:.85;display:flex;align-items:center;gap:6px;white-space:nowrap}
 .voltar:hover{opacity:1}
 header h1{font-size:20px;font-weight:500;flex:1}

@@ -1,8 +1,8 @@
 /* Estilos da página Chamados — SEAGRI */
 :root{--azul:#0b5394;}
-header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:40px 32px;text-align:center;box-shadow:0 4px 12px rgba(27,94,32,0.2);}
-header h1{margin:0 0 8px;font-size:28px;font-weight:500;}
-header p{margin:0;font-size:14px;opacity:.9;}
+header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:20px 32px;text-align:center;box-shadow:0 4px 12px rgba(27,94,32,0.2);}
+header h1{margin:0 0 4px;font-size:22px;font-weight:500;}
+header p{margin:0;font-size:12px;opacity:.9;}
 .wrap{padding:32px;max-width:100%;margin:0;}
 .meta{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 32px;padding:0;}
 .card{background:#fff;border:none;border-radius:12px;padding:16px 20px;font-size:13px;box-shadow:var(--sombra);}
@@ -57,8 +57,8 @@ tbody tr > td:last-child{flex:1;border-radius:0;padding:16px;}
 footer{padding:24px 32px;font-size:12px;color:#999;text-align:center;border-top:1px solid var(--linha);}
 @media(max-width:900px){
   .wrap{padding:16px;}
-  header{padding:20px 16px;}
-  header h1{font-size:22px;}
+  header{padding:10px 16px;}
+  header h1{font-size:18px;}
   table{padding:0;}
   tbody{grid-template-columns:1fr;gap:12px;}
   tbody tr{flex-direction:column;}
