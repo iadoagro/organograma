@@ -60,6 +60,7 @@ main{flex:1;padding:24px;max-width:none;margin:0 auto;width:100%}
 .toast.show{opacity:1}
 .btn-qr{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;flex-shrink:0;background:#fff;color:#555;border:1.5px solid var(--borda);border-radius:8px;cursor:pointer;transition:all .2s;padding:0;font-size:17px;line-height:1}
 .btn-qr:hover{border-color:var(--verde2);color:var(--verde2);background:var(--verde-claro)}
+.btn-qr.oculto{display:none}
 .qr-modal-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center}
 .qr-modal-backdrop.show{display:flex}
 .qr-modal{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:0 8px 40px rgba(0,0,0,.3);text-align:center;max-width:320px;width:90%}

@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Chamados – SEAGRI</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <meta property="og:title" content="Chamados SEAGRI">
 <meta property="og:description" content="Sistema de chamados de lotação e habilitação de assinatura – SEAGRI Acre.">
 <meta property="og:type" content="website">
-<link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="chamados.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/chamados.css">
 </head>
 <body class="locked sidebar-open">
 <button class="sidebar-expand" id="sidebarExpand" aria-label="Expandir menu">&#8250;</button>
@@ -108,23 +108,22 @@
       </div>
     </div>
     <input id="busca" type="text" placeholder="Filtrar por nome, unidade ou n&uacute;mero da portaria...">
-    <button id="limparProgresso" style="margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;">Limpar Progresso</button>
+    <button id="limparProgresso" class="btn-limpar-progresso">Limpar Progresso</button>
   </div>
 
   <table id="tabela">
     <thead>
       <tr>
-        <th style="width:30%">Arquivo</th>
-        <th style="width:70%">Texto da solicita&ccedil;&atilde;o</th>
+        <th>Arquivo</th>
+        <th>Texto da solicita&ccedil;&atilde;o</th>
       </tr>
     </thead>
     <tbody>
-<!--LINHAS-->
     </tbody>
   </table>
 
-  <h2 style="margin:48px 0 8px;font-size:20px;color:var(--verde);font-weight:500;">Acesso a Setores Subordinados &ndash; Chefes de Departamento/Divis&atilde;o</h2>
-  <p style="margin:0 0 24px;font-size:13px;color:#666;">Solicita&ccedil;&otilde;es adicionais para que chefes de Departamento e/ou Divis&atilde;o tenham acesso aos setores (Divis&otilde;es e/ou N&uacute;cleos) subordinados a eles, conforme o encadeamento da Portaria SEAGRI n&ordm; 187/2026. Apenas chefias com setores subordinados constam nesta se&ccedil;&atilde;o.</p>
+  <h2 class="secao-titulo">Acesso a Setores Subordinados &ndash; Chefes de Departamento/Divis&atilde;o</h2>
+  <p class="secao-desc">Solicita&ccedil;&otilde;es adicionais para que chefes de Departamento e/ou Divis&atilde;o tenham acesso aos setores (Divis&otilde;es e/ou N&uacute;cleos) subordinados a eles, conforme o encadeamento da Portaria SEAGRI n&ordm; 187/2026. Apenas chefias com setores subordinados constam nesta se&ccedil;&atilde;o.</p>
 
   <div class="tools">
     <div class="progresso-container">
@@ -137,23 +136,22 @@
       </div>
     </div>
     <input id="busca2" type="text" placeholder="Filtrar por nome, unidade ou n&uacute;mero da portaria...">
-    <button id="limparProgresso2" style="margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;">Limpar Progresso</button>
+    <button id="limparProgresso2" class="btn-limpar-progresso">Limpar Progresso</button>
   </div>
 
   <table id="tabela2">
     <thead>
       <tr>
-        <th style="width:30%">Chefia</th>
-        <th style="width:70%">Texto da solicita&ccedil;&atilde;o</th>
+        <th>Chefia</th>
+        <th>Texto da solicita&ccedil;&atilde;o</th>
       </tr>
     </thead>
     <tbody>
-<!--LINHAS2-->
     </tbody>
   </table>
 
-  <h2 style="margin:48px 0 8px;font-size:20px;color:var(--verde);font-weight:500;">Lota&ccedil;&atilde;o de Usu&aacute;rio</h2>
-  <p style="margin:0 0 24px;font-size:13px;color:#666;">Solicita&ccedil;&otilde;es de adi&ccedil;&atilde;o de setor de lota&ccedil;&atilde;o para servidores, mantendo o setor de lota&ccedil;&atilde;o atual.</p>
+  <h2 class="secao-titulo">Lota&ccedil;&atilde;o de Usu&aacute;rio</h2>
+  <p class="secao-desc">Solicita&ccedil;&otilde;es de adi&ccedil;&atilde;o de setor de lota&ccedil;&atilde;o para servidores, mantendo o setor de lota&ccedil;&atilde;o atual.</p>
 
   <div class="tools">
     <div class="progresso-container">
@@ -166,18 +164,17 @@
       </div>
     </div>
     <input id="busca3" type="text" placeholder="Filtrar por nome ou setor...">
-    <button id="limparProgresso3" style="margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;">Limpar Progresso</button>
+    <button id="limparProgresso3" class="btn-limpar-progresso">Limpar Progresso</button>
   </div>
 
   <table id="tabela3">
     <thead>
       <tr>
-        <th style="width:30%">Servidor</th>
-        <th style="width:70%">Texto da solicita&ccedil;&atilde;o</th>
+        <th>Servidor</th>
+        <th>Texto da solicita&ccedil;&atilde;o</th>
       </tr>
     </thead>
     <tbody>
-<!--LINHAS3-->
     </tbody>
   </table>
 </div>
@@ -226,11 +223,6 @@ function gerarTextoMaior(d){
 function gerarTextoMaiorPlano(d){
   let setor = d.chefia.replace(/^Chefe\s+/i, "");
   return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade "+setor+" e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026  Conforme portaria em anexo Portaria "+d.n+" - "+d.nome;}
-function gerarTextoMenor(d){
-  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura – SEAGRI e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
-function gerarTextoMenorPlano(d){
-  return "Solicito que o seguinte servidor "+d.nome+" seja lotado na seguinte unidade Secretaria de Estado de Agricultura – SEAGRI e que tenha permissão para assinar como "+d.chefia+", de acordo com a Portaria SEAGRI nº "+d.n+", de 19 de junho de 2026, conforme anexo \""+d.arq+"\".";}
-
 const tbody = document.querySelector("#tabela tbody");
 
 const estadoSalvo = JSON.parse(localStorage.getItem("portariasCompletas") || "{}");
@@ -243,15 +235,15 @@ dados.forEach(d=>{
   tr.innerHTML =
     "<td class='arq'><span class='num'>Portaria nº "+d.n+"</span><br>"+
       "<span class='status-badge pendente'>Pendente</span><br>"+
-      "<a href=\""+encodeURI(d.arq)+"\" target=\"_blank\">"+nomeArquivoSemExtensao+"</a></td>"+
+      "<a href=\""+encodeURI("../portarias/portarias 2026/"+d.arq)+"\" target=\"_blank\">"+nomeArquivoSemExtensao+"</a></td>"+
     "<td><div class='texto-container'>"+
       "<div class='texto-titulo'>"+
         "<div class='texto-titulo-text'>"+gerarTitulo(d)+"</div>"+
-        "<button class='copy copy-titulo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-titulo'>Copiar texto</button>"+
       "</div>"+
       "<div class='texto-corpo'>"+
         "<div class='texto-corpo-text'>"+gerarTextoMaior(d)+"</div>"+
-        "<button class='copy copy-corpo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-corpo'>Copiar texto</button>"+
       "</div>"+
     "</div></td>";
 
@@ -306,11 +298,11 @@ function abrirModalCopiaManual(texto){
     backdrop.id = "modal-copia-manual";
     backdrop.className = "modal-backdrop";
     backdrop.innerHTML =
-      "<div class='modal-conteudo' style='max-width:600px;text-align:left;'>"+
+      "<div class='modal-conteudo'>"+
         "<button class='modal-fechar' id='modal-copia-fechar'>&times;</button>"+
-        "<div class='modal-titulo' style='font-size:18px;margin-bottom:12px;'>Copie o texto manualmente</div>"+
-        "<p style='font-size:13px;color:#666;margin:0 0 12px;'>Não foi possível copiar automaticamente (restrição do navegador). Toque no campo abaixo — o texto já vem selecionado — e use Ctrl+C (ou Cmd+C no Mac) para copiar.</p>"+
-        "<textarea id='modal-copia-texto' style='width:100%;min-height:160px;padding:12px;border:1px solid var(--linha);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical;' readonly></textarea>"+
+        "<div class='modal-titulo'>Copie o texto manualmente</div>"+
+        "<p>Não foi possível copiar automaticamente (restrição do navegador). Toque no campo abaixo — o texto já vem selecionado — e use Ctrl+C (ou Cmd+C no Mac) para copiar.</p>"+
+        "<textarea id='modal-copia-texto' class='modal-copia-area' readonly></textarea>"+
       "</div>";
     document.body.appendChild(backdrop);
     backdrop.addEventListener("click", function(e){
@@ -484,15 +476,15 @@ dadosDept.forEach(d=>{
   tr.innerHTML =
     "<td class='arq'><span class='num'>Portaria nº "+d.n+"</span><br>"+
       "<span class='status-badge pendente'>Pendente</span><br>"+
-      "<span style='font-size:13px;color:#555;'>"+d.chefia+"</span></td>"+
+      "<span class='info-secundaria'>"+d.chefia+"</span></td>"+
     "<td><div class='texto-container'>"+
       "<div class='texto-titulo'>"+
         "<div class='texto-titulo-text'>"+gerarTituloDept(d)+"</div>"+
-        "<button class='copy copy-titulo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-titulo'>Copiar texto</button>"+
       "</div>"+
       "<div class='texto-corpo'>"+
         "<div class='texto-corpo-text'>"+gerarTextoDept(d)+"</div>"+
-        "<button class='copy copy-corpo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-corpo'>Copiar texto</button>"+
       "</div>"+
     "</div></td>";
 
@@ -630,15 +622,15 @@ dadosLotacao.forEach((d, idx)=>{
   tr.innerHTML =
     "<td class='arq'><span class='num'>"+(idx+1)+"/"+dadosLotacao.length+"</span><br>"+
       "<span class='status-badge pendente'>Pendente</span><br>"+
-      "<span style='font-size:13px;color:#555;'>"+d.nome+"</span></td>"+
+      "<span class='info-secundaria'>"+d.nome+"</span></td>"+
     "<td><div class='texto-container'>"+
       "<div class='texto-titulo'>"+
         "<div class='texto-titulo-text'>"+gerarTituloLotacao(d)+"</div>"+
-        "<button class='copy copy-titulo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-titulo'>Copiar texto</button>"+
       "</div>"+
       "<div class='texto-corpo'>"+
         "<div class='texto-corpo-text'>"+gerarTextoLotacao(d)+"</div>"+
-        "<button class='copy copy-corpo' style='flex-shrink:0;'>Copiar texto</button>"+
+        "<button class='copy copy-corpo'>Copiar texto</button>"+
       "</div>"+
     "</div></td>";
 

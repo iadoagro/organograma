@@ -3,8 +3,6 @@
 header{background:linear-gradient(135deg,var(--verde),var(--verde2));color:#fff;padding:40px 32px;text-align:center;box-shadow:0 4px 12px rgba(27,94,32,0.2);}
 header h1{margin:0 0 8px;font-size:28px;font-weight:500;}
 header p{margin:0;font-size:14px;opacity:.9;}
-.btn-voltar{display:inline-block;margin-top:14px;padding:10px 20px;background:#fff;color:var(--verde);font-weight:600;font-size:14px;border-radius:8px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,0.15);transition:all .2s;}
-.btn-voltar:hover{background:var(--verde-claro);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.2);}
 .wrap{padding:32px;max-width:100%;margin:0;}
 .meta{display:flex;flex-wrap:wrap;gap:16px;margin:0 0 32px;padding:0;}
 .card{background:#fff;border:none;border-radius:12px;padding:16px 20px;font-size:13px;box-shadow:var(--sombra);}
@@ -32,8 +30,6 @@ tbody tr > td:last-child{flex:1;border-radius:0;padding:16px;}
 .arq{flex:0 0 30%;min-width:200px;}
 .arq a{color:var(--azul);text-decoration:none;font-weight:600;word-break:break-word;transition:color 0.2s;}
 .arq a:hover{color:var(--verde);text-decoration:underline;}
-.texto{line-height:1.8;font-size:14px;}
-.texto .u{font-weight:600;color:var(--verde);}
 .texto-container{display:flex;flex-direction:column;gap:16px;}
 .texto-titulo{display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--verde-claro);border-radius:8px;border-left:4px solid var(--verde);}
 .texto-titulo-text{flex:1;font-weight:500;color:var(--texto);cursor:pointer;transition:opacity 0.2s;}
@@ -44,7 +40,7 @@ tbody tr > td:last-child{flex:1;border-radius:0;padding:16px;}
 @keyframes slideIn{from{transform:translateY(100px);opacity:0;}to{transform:translateY(0);opacity:1;}}
 @keyframes slideOut{from{transform:translateY(0);opacity:1;}to{transform:translateY(100px);opacity:0;}}
 .toast-saindo{animation:slideOut 0.3s ease-out forwards;}
-.copy{font-size:12px;color:#fff;background:var(--verde2);border:none;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all 0.2s;box-shadow:var(--sombra);position:relative;}
+.copy{font-size:12px;color:#fff;background:var(--verde2);border:none;border-radius:8px;padding:8px 16px;cursor:pointer;white-space:nowrap;font-weight:500;transition:all 0.2s;box-shadow:var(--sombra);position:relative;flex-shrink:0;}
 .copy:hover{background:var(--verde);transform:translateY(-2px);box-shadow:0 4px 12px rgba(27,94,32,0.2);}
 .copy:active{transform:translateY(0);}
 .copy.copiado{background:#4caf50;position:relative;}
@@ -56,7 +52,6 @@ tbody tr > td:last-child{flex:1;border-radius:0;padding:16px;}
 .modal-conteudo{background:#fff;border-radius:16px;padding:40px;box-shadow:0 8px 32px rgba(0,0,0,0.2);max-width:500px;text-align:center;position:relative;animation:modalEntrada 0.3s ease-out;}
 @keyframes modalEntrada{from{transform:scale(0.8);opacity:0;}to{transform:scale(1);opacity:1;}}
 .modal-titulo{font-size:32px;margin:0 0 20px;color:var(--verde);font-weight:500;}
-.modal-emoji{font-size:80px;margin-bottom:20px;}
 .modal-fechar{position:absolute;top:12px;right:12px;background:none;border:none;font-size:28px;cursor:pointer;color:#999;transition:color 0.2s;}
 .modal-fechar:hover{color:var(--verde);}
 footer{padding:24px 32px;font-size:12px;color:#999;text-align:center;border-top:1px solid var(--linha);}
@@ -105,3 +100,15 @@ footer{padding:24px 32px;font-size:12px;color:#999;text-align:center;border-top:
 #gate .gate-erro{color:#c62828;font-size:13px;margin-top:12px;min-height:18px;font-weight:500;}
 body.locked{overflow:hidden;}
 body.locked > *:not(#gate){filter:blur(6px);pointer-events:none;user-select:none;}
+/* Botão limpar progresso */
+.btn-limpar-progresso{margin-top:10px;padding:8px 16px;background:#ff9800;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:500;}
+/* Títulos e descrições de seção intermediária */
+.secao-titulo{margin:48px 0 8px;font-size:20px;color:var(--verde);font-weight:500;}
+.secao-desc{margin:0 0 24px;font-size:13px;color:#666;}
+/* Texto secundário (chefia / nome) nas tabelas */
+.info-secundaria{font-size:13px;color:#555;}
+/* Modal de cópia manual */
+#modal-copia-manual .modal-conteudo{max-width:600px;text-align:left;}
+#modal-copia-manual .modal-titulo{font-size:18px;margin-bottom:12px;}
+#modal-copia-manual p{font-size:13px;color:#666;margin:0 0 12px;}
+.modal-copia-area{width:100%;min-height:160px;padding:12px;border:1px solid var(--linha);border-radius:8px;font-family:inherit;font-size:13px;resize:vertical;}

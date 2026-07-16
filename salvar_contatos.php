@@ -3,7 +3,7 @@
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 
-$file = __DIR__ . '/contatos.json';
+$file = __DIR__ . '/data/contatos.json';
 $method = $_SERVER['REQUEST_METHOD'];
 
 function carregar($file){

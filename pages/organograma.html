@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Organograma SEAGRI 2026</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
 <meta property="og:title" content="Organograma SEAGRI 2026">
 <meta property="og:description" content="Estrutura organizacional da Secretaria de Estado de Agricultura do Acre — 2026.">
 <meta property="og:type" content="website">
-<meta property="og:image" content="LOGO GOVERNO DO ACRE 2023-2026 brasão.png">
-<link rel="stylesheet" href="organograma.css">
-<script src="dados-seagri.js"></script>
+<meta property="og:image" content="../assets/brasao.png">
+<link rel="stylesheet" href="../css/organograma.css">
+<script src="../js/dados-seagri.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -79,18 +79,21 @@
 <div class="main-row">
 <aside class="filter-panel" id="filterPanel">
   <div class="detail-header">
-    <span class="detail-kind-badge" style="background:var(--verde)">Filtros</span>
+    <span class="detail-kind-badge">Filtros</span>
     <button class="detail-close" id="filterClose" type="button" title="Fechar">&#10005;</button>
   </div>
-  <div class="detail-title" style="font-size:13px">Exibir no organograma</div>
-  <div id="filterContent" style="padding:4px 0 16px"></div>
+  <div class="detail-title">Exibir no organograma</div>
+  <div id="filterContent"></div>
 </aside>
 <div class="viewport" id="viewport">
   <div class="canvas" id="canvas">
-    <img class="watermark" src="LOGO GOVERNO DO ACRE 2023-2026 brasão.png" alt="">
     <svg class="line-layer" id="lineLayer"></svg>
-    <div class="slide-brand"><span>Secretaria de Estado da</span><strong>Agricultura</strong></div>
+    <div class="slide-brand">
+      <img class="slide-brand-wordmark" src="../assets/agricultura.png" alt="Secretaria de Estado da Agricultura">
+      <img class="slide-brand-mark" src="../assets/brasao.png" alt="Brasão do Governo do Acre">
+    </div>
     <div class="source-note">Portaria SEAGRI N&ordm; 187/2026</div>
+    <div class="update-note">&Uacute;ltima atualiza&ccedil;&atilde;o: 23 de junho de 2026</div>
   </div>
 </div>
 <aside class="detail-panel" id="detailPanel">
@@ -1383,7 +1386,7 @@ const WA_ICON='<svg viewBox="0 0 24 24" fill="currentColor" width="17" height="1
 // Lê telefones direto do contatos.json (funciona em GH Pages e local)
 let CONTATOS_DATA={};
 try{CONTATOS_DATA=JSON.parse(localStorage.getItem('seagri_contatos')||'{}')}catch(e){}
-fetch('contatos.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
+fetch('../data/contatos.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
   if(d&&typeof d==='object'&&Object.keys(d).length>0){
     CONTATOS_DATA=d;try{localStorage.setItem('seagri_contatos',JSON.stringify(d))}catch(e){}
   }
@@ -1495,7 +1498,6 @@ document.getElementById('pdfZoomOut').addEventListener('click',()=>{
 // ===== Busca rápida de nós (2.2) =====
 const searchInput=document.getElementById('searchNode');
 const searchResults=document.getElementById('searchResults');
-const KIND_COLOR_MAP={secretaria:"#c0392b",diretoria:"#c0392b","secretaria-adjunta":"#ffc000",assessoria:"#ffc000",comissao:"#ffc000",departamento:"#4472c4",divisao:"#70ad47",nucleo:"#ed7d31",escritorio:"#888"};
 
 function doSearch(q){
   searchResults.innerHTML='';
@@ -1510,7 +1512,7 @@ function doSearch(q){
   matches.forEach(n=>{
     const item=document.createElement('div');item.className='search-node-item';
     const dot=document.createElement('span');dot.className='search-node-dot';
-    dot.style.background=KIND_COLOR_MAP[n.kind]||'#888';
+    dot.style.background=KIND_COLOR[n.kind]||'#888';
     const name=document.createElement('span');name.className='search-node-name';
     name.textContent=n.title;
     const holder=document.createElement('span');holder.className='search-node-holder';

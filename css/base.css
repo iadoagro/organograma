@@ -15,30 +15,6 @@
 body{font-family:"Roboto","Segoe UI",Arial,sans-serif;background:#fafafa;color:var(--texto);transition:padding-left .28s cubic-bezier(.4,0,.2,1)}
 body.sidebar-open{padding-left:260px}
 
-.seagri-header{
-  background:linear-gradient(135deg,var(--verde),var(--verde2));
-  color:#fff;
-  padding:32px 32px 28px;
-  text-align:center;
-  box-shadow:0 4px 12px rgba(27,94,32,0.2);
-  position:relative;
-}
-.seagri-header h1{font-size:26px;font-weight:500;margin:0 0 6px}
-.seagri-header p{font-size:14px;opacity:.9;margin:0}
-.seagri-header .voltar{
-  position:absolute;left:20px;top:50%;transform:translateY(-50%);
-  color:#fff;text-decoration:none;font-size:14px;opacity:.85;
-  display:flex;align-items:center;gap:6px;
-}
-.seagri-header .voltar:hover{opacity:1}
-
-.seagri-footer{
-  padding:20px 32px;
-  font-size:12px;
-  color:#999;
-  text-align:center;
-  border-top:1px solid var(--linha);
-}
 
 /* Sidebar navigation */
 .sidebar-expand{
