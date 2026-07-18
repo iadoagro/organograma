@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="../css/base.css">
 <link rel="stylesheet" href="../css/index.css">
 </head>
-<body class="sidebar-open">
+<body>
 <nav class="sidebar open" id="sidebar">
   <div class="sidebar-head">
     <div class="sidebar-head-info">
@@ -33,7 +33,7 @@
       <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Portarias
     </a>
-    <a class="sidebar-link" href="chamados.html" data-page="chamados">
+    <a class="sidebar-link" href="chamados.html" data-page="chamados" id="sidebarLinkChamados">
       <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       Chamados
     </a>
@@ -44,25 +44,7 @@
   </div>
   <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
 </nav>
-<script>(function(){
-  document.getElementById('sidebar').classList.add('open');
-  document.body.classList.add('sidebar-open');
-  var p=location.pathname.split('/').pop().replace('.html','');
-  if(!p||p==='')p='index';
-  var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');
-  if(a)a.classList.add('ativo');
-  function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}
-  refreshAdmin();
-  window._sidebarRefreshAdmin=refreshAdmin;
-  document.addEventListener('DOMContentLoaded',function(){
-    var h=document.querySelector('header');
-    var sh=document.querySelector('.sidebar-head');
-    if(!h||!sh)return;
-    function sync(){sh.style.minHeight=h.offsetHeight+'px';}
-    sync();
-    window.addEventListener('resize',sync);
-  });
-})();</script>
+<script src="../js/sidebar.js"></script>
 <header>
   <button class="admin-login-btn" id="adminLoginBtn" type="button">&#128274; Admin</button>
   <h1>Sistema de Apoio Interno</h1>
@@ -87,12 +69,11 @@
         
       </div>
     </a>
-    <a href="chamados.html" class="card-link">
+    <a href="chamados.html" class="card-link" id="cardChamados">
       <div class="card">
         <span class="card-icon">&#128187;</span>
         <h2>Chamados</h2>
         <p>Sistema de Chamados</p>
-
       </div>
     </a>
     <a href="https://datastudio.google.com/reporting/2b0d6260-ce84-4061-944b-954971732248/page/5xLlD" class="card-link">
@@ -131,6 +112,7 @@
 let adminLogado=sessionStorage.getItem('seagri_admin')==='1';
 const loginBtn=document.getElementById('adminLoginBtn');
 const cardContatos=document.getElementById('cardContatos');
+const cardChamados=document.getElementById('cardChamados');
 const overlay=document.getElementById('adminOverlay');
 const pwdInput=document.getElementById('adminPwdInput');
 const errMsg=document.getElementById('adminErr');
@@ -138,10 +120,12 @@ const errMsg=document.getElementById('adminErr');
 function aplicarEstado(){
   if(adminLogado){
     cardContatos.classList.add('visivel');
+    cardChamados.classList.add('visivel');
     loginBtn.innerHTML='&#9989; Admin (sair)';
     loginBtn.classList.add('logado');
   }else{
     cardContatos.classList.remove('visivel');
+    cardChamados.classList.remove('visivel');
     loginBtn.innerHTML='&#128274; Admin';
     loginBtn.classList.remove('logado');
   }

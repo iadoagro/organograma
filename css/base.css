@@ -13,8 +13,10 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Roboto","Segoe UI",Arial,sans-serif;background:#fafafa;color:var(--texto);transition:padding-left .28s cubic-bezier(.4,0,.2,1)}
-body.sidebar-open{padding-left:260px}
-
+/* Sidebar push: only on desktop */
+@media(min-width:769px){
+  body.sidebar-open{padding-left:260px}
+}
 
 /* Sidebar navigation */
 .sidebar-expand{
@@ -29,6 +31,11 @@ body.sidebar-open{padding-left:260px}
 }
 .sidebar-expand:hover{width:26px;background:var(--verde2)}
 body:not(.sidebar-open) .sidebar-expand{opacity:1;pointer-events:auto}
+/* On mobile, always show expand button when sidebar closed */
+@media(max-width:768px){
+  body.sidebar-open .sidebar-expand{opacity:0;pointer-events:none}
+  body:not(.sidebar-open) .sidebar-expand{opacity:1;pointer-events:auto}
+}
 .sidebar{
   position:fixed;left:-270px;top:0;bottom:0;width:260px;
   background:#fff;z-index:1500;
@@ -37,11 +44,29 @@ body:not(.sidebar-open) .sidebar-expand{opacity:1;pointer-events:auto}
   box-shadow:4px 0 28px rgba(0,0,0,.15);
 }
 .sidebar.open{left:0}
+/* Overlay backdrop for mobile sidebar */
+.sidebar-backdrop{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);
+  z-index:1499;
+}
+@media(max-width:768px){
+  .sidebar-backdrop.show{display:block}
+}
 .sidebar-head{
   background:linear-gradient(135deg,var(--verde),var(--verde2));
   color:#fff;padding:20px 16px;flex-shrink:0;
   display:flex;align-items:center;justify-content:center;gap:8px;
   min-height:70px;
+}
+/* Mobile hamburger button in header */
+.mobile-menu-btn{
+  display:none;position:absolute;left:16px;top:50%;transform:translateY(-50%);
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  color:#fff;border-radius:8px;padding:8px 10px;cursor:pointer;
+  font-size:20px;line-height:1;z-index:10;
+}
+@media(max-width:768px){
+  .mobile-menu-btn{display:flex;align-items:center;justify-content:center}
 }
 .sidebar-head-info{flex:1;min-width:0;text-align:center}
 .sidebar-head-sub{font-size:11px;font-weight:500;opacity:.75;letter-spacing:.6px;text-transform:uppercase;margin-bottom:3px}

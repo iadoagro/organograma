@@ -14,7 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body class="sidebar-open">
+<body>
 <nav class="sidebar open" id="sidebar">
   <div class="sidebar-head">
     <div class="sidebar-head-info">
@@ -35,7 +35,7 @@
       <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Portarias
     </a>
-    <a class="sidebar-link" href="chamados.html" data-page="chamados">
+    <a class="sidebar-link" href="chamados.html" data-page="chamados" id="sidebarLinkChamados">
       <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
       Chamados
     </a>
@@ -46,16 +46,7 @@
   </div>
   <div class="sidebar-foot">SEAGRI &mdash; Secretaria de Agricultura</div>
 </nav>
-<script>(function(){
-  document.getElementById('sidebar').classList.add('open');
-  document.body.classList.add('sidebar-open');
-  var p=location.pathname.split('/').pop().replace('.html','');
-  if(!p||p==='')p='index';
-  var a=document.querySelector('.sidebar-link[data-page="'+p+'"]');
-  if(a)a.classList.add('ativo');
-  function refreshAdmin(){var c=document.getElementById('sidebarLinkContatos');if(c)c.style.display=sessionStorage.getItem('seagri_admin')==='1'?'':'none';}
-  refreshAdmin();window._sidebarRefreshAdmin=refreshAdmin;
-})();</script>
+<script src="../js/sidebar.js"></script>
 <header class="topbar">
   <div class="toolbar">
     <div class="search-node-wrap">
@@ -449,7 +440,7 @@ function hideTip(){tooltip.classList.remove("show")}
 
 const detailPanel=document.getElementById("detailPanel");
 const KIND_LABEL={secretaria:"Secretaria",diretoria:"Diretoria","secretaria-adjunta":"Secretaria Adjunta",departamento:"Departamento",divisao:"Divisão",nucleo:"Núcleo",escritorio:"Escritório Local",assessoria:"Assessoria",comissao:"Comissão"};
-const KIND_COLOR={secretaria:"#c0392b",diretoria:"#c0392b","secretaria-adjunta":"#ffc000",assessoria:"#ffc000",comissao:"#ffc000",departamento:"#4472c4",divisao:"#70ad47",nucleo:"#ed7d31",escritorio:"#888"};
+const KIND_COLOR={secretaria:"#6a1b9a",diretoria:"#c0392b","secretaria-adjunta":"#ffc000",assessoria:"#ffc000",comissao:"#ffc000",departamento:"#4472c4",divisao:"#70ad47",nucleo:"#ed7d31",escritorio:"#888"};
 
 function makeDetailTreeItem(node){
   const wrap=document.createElement("div");wrap.className="detail-tree-item";
