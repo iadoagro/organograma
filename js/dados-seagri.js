@@ -11,6 +11,7 @@ const SEAGRI_PESSOAS=[
   {id:"conjur", setor:"Consultoria Jurídica",                            nome:"Thais Ferreira",             grupo:"Secretaria",       kind:"assessoria",          matricula:"9595716-2"},
   {id:"ascom",  setor:"Assessoria de Comunicação",                       nome:"Dionisio Neto",              grupo:"Secretaria",       kind:"assessoria",          matricula:"9206370-3"},
   {id:"ouvid",  setor:"Ouvidoria",                                       nome:"Maria Socorro",              grupo:"Secretaria",       kind:"assessoria",          matricula:"9507540-2"},
+  {id:"cppas",  setor:"Comissão Permanente de Processo Administrativo Sancionador", nome:"Marina Farias de Albuquerque", grupo:"Secretaria", kind:"comissao",            matricula:"9329650-1"},
   // DAF
   {id:"daf",    setor:"Diretoria de Administração e Finanças",           nome:"Nivia Cristina",             grupo:"DAF",              kind:"diretoria",           matricula:""},
   {id:"del",    setor:"Departamento de Escritórios Locais",              nome:"Jorge Ney Pontes",           grupo:"DAF",              kind:"departamento",        matricula:"9470700-3"},
@@ -99,6 +100,9 @@ const MATRICULAS=Object.fromEntries(SEAGRI_PESSOAS.map(p=>[p.id,p.matricula]));
 // Histórico de responsáveis por setor (mais recente primeiro)
 // Cada entrada: {nome, portaria, ano}  — adicionar quando conhecido
 const HISTORICO={
+  "cppas":[
+    {nome:"Marina Farias de Albuquerque", portaria:"226/2025", ano:2025},
+  ],
   "gab":[
     {nome:"Francisco Diego",  portaria:"25/2026",  ano:2026},
   ],
